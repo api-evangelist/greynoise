@@ -1,0 +1,32 @@
+aid: greynoise
+name: GreyNoise
+description: "Query IPs in the GreyNoise dataset and retrieve a subset of the full IP context data"
+url: https://docs.greynoise.io/reference/get_v3-community-ip
+specificationVersion: '0.20'
+created: '2026-05-28'
+modified: '2026-05-28'
+x-source: public-apis/public-apis
+x-category: "Security"
+x-tier: 3
+x-tier-reason: bulk-registered-from-public-apis
+tags:
+  - Security
+  - Public APIs
+apis:
+  - name: GreyNoise
+    description: "Query IPs in the GreyNoise dataset and retrieve a subset of the full IP context data"
+    humanURL: https://docs.greynoise.io/reference/get_v3-community-ip
+    baseURL: https://docs.greynoise.io/reference/get_v3-community-ip
+    tags:
+      - Security
+    properties:
+      - type: Documentation
+        url: https://docs.greynoise.io/reference/get_v3-community-ip
+common:
+  - type: Website
+    url: https://docs.greynoise.io/reference/get_v3-community-ip
+  - type: PublicAPIsListing
+    url: https://github.com/public-apis/public-apis
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
