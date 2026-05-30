@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-metadata-v3-schema.json",
+  "title": "MetadataV3",
+  "properties": {
+    "mobile": {
+      "type": "boolean",
+      "description": "Defines if the IP is part of a known cellular network.",
+      "example": false
+    },
+    "source_country": {
+      "type": "string",
+      "description": "Country where the IP address is registered or operates.",
+      "example": "United States"
+    },
+    "source_country_code": {
+      "type": "string",
+      "description": "Country code of the IP address based on ISO 3166-1 alpha-2.",
+      "example": "US"
+    },
+    "source_city": {
+      "type": "string",
+      "description": "The city where the device is geographically located.",
+      "example": "Seattle"
+    },
+    "region": {
+      "type": "string",
+      "description": "The region where the device is geographically located.",
+      "example": "Seattle"
+    },
+    "organization": {
+      "type": "string",
+      "description": "The name of organization that owns the IP address.",
+      "example": "DigitalOcean, LLC"
+    },
+    "rdns": {
+      "type": "string",
+      "description": "The reverse DNS pointer.",
+      "example": "crawl-66-249-79-17.googlebot.com"
+    },
+    "asn": {
+      "type": "string",
+      "description": "The autonomous system identification number.",
+      "example": "AS521"
+    },
+    "category": {
+      "type": "string",
+      "description": "The subset of network types the IP address belongs to.",
+      "enum": [
+        "isp",
+        "business",
+        "hosting",
+        "mobile",
+        "education"
+      ],
+      "example": "education"
+    },
+    "os": {
+      "type": "string",
+      "description": "An approximate guess of the operating system of the device, based on the TCP stack fingerprint.",
+      "example": "Windows 7/8"
+    },
+    "destination_countries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "The full name or country code where GreyNoise sensor\nis physically located.\n",
+        "example": "Germany"
+      },
+      "example": [
+        "string"
+      ]
+    },
+    "destination_country_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "The country codes where GreyNoise sensor is\nphysically located.\n",
+        "example": "Germany"
+      },
+      "example": [
+        "US"
+      ]
+    },
+    "destination_cities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "The city where the GreyNoise sensor is geographically located.\n",
+        "example": "Berlin"
+      },
+      "example": [
+        "string"
+      ]
+    },
+    "destination_asns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "The ASN associated with the destination IP address.\n",
+        "example": "AS1234"
+      },
+      "example": [
+        "string"
+      ]
+    },
+    "single_destination": {
+      "type": "boolean",
+      "description": "A Boolean parameter indicating whether the source IP address\nhas only been observed in a single destination country.\n",
+      "example": true
+    },
+    "carrier": {
+      "type": "string",
+      "description": "The Internet Service Provider (ISP) or telecommunications\ncarrier associated with the source IP address.\n",
+      "example": "AIS"
+    },
+    "datacenter": {
+      "type": "string",
+      "description": "The datacenter or hosting provider from which the activity originates.\nThis could indicate the use of cloud services,\nmanaged hosting, or enterprise datacenter infrastructure.\n",
+      "example": "us-west-1"
+    },
+    "domain": {
+      "type": "string",
+      "description": "The domain name associated with the source IP address.\n",
+      "example": "example.com"
+    },
+    "rdns_parent": {
+      "type": "string",
+      "description": "The parent domain retrieved through reverse DNS (RDNS)\nlookup of the source IP address.\n",
+      "example": "example.com"
+    },
+    "rdns_validated": {
+      "type": "boolean",
+      "description": "A validation status that confirms whether the reverse DNS (RDNS)\nrecord correctly maps to the source domain.\n",
+      "example": true
+    },
+    "latitude": {
+      "type": "number",
+      "description": "The geographic latitude of the source IP address.\n",
+      "example": 37.7749
+    },
+    "longitude": {
+      "type": "number",
+      "description": "The geographic longitude of the source IP address.\n",
+      "example": -122.4194
+    },
+    "sensor_count": {
+      "type": "integer",
+      "description": "Number of sensors with events observed.\n",
+      "example": 10
+    },
+    "sensor_hits": {
+      "type": "integer",
+      "description": "Number of scanning events observed.\n",
+      "example": 10
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "sha256": "string",
+  "file_name": "Google Public DNS",
+  "type": "string",
+  "vt_threat_name": "Google Public DNS",
+  "vt_detection_count": 42
+}

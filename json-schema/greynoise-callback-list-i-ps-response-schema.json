@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-callback-list-i-ps-response-schema.json",
+  "title": "CallbackListIPsResponse",
+  "type": "object",
+  "description": "Paginated list of callback IPs.",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-callback-ip-summary-schema.json#"
+      },
+      "example": []
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of matching callback IPs.",
+      "example": 142
+    },
+    "page": {
+      "type": "integer",
+      "description": "Current page number (zero-indexed).",
+      "example": 0
+    },
+    "page_size": {
+      "type": "integer",
+      "description": "Number of results per page.",
+      "example": 20
+    }
+  }
+}

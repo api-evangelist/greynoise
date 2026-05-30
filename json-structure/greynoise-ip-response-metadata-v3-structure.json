@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-ip-response-metadata-v3-structure.json",
+  "name": "IpResponseMetadataV3",
+  "type": "object",
+  "properties": {
+    "restricted_fields": {
+      "type": "array",
+      "description": "The fields that were restricted due to plan limitations.\n",
+      "example": [
+        "ip",
+        "cve",
+        "destination_cities"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "message": {
+      "type": "string",
+      "example": "ok",
+      "description": "A status message indicating if there were issues with the request"
+    },
+    "ips_not_found": {
+      "type": "array",
+      "description": "The list of IPs not found\n",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "string"
+      ]
+    }
+  }
+}

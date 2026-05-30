@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-field-schema.json",
+  "title": "SessionField",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string",
+      "description": "The field identifier used in queries.",
+      "example": "source.ip"
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable label for the field.",
+      "example": "Source IP"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the field.",
+      "example": "The source IP address of the session."
+    },
+    "type": {
+      "type": "string",
+      "description": "Data type of the field.",
+      "example": "ip"
+    },
+    "group": {
+      "type": "string",
+      "description": "Logical grouping of the field.",
+      "example": "source"
+    },
+    "sortable": {
+      "type": "boolean",
+      "description": "Whether the field can be used for sorting.",
+      "example": true
+    }
+  }
+}

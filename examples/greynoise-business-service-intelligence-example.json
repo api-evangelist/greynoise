@@ -1,0 +1,10 @@
+{
+  "found": true,
+  "category": "hosting",
+  "name": "example.com",
+  "description": "example.com",
+  "explanation": "string",
+  "last_updated": "2025-01-15T12:30:45Z",
+  "reference": "https://example.com",
+  "trust_level": "1"
+}

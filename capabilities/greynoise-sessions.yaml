@@ -1,0 +1,738 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: GreyNoise API — Sessions
+  description: 'Sessions surface of GreyNoise API. 10 operations. Lead operation: Get Sessions. Self-contained Naftiko capability covering one GreyNoise business surface.'
+  tags:
+    - GreyNoise
+    - Security
+    - Sessions
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+  - namespace: env
+    keys:
+      GREYNOISE_API_KEY: GREYNOISE_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: greynoise-sessions
+      baseUri: https://api.greynoise.io
+      description: GreyNoise API — Sessions business capability. Self-contained, no shared references.
+      authentication:
+        type: apikey
+        key: key
+        value: '{{env.GREYNOISE_API_KEY}}'
+        placement: header
+      resources:
+        - name: v3-sessions
+          path: /v3/sessions
+          operations:
+            - name: getSessions
+              method: GET
+              description: Get Sessions
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: start_time
+                  in: query
+                  type: string
+                  required: true
+                  description: Start time for the query range (ISO 8601 format).
+                - name: end_time
+                  in: query
+                  type: string
+                  required: true
+                  description: End time for the query range (ISO 8601 format).
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Lucene query string to filter sessions.
+                - name: page
+                  in: query
+                  type: integer
+                  required: false
+                  description: Page number for pagination.
+                - name: page_size
+                  in: query
+                  type: integer
+                  required: false
+                  description: Number of results per page.
+                - name: sort_by
+                  in: query
+                  type: string
+                  required: false
+                  description: Field to sort results by.
+                - name: sort_desc
+                  in: query
+                  type: string
+                  required: false
+                  description: Whether to sort in descending order.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-connections
+          path: /v3/sessions/connections
+          operations:
+            - name: getSessionConnections
+              method: GET
+              description: Get Session Connections
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: start_time
+                  in: query
+                  type: string
+                  required: true
+                  description: Start time for the query range (ISO 8601 format).
+                - name: end_time
+                  in: query
+                  type: string
+                  required: true
+                  description: End time for the query range (ISO 8601 format).
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Lucene query string to filter sessions.
+                - name: src_field
+                  in: query
+                  type: string
+                  required: false
+                  description: Source field to aggregate on.
+                - name: dest_field
+                  in: query
+                  type: string
+                  required: false
+                  description: Destination field to aggregate on.
+                - name: max_nodes
+                  in: query
+                  type: integer
+                  required: false
+                  description: Maximum number of nodes to return.
+                - name: min_connections
+                  in: query
+                  type: integer
+                  required: false
+                  description: Minimum number of connections to include a node.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-counts
+          path: /v3/sessions/counts
+          operations:
+            - name: getSessionCounts
+              method: GET
+              description: Get Session Counts
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: start_time
+                  in: query
+                  type: string
+                  required: true
+                  description: Start time for the query range (ISO 8601 format).
+                - name: end_time
+                  in: query
+                  type: string
+                  required: true
+                  description: End time for the query range (ISO 8601 format).
+                - name: fields
+                  in: query
+                  type: string
+                  required: true
+                  description: Comma-separated list of fields to aggregate on.
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Lucene query string to filter sessions.
+                - name: size
+                  in: query
+                  type: integer
+                  required: false
+                  description: Number of buckets per aggregation level.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-export
+          path: /v3/sessions/export
+          operations:
+            - name: exportSessionsPcap
+              method: GET
+              description: Export PCAP for Multiple Sessions
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: start_time
+                  in: query
+                  type: string
+                  required: true
+                  description: Start time for the query range (ISO 8601 format).
+                - name: end_time
+                  in: query
+                  type: string
+                  required: true
+                  description: End time for the query range (ISO 8601 format).
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Lucene query string to filter sessions.
+                - name: size
+                  in: query
+                  type: integer
+                  required: false
+                  description: Maximum number of sessions to include in the export.
+                - name: sort_by
+                  in: query
+                  type: string
+                  required: false
+                  description: Field to sort results by.
+                - name: sort_desc
+                  in: query
+                  type: string
+                  required: false
+                  description: Whether to sort in descending order.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-fields
+          path: /v3/sessions/fields
+          operations:
+            - name: getSessionFields
+              method: GET
+              description: Get Session Fields
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-timeseries
+          path: /v3/sessions/timeseries
+          operations:
+            - name: getSessionTimeseries
+              method: GET
+              description: Get Session Timeseries
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: start_time
+                  in: query
+                  type: string
+                  required: true
+                  description: Start time for the query range (ISO 8601 format).
+                - name: end_time
+                  in: query
+                  type: string
+                  required: true
+                  description: End time for the query range (ISO 8601 format).
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Lucene query string to filter sessions.
+                - name: field
+                  in: query
+                  type: string
+                  required: false
+                  description: Field to group timeseries by.
+                - name: size
+                  in: query
+                  type: integer
+                  required: false
+                  description: Number of groups to return when field is provided.
+                - name: interval
+                  in: query
+                  type: string
+                  required: false
+                  description: Time interval for bucketing.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-unique
+          path: /v3/sessions/unique
+          operations:
+            - name: getSessionUniqueValues
+              method: GET
+              description: Get Unique Field Values
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: start_time
+                  in: query
+                  type: string
+                  required: true
+                  description: Start time for the query range (ISO 8601 format).
+                - name: end_time
+                  in: query
+                  type: string
+                  required: true
+                  description: End time for the query range (ISO 8601 format).
+                - name: field
+                  in: query
+                  type: string
+                  required: true
+                  description: Field to get unique values for.
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Lucene query string to filter sessions.
+                - name: include_counts
+                  in: query
+                  type: string
+                  required: false
+                  description: Whether to include counts in the output.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-session-id
+          path: /v3/sessions/{session_id}
+          operations:
+            - name: getSessionById
+              method: GET
+              description: Get Session by ID
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: session_id
+                  in: path
+                  type: string
+                  required: true
+                  description: The unique session identifier.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-session-id-export
+          path: /v3/sessions/{session_id}/export
+          operations:
+            - name: exportSessionData
+              method: GET
+              description: Export Session Data
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: session_id
+                  in: path
+                  type: string
+                  required: true
+                  description: The unique session identifier.
+                - name: type
+                  in: query
+                  type: string
+                  required: false
+                  description: Export format type.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-sessions-session-id-frames
+          path: /v3/sessions/{session_id}/frames
+          operations:
+            - name: getSessionPcap
+              method: GET
+              description: Get Session PCAP
+              inputParameters:
+                - name: scope
+                  in: query
+                  type: string
+                  required: false
+                  description: Controls the data scope for the query.
+                - name: session_id
+                  in: path
+                  type: string
+                  required: true
+                  description: The unique session identifier.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+  exposes:
+    - type: rest
+      namespace: greynoise-sessions-rest
+      port: 8080
+      description: REST adapter for GreyNoise API — Sessions. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+      resources:
+        - path: /v1/sessions
+          name: v1-sessions
+          description: REST surface for Get Sessions.
+          operations:
+            - method: GET
+              name: getSessions
+              description: Get Sessions
+              call: greynoise-sessions.getSessions
+              with:
+                scope: rest.scope
+                start_time: rest.start_time
+                end_time: rest.end_time
+                query: rest.query
+                page: rest.page
+                page_size: rest.page_size
+                sort_by: rest.sort_by
+                sort_desc: rest.sort_desc
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/connections
+          name: v1-sessions-connections
+          description: REST surface for Get Session Connections.
+          operations:
+            - method: GET
+              name: getSessionConnections
+              description: Get Session Connections
+              call: greynoise-sessions.getSessionConnections
+              with:
+                scope: rest.scope
+                start_time: rest.start_time
+                end_time: rest.end_time
+                query: rest.query
+                src_field: rest.src_field
+                dest_field: rest.dest_field
+                max_nodes: rest.max_nodes
+                min_connections: rest.min_connections
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/counts
+          name: v1-sessions-counts
+          description: REST surface for Get Session Counts.
+          operations:
+            - method: GET
+              name: getSessionCounts
+              description: Get Session Counts
+              call: greynoise-sessions.getSessionCounts
+              with:
+                scope: rest.scope
+                start_time: rest.start_time
+                end_time: rest.end_time
+                fields: rest.fields
+                query: rest.query
+                size: rest.size
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/export
+          name: v1-sessions-export
+          description: REST surface for Export PCAP for Multiple Sessions.
+          operations:
+            - method: GET
+              name: exportSessionsPcap
+              description: Export PCAP for Multiple Sessions
+              call: greynoise-sessions.exportSessionsPcap
+              with:
+                scope: rest.scope
+                start_time: rest.start_time
+                end_time: rest.end_time
+                query: rest.query
+                size: rest.size
+                sort_by: rest.sort_by
+                sort_desc: rest.sort_desc
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/fields
+          name: v1-sessions-fields
+          description: REST surface for Get Session Fields.
+          operations:
+            - method: GET
+              name: getSessionFields
+              description: Get Session Fields
+              call: greynoise-sessions.getSessionFields
+              with:
+                scope: rest.scope
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/timeseries
+          name: v1-sessions-timeseries
+          description: REST surface for Get Session Timeseries.
+          operations:
+            - method: GET
+              name: getSessionTimeseries
+              description: Get Session Timeseries
+              call: greynoise-sessions.getSessionTimeseries
+              with:
+                scope: rest.scope
+                start_time: rest.start_time
+                end_time: rest.end_time
+                query: rest.query
+                field: rest.field
+                size: rest.size
+                interval: rest.interval
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/unique
+          name: v1-sessions-unique
+          description: REST surface for Get Unique Field Values.
+          operations:
+            - method: GET
+              name: getSessionUniqueValues
+              description: Get Unique Field Values
+              call: greynoise-sessions.getSessionUniqueValues
+              with:
+                scope: rest.scope
+                start_time: rest.start_time
+                end_time: rest.end_time
+                field: rest.field
+                query: rest.query
+                include_counts: rest.include_counts
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/{session-id}
+          name: v1-sessions-session-id
+          description: REST surface for Get Session by ID.
+          operations:
+            - method: GET
+              name: getSessionById
+              description: Get Session by ID
+              call: greynoise-sessions.getSessionById
+              with:
+                scope: rest.scope
+                session_id: rest.session_id
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/{session-id}/export
+          name: v1-sessions-session-id-export
+          description: REST surface for Export Session Data.
+          operations:
+            - method: GET
+              name: exportSessionData
+              description: Export Session Data
+              call: greynoise-sessions.exportSessionData
+              with:
+                scope: rest.scope
+                session_id: rest.session_id
+                type: rest.type
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/sessions/{session-id}/frames
+          name: v1-sessions-session-id-frames
+          description: REST surface for Get Session PCAP.
+          operations:
+            - method: GET
+              name: getSessionPcap
+              description: Get Session PCAP
+              call: greynoise-sessions.getSessionPcap
+              with:
+                scope: rest.scope
+                session_id: rest.session_id
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: greynoise-sessions-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for GreyNoise API — Sessions. One tool per consumed operation, routed inline through this capability's consumes block.
+      tools:
+        - name: get-sessions
+          description: Get Sessions
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessions
+          with:
+            scope: tools.scope
+            start_time: tools.start_time
+            end_time: tools.end_time
+            query: tools.query
+            page: tools.page
+            page_size: tools.page_size
+            sort_by: tools.sort_by
+            sort_desc: tools.sort_desc
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-session-connections
+          description: Get Session Connections
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionConnections
+          with:
+            scope: tools.scope
+            start_time: tools.start_time
+            end_time: tools.end_time
+            query: tools.query
+            src_field: tools.src_field
+            dest_field: tools.dest_field
+            max_nodes: tools.max_nodes
+            min_connections: tools.min_connections
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-session-counts
+          description: Get Session Counts
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionCounts
+          with:
+            scope: tools.scope
+            start_time: tools.start_time
+            end_time: tools.end_time
+            fields: tools.fields
+            query: tools.query
+            size: tools.size
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: export-pcap-multiple-sessions
+          description: Export PCAP for Multiple Sessions
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.exportSessionsPcap
+          with:
+            scope: tools.scope
+            start_time: tools.start_time
+            end_time: tools.end_time
+            query: tools.query
+            size: tools.size
+            sort_by: tools.sort_by
+            sort_desc: tools.sort_desc
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-session-fields
+          description: Get Session Fields
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionFields
+          with:
+            scope: tools.scope
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-session-timeseries
+          description: Get Session Timeseries
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionTimeseries
+          with:
+            scope: tools.scope
+            start_time: tools.start_time
+            end_time: tools.end_time
+            query: tools.query
+            field: tools.field
+            size: tools.size
+            interval: tools.interval
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-unique-field-values
+          description: Get Unique Field Values
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionUniqueValues
+          with:
+            scope: tools.scope
+            start_time: tools.start_time
+            end_time: tools.end_time
+            field: tools.field
+            query: tools.query
+            include_counts: tools.include_counts
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-session-id
+          description: Get Session by ID
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionById
+          with:
+            scope: tools.scope
+            session_id: tools.session_id
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: export-session-data
+          description: Export Session Data
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.exportSessionData
+          with:
+            scope: tools.scope
+            session_id: tools.session_id
+            type: tools.type
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: get-session-pcap
+          description: Get Session PCAP
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-sessions.getSessionPcap
+          with:
+            scope: tools.scope
+            session_id: tools.session_id
+          outputParameters:
+            - type: object
+              mapping: $.

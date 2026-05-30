@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-ssh-data-structure.json",
+  "name": "TimeSeriesSSHData",
+  "type": "object",
+  "description": "SSH-related data",
+  "properties": {
+    "key": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "This is the SSH key used.\n",
+      "example": [
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890"
+      ]
+    },
+    "ja4ssh": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of JA4SSH fingerprints observed in network traffic from the IP.\nJA4SSH captures SSH traffic patterns including packet lengths and\ndirections, useful for identifying SSH client behavior and detecting\nanomalous sessions.\n",
+      "example": [
+        "c76s76_c71s59_c0s0"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-ip-response-v3-schema.json",
+  "title": "IPResponseV3",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "example": "8.8.8.8",
+      "description": "IP address that the information is about.\n"
+    },
+    "business_service_intelligence": {
+      "$ref": "./greynoise-business-service-intelligence-schema.json#"
+    },
+    "internet_scanner_intelligence": {
+      "$ref": "./greynoise-internet-scanner-intelligence-schema.json#"
+    },
+    "request_metadata": {
+      "type": "object",
+      "properties": {
+        "restricted_fields": {
+          "type": "array",
+          "description": "The fields that were restricted due to plan limitations.\n",
+          "example": [
+            "ip",
+            "cve",
+            "destination_cities"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

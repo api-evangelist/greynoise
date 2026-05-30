@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-request-metadata-schema.json",
+  "title": "SessionRequestMetadata",
+  "type": "object",
+  "properties": {
+    "start_time": {
+      "type": "string",
+      "description": "Start time of the query range.",
+      "example": "2025-01-01T00:00:00Z"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "End time of the query range.",
+      "example": "2025-01-07T23:59:59Z"
+    },
+    "query": {
+      "type": "string",
+      "description": "The Lucene query string used.",
+      "example": "tags:Mirai"
+    }
+  }
+}

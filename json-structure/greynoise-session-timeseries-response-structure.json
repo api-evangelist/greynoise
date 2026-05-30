@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-timeseries-response-structure.json",
+  "name": "SessionTimeseriesResponse",
+  "type": "object",
+  "properties": {
+    "timeseries": {
+      "type": "array",
+      "description": "Timeseries data points (when no field grouping is used).",
+      "items": {
+        "$ref": "./greynoise-session-timeseries-point-structure.json#"
+      },
+      "example": []
+    },
+    "items": {
+      "type": "array",
+      "description": "Grouped timeseries data (when field grouping is used).",
+      "items": {
+        "$ref": "./greynoise-session-timeseries-item-structure.json#"
+      },
+      "example": []
+    },
+    "total": {
+      "type": "int32",
+      "description": "Total number of sessions in the time range.",
+      "example": 1000
+    },
+    "request_metadata": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "end_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "query": {
+          "type": "string",
+          "example": "tags:Mirai"
+        },
+        "field": {
+          "type": "string",
+          "example": "string"
+        },
+        "interval": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    }
+  }
+}

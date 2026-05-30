@@ -1,0 +1,19 @@
+{
+  "request_metadata": {
+    "complete": false,
+    "scroll": "DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn\n",
+    "query": "last_seen:2019-07-28 classification:malicious",
+    "adjusted_query": "last_seen:2019-07-28 classification:malicious",
+    "count": 1,
+    "message": "ok",
+    "restricted_fields": [
+      "ip",
+      "asn",
+      "organization",
+      "country",
+      "city",
+      "region"
+    ]
+  },
+  "data": []
+}

@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: GreyNoise API — Community
+  description: 'Community surface of GreyNoise API. 1 operations. Lead operation: Community API. Self-contained Naftiko capability covering one GreyNoise business surface.'
+  tags:
+    - GreyNoise
+    - Security
+    - Community
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+  - namespace: env
+    keys:
+      GREYNOISE_API_KEY: GREYNOISE_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: greynoise-community
+      baseUri: https://api.greynoise.io
+      description: GreyNoise API — Community business capability. Self-contained, no shared references.
+      authentication:
+        type: apikey
+        key: key
+        value: '{{env.GREYNOISE_API_KEY}}'
+        placement: header
+      resources:
+        - name: v3-community-ip
+          path: /v3/community/{ip}
+          operations:
+            - name: getCommunityIP
+              method: GET
+              description: Community API
+              inputParameters:
+                - name: ip
+                  in: path
+                  type: string
+                  required: true
+                  description: IP address to query
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+  exposes:
+    - type: rest
+      namespace: greynoise-community-rest
+      port: 8080
+      description: REST adapter for GreyNoise API — Community. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+      resources:
+        - path: /v1/community/{ip}
+          name: v1-community-ip
+          description: REST surface for Community API.
+          operations:
+            - method: GET
+              name: getCommunityIP
+              description: Community API
+              call: greynoise-community.getCommunityIP
+              with:
+                ip: rest.ip
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: greynoise-community-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for GreyNoise API — Community. One tool per consumed operation, routed inline through this capability's consumes block.
+      tools:
+        - name: community-api
+          description: Community API
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-community.getCommunityIP
+          with:
+            ip: tools.ip
+          outputParameters:
+            - type: object
+              mapping: $.

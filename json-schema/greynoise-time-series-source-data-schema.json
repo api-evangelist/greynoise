@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-time-series-source-data-schema.json",
+  "title": "TimeSeriesSourceData",
+  "type": "object",
+  "description": "Source traffic metadata",
+  "properties": {
+    "bytes": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The total amount of data transferred (in bytes) during the\nobserved session or connection.\n",
+      "example": 1024
+    }
+  }
+}

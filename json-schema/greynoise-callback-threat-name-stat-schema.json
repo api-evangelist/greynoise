@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-callback-threat-name-stat-schema.json",
+  "title": "CallbackThreatNameStat",
+  "type": "object",
+  "properties": {
+    "threat_name": {
+      "type": "string",
+      "description": "VirusTotal threat name.",
+      "example": "Trojan.GenericKD.46542"
+    },
+    "file_count": {
+      "type": "integer",
+      "description": "Number of files with this threat name.",
+      "example": 12
+    },
+    "ip_count": {
+      "type": "integer",
+      "description": "Number of IPs associated with files of this threat name.",
+      "example": 8
+    }
+  }
+}

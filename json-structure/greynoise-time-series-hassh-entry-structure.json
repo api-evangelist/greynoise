@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-hassh-entry-structure.json",
+  "name": "TimeSeriesHASSHEntry",
+  "type": "object",
+  "properties": {
+    "fingerprint": {
+      "type": "string",
+      "example": "51cba57125523ce4b9db67714a90bf6e",
+      "description": "HASSH hash fingerprint string"
+    },
+    "port": {
+      "type": "int32",
+      "example": 2222,
+      "description": "TCP port connection where the HASSH hash was identified\n"
+    }
+  }
+}

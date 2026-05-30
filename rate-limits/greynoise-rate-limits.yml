@@ -1,0 +1,129 @@
+name: GreyNoise Intelligence Rate Limits
+description: >-
+  Request-rate, concurrency, and quota policies for the GreyNoise API surfaces,
+  captured against the API Commons Rate Limits 0.1 schema. GreyNoise enforces
+  separate policies on the free Community API and the paid Enterprise API.
+specVersion: api-commons-rate-limits/0.1
+provider: GreyNoise Intelligence
+url: https://docs.greynoise.io/docs/greynoise-search-usage-monitoring
+created: '2026-05-30'
+modified: '2026-05-30'
+
+policies:
+
+  - id: community-api
+    name: Community API
+    appliesTo:
+      apis: [CommunityAPI]
+      paths: ["/v3/community/{ip}"]
+      tiers: [free]
+    enforcement:
+      style: per-source-ip
+      rate:
+        unit: requests
+        amount: 50
+        window: 1d
+      notes: >-
+        The Community API is intentionally low-volume. Requests are rate-limited
+        per source IP; the GreyNoise Community plan also caps total searches at
+        roughly 50 per week. Bursts beyond the limit return HTTP 429.
+    response_on_breach:
+      http_status: 429
+      headers_returned: [Retry-After]
+      body_field: message
+    documented_at: https://docs.greynoise.io/docs/using-the-greynoise-community-api
+
+  - id: enterprise-api-per-key
+    name: Enterprise API — per API key
+    appliesTo:
+      apis: [IPLookup, GNQL, Sessions, CVE, IPTimeline, Tags, Callback, Recall, Utility]
+      tiers: [standard, advanced, elite]
+    enforcement:
+      style: per-api-key
+      rate:
+        unit: requests
+        amount: contract-specific
+        window: contract-specific
+      notes: >-
+        Enterprise rate caps are negotiated per contract and applied to the
+        API key. The platform surfaces usage telemetry in the GreyNoise web UI
+        ("Search Usage Monitoring") and via the customer success team.
+    response_on_breach:
+      http_status: 429
+      headers_returned: [Retry-After]
+      body_field: message
+    documented_at: https://docs.greynoise.io/docs/greynoise-search-usage-monitoring
+
+  - id: bulk-payload-limits
+    name: Bulk endpoint payload limits
+    appliesTo:
+      operations:
+        - V3MultiIP   # POST /v3/ip
+        - bulkCVELookup # POST /v3/cves
+    enforcement:
+      style: per-request-payload
+      caps:
+        - operation: V3MultiIP
+          max_items_per_request: 10000
+          description: Multi-IP lookup accepts up to 10,000 IPs per request.
+        - operation: bulkCVELookup
+          max_items_per_request: 10000
+          description: Bulk CVE lookup accepts up to 10,000 CVEs per request.
+    response_on_breach:
+      http_status: 400
+      body_field: message
+
+  - id: data-freshness
+    name: Data freshness (a soft quota, not a request quota)
+    appliesTo:
+      tiers: [free, standard, advanced, elite]
+    enforcement:
+      style: tier-derived-staleness
+      table:
+        - tier: free       # Community Free
+          freshness: every-8-hours
+        - tier: standard
+          freshness: every-4-hours
+        - tier: advanced
+          freshness: every-2-hours
+        - tier: elite
+          freshness: every-hour
+      notes: >-
+        Data-freshness is enforced as a soft tier-derived staleness rather than
+        a request throttle. It governs how often the underlying GreyNoise dataset
+        is refreshed for a tier; queries return the most recent allowed snapshot.
+
+  - id: historical-lookback
+    name: Historical lookback window per tier
+    appliesTo:
+      tiers: [free, standard, advanced, elite]
+    enforcement:
+      style: tier-derived-window
+      table:
+        - tier: free
+          lookback_days: 10
+        - tier: standard
+          lookback_days: 10
+        - tier: advanced
+          lookback_days: 30
+        - tier: elite
+          lookback_days: 90
+
+  - id: partial-content-on-entitlement
+    name: Partial content (HTTP 206) on entitlement gaps
+    appliesTo:
+      apis: [IPLookup, GNQL, Sessions, IPTimeline]
+    enforcement:
+      style: response-shape-tier-derived
+      behavior: >-
+        If a customer's plan does not entitle the full response payload (for
+        example, the Business Service Intelligence fields without the BSI
+        module), the API returns HTTP 206 with the available subset.
+    response_on_breach:
+      http_status: 206
+      body_field: message
+
+reference:
+  - https://docs.greynoise.io/docs/using-the-greynoise-community-api
+  - https://docs.greynoise.io/docs/greynoise-search-usage-monitoring
+  - https://docs.greynoise.io/docs/using-the-greynoise-api

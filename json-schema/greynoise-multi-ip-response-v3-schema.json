@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-multi-ip-response-v3-schema.json",
+  "title": "MultiIPResponseV3",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ip": {
+            "type": "string",
+            "example": "8.8.8.8",
+            "description": "IP address that the information is about."
+          },
+          "business_service_intelligence": {
+            "$ref": "./greynoise-business-service-intelligence-schema.json#"
+          },
+          "internet_scanner_intelligence": {
+            "$ref": "./greynoise-internet-scanner-intelligence-schema.json#"
+          }
+        }
+      }
+    },
+    "request_metadata": {
+      "$ref": "./greynoise-ip-response-metadata-v3-schema.json#"
+    }
+  }
+}

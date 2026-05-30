@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-fields-response-structure.json",
+  "name": "SessionFieldsResponse",
+  "type": "object",
+  "properties": {
+    "fields": {
+      "type": "array",
+      "description": "List of available session fields.",
+      "items": {
+        "$ref": "./greynoise-session-field-structure.json#"
+      },
+      "example": []
+    }
+  }
+}

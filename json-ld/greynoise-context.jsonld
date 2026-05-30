@@ -1,0 +1,834 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "gn": "https://api-evangelist.github.io/greynoise/vocab#",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "CVEAdvancedResponse": "gn:CVEAdvancedResponse",
+    "CVEBasicResponse": "gn:CVEBasicResponse",
+    "CVEMinimalResponse": "gn:CVEMinimalResponse",
+    "CVEDetails": "gn:CVEDetails",
+    "CVETimeline": "gn:CVETimeline",
+    "CVEExploitationDetails": "gn:CVEExploitationDetails",
+    "CVEExploitationStats": "gn:CVEExploitationStats",
+    "CVEExploitationActivity": "gn:CVEExploitationActivity",
+    "CallbackFilterFields": "gn:CallbackFilterFields",
+    "CallbackFileResponse": "gn:CallbackFileResponse",
+    "CallbackIPDetailResponse": "gn:CallbackIPDetailResponse",
+    "CallbackListIPsRequest": "gn:CallbackListIPsRequest",
+    "CallbackFileSummary": "gn:CallbackFileSummary",
+    "CallbackIPSummary": "gn:CallbackIPSummary",
+    "CallbackListIPsResponse": "gn:CallbackListIPsResponse",
+    "CallbackThreatNameStat": "gn:CallbackThreatNameStat",
+    "CallbackOverviewResponse": "gn:CallbackOverviewResponse",
+    "CommunityResponse": "gn:CommunityResponse",
+    "IPTimelineResponse": "gn:IPTimelineResponse",
+    "Session": "gn:Session",
+    "SessionConnectionsResponse": "gn:SessionConnectionsResponse",
+    "SessionConnectionNode": "gn:SessionConnectionNode",
+    "SessionConnectionLink": "gn:SessionConnectionLink",
+    "SessionCountsResponse": "gn:SessionCountsResponse",
+    "SessionCountItem": "gn:SessionCountItem",
+    "SessionFieldsResponse": "gn:SessionFieldsResponse",
+    "SessionField": "gn:SessionField",
+    "SessionsResponse": "gn:SessionsResponse",
+    "SessionPagination": "gn:SessionPagination",
+    "SessionRequestMetadata": "gn:SessionRequestMetadata",
+    "SessionTimeseriesResponse": "gn:SessionTimeseriesResponse",
+    "SessionTimeseriesPoint": "gn:SessionTimeseriesPoint",
+    "SessionTimeseriesItem": "gn:SessionTimeseriesItem",
+    "MetadataV3": "gn:MetadataV3",
+    "TimeSeriesResponse": "gn:TimeSeriesResponse",
+    "TimeSeriesRecord": "gn:TimeSeriesRecord",
+    "TimeSeriesIntelligence": "gn:TimeSeriesIntelligence",
+    "TimeSeriesRawData": "gn:TimeSeriesRawData",
+    "TimeSeriesScanEntry": "gn:TimeSeriesScanEntry",
+    "TimeSeriesJA3Entry": "gn:TimeSeriesJA3Entry",
+    "TimeSeriesHASSHEntry": "gn:TimeSeriesHASSHEntry",
+    "TimeSeriesHTTPData": "gn:TimeSeriesHTTPData",
+    "TimeSeriesSourceData": "gn:TimeSeriesSourceData",
+    "TimeSeriesTLSData": "gn:TimeSeriesTLSData",
+    "TimeSeriesSSHData": "gn:TimeSeriesSSHData",
+    "TimeSeriesTCPData": "gn:TimeSeriesTCPData",
+    "TimeSeriesStatsResponse": "gn:TimeSeriesStatsResponse",
+    "TimeSeriesStatsRecord": "gn:TimeSeriesStatsRecord",
+    "GNQLIPContextV3": "gn:GNQLIPContextV3",
+    "InternetScannerIntelligence": "gn:InternetScannerIntelligence",
+    "BusinessServiceIntelligence": "gn:BusinessServiceIntelligence",
+    "QuickBusinessServiceIntelligence": "gn:QuickBusinessServiceIntelligence",
+    "QuickInternetScannerIntelligence": "gn:QuickInternetScannerIntelligence",
+    "QuickIpProfile": "gn:QuickIpProfile",
+    "IPResponseV3Tags": "gn:IPResponseV3Tags",
+    "QuickGNQLV3Response": "gn:QuickGNQLV3Response",
+    "GNQLV3Response": "gn:GNQLV3Response",
+    "GNQLV3ResponseMetadata": "gn:GNQLV3ResponseMetadata",
+    "GNQLStats": "gn:GNQLStats",
+    "TagsMetadata": "gn:TagsMetadata",
+    "IPResponseV3": "gn:IPResponseV3",
+    "QuickMultiIPResponseV3": "gn:QuickMultiIPResponseV3",
+    "MultiIPResponseV3": "gn:MultiIPResponseV3",
+    "IpResponseMetadataV3": "gn:IpResponseMetadataV3",
+    "MultiIpRequest": "gn:MultiIpRequest",
+    "id": {
+      "@id": "gn:id",
+      "@type": "xsd:string"
+    },
+    "details": "gn:details",
+    "timeline": "gn:timeline",
+    "exploitation_details": "gn:exploitation_details",
+    "exploitation_stats": "gn:exploitation_stats",
+    "exploitation_activity": "gn:exploitation_activity",
+    "vulnerability_name": {
+      "@id": "gn:vulnerability_name",
+      "@type": "xsd:string"
+    },
+    "vulnerability_description": {
+      "@id": "gn:vulnerability_description",
+      "@type": "xsd:string"
+    },
+    "cve_cvss_score": {
+      "@id": "gn:cve_cvss_score",
+      "@type": "xsd:double"
+    },
+    "product": {
+      "@id": "gn:product",
+      "@type": "xsd:string"
+    },
+    "vendor": {
+      "@id": "gn:vendor",
+      "@type": "xsd:string"
+    },
+    "published_to_nist_nvd": {
+      "@id": "gn:published_to_nist_nvd",
+      "@type": "xsd:boolean"
+    },
+    "cve_published_date": {
+      "@id": "gn:cve_published_date",
+      "@type": "xsd:date"
+    },
+    "cve_last_updated_date": {
+      "@id": "gn:cve_last_updated_date",
+      "@type": "xsd:date"
+    },
+    "first_known_published_date": {
+      "@id": "gn:first_known_published_date",
+      "@type": "xsd:date"
+    },
+    "cisa_kev_date_added": {
+      "@id": "gn:cisa_kev_date_added",
+      "@type": "xsd:date"
+    },
+    "attack_vector": {
+      "@id": "gn:attack_vector",
+      "@type": "xsd:string"
+    },
+    "exploit_found": {
+      "@id": "gn:exploit_found",
+      "@type": "xsd:boolean"
+    },
+    "exploitation_registered_in_kev": {
+      "@id": "gn:exploitation_registered_in_kev",
+      "@type": "xsd:boolean"
+    },
+    "epss_score": {
+      "@id": "gn:epss_score",
+      "@type": "xsd:double"
+    },
+    "number_of_available_exploits": {
+      "@id": "gn:number_of_available_exploits",
+      "@type": "xsd:integer"
+    },
+    "number_of_threat_actors_exploiting_vulnerability": {
+      "@id": "gn:number_of_threat_actors_exploiting_vulnerability",
+      "@type": "xsd:integer"
+    },
+    "number_of_botnets_exploiting_vulnerability": {
+      "@id": "gn:number_of_botnets_exploiting_vulnerability",
+      "@type": "xsd:integer"
+    },
+    "activity_seen": {
+      "@id": "gn:activity_seen",
+      "@type": "xsd:boolean"
+    },
+    "benign_ip_count_1d": {
+      "@id": "gn:benign_ip_count_1d",
+      "@type": "xsd:integer"
+    },
+    "benign_ip_count_10d": {
+      "@id": "gn:benign_ip_count_10d",
+      "@type": "xsd:integer"
+    },
+    "benign_ip_count_30d": {
+      "@id": "gn:benign_ip_count_30d",
+      "@type": "xsd:integer"
+    },
+    "threat_ip_count_1d": {
+      "@id": "gn:threat_ip_count_1d",
+      "@type": "xsd:integer"
+    },
+    "threat_ip_count_10d": {
+      "@id": "gn:threat_ip_count_10d",
+      "@type": "xsd:integer"
+    },
+    "threat_ip_count_30d": {
+      "@id": "gn:threat_ip_count_30d",
+      "@type": "xsd:integer"
+    },
+    "is_stage_1": {
+      "@id": "gn:is_stage_1",
+      "@type": "xsd:boolean"
+    },
+    "is_stage_2": {
+      "@id": "gn:is_stage_2",
+      "@type": "xsd:boolean"
+    },
+    "first_seen_after": {
+      "@id": "gn:first_seen_after",
+      "@type": "xsd:date"
+    },
+    "first_seen_before": {
+      "@id": "gn:first_seen_before",
+      "@type": "xsd:date"
+    },
+    "last_seen_after": {
+      "@id": "gn:last_seen_after",
+      "@type": "xsd:date"
+    },
+    "last_seen_before": {
+      "@id": "gn:last_seen_before",
+      "@type": "xsd:date"
+    },
+    "has_files": {
+      "@id": "gn:has_files",
+      "@type": "xsd:boolean"
+    },
+    "file_type": {
+      "@id": "gn:file_type",
+      "@type": "xsd:string"
+    },
+    "file_name": {
+      "@id": "gn:file_name",
+      "@type": "xsd:string"
+    },
+    "file_hash": {
+      "@id": "gn:file_hash",
+      "@type": "xsd:string"
+    },
+    "scanner_ips": {
+      "@id": "gn:scanner_ips",
+      "@container": "@set"
+    },
+    "ips": {
+      "@id": "gn:ips",
+      "@container": "@set"
+    },
+    "sha256": {
+      "@id": "gn:sha256",
+      "@type": "xsd:string"
+    },
+    "md5": {
+      "@id": "gn:md5",
+      "@type": "xsd:string"
+    },
+    "sha1": {
+      "@id": "gn:sha1",
+      "@type": "xsd:string"
+    },
+    "threat_name": {
+      "@id": "gn:threat_name",
+      "@type": "xsd:string"
+    },
+    "vt_detection_count": {
+      "@id": "gn:vt_detection_count",
+      "@type": "xsd:integer"
+    },
+    "vt_engine_count": {
+      "@id": "gn:vt_engine_count",
+      "@type": "xsd:integer"
+    },
+    "size": {
+      "@id": "gn:size",
+      "@type": "xsd:integer"
+    },
+    "type": {
+      "@id": "gn:type",
+      "@type": "xsd:string"
+    },
+    "ip": {
+      "@id": "gn:ipAddress",
+      "@type": "xsd:string"
+    },
+    "source_workspaces": {
+      "@id": "gn:source_workspaces",
+      "@container": "@set"
+    },
+    "first_seen": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:string"
+    },
+    "last_seen": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:string"
+    },
+    "scanner_count": {
+      "@id": "gn:scanner_count",
+      "@type": "xsd:integer"
+    },
+    "file_count": {
+      "@id": "gn:file_count",
+      "@type": "xsd:integer"
+    },
+    "active_files": {
+      "@id": "gn:active_files",
+      "@container": "@set"
+    },
+    "vt_threat_name": {
+      "@id": "gn:vt_threat_name",
+      "@type": "xsd:string"
+    },
+    "files": {
+      "@id": "gn:files",
+      "@container": "@set"
+    },
+    "items": {
+      "@id": "gn:items",
+      "@container": "@set"
+    },
+    "total": {
+      "@id": "gn:total",
+      "@type": "xsd:integer"
+    },
+    "page": {
+      "@id": "gn:page",
+      "@type": "xsd:integer"
+    },
+    "page_size": {
+      "@id": "gn:page_size",
+      "@type": "xsd:integer"
+    },
+    "ip_count": {
+      "@id": "gn:ip_count",
+      "@type": "xsd:integer"
+    },
+    "total_ips": {
+      "@id": "gn:total_ips",
+      "@type": "xsd:integer"
+    },
+    "stage_1_ips": {
+      "@id": "gn:stage_1_ips",
+      "@type": "xsd:integer"
+    },
+    "stage_2_ips": {
+      "@id": "gn:stage_2_ips",
+      "@type": "xsd:integer"
+    },
+    "total_files": {
+      "@id": "gn:total_files",
+      "@type": "xsd:integer"
+    },
+    "files_with_vt": {
+      "@id": "gn:files_with_vt",
+      "@type": "xsd:integer"
+    },
+    "files_without_vt": {
+      "@id": "gn:files_without_vt",
+      "@type": "xsd:integer"
+    },
+    "total_cross_refs": {
+      "@id": "gn:total_cross_refs",
+      "@type": "xsd:integer"
+    },
+    "total_scanner_links": {
+      "@id": "gn:total_scanner_links",
+      "@type": "xsd:integer"
+    },
+    "ips_with_files": {
+      "@id": "gn:ips_with_files",
+      "@type": "xsd:integer"
+    },
+    "ips_without_files": {
+      "@id": "gn:ips_without_files",
+      "@type": "xsd:integer"
+    },
+    "ips_with_scanners": {
+      "@id": "gn:ips_with_scanners",
+      "@type": "xsd:integer"
+    },
+    "ips_without_scanners": {
+      "@id": "gn:ips_without_scanners",
+      "@type": "xsd:integer"
+    },
+    "distinct_scanners": {
+      "@id": "gn:distinct_scanners",
+      "@type": "xsd:integer"
+    },
+    "top_threat_names": {
+      "@id": "gn:top_threat_names",
+      "@container": "@set"
+    },
+    "noise": {
+      "@id": "gn:noise",
+      "@type": "xsd:boolean"
+    },
+    "riot": {
+      "@id": "gn:riot",
+      "@type": "xsd:boolean"
+    },
+    "classification": {
+      "@id": "gn:classification",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "link": {
+      "@id": "schema:url",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "gn:message",
+      "@type": "xsd:string"
+    },
+    "results": {
+      "@id": "gn:results",
+      "@container": "@set"
+    },
+    "metadata": "gn:metadata",
+    "_id": {
+      "@id": "gn:_id",
+      "@type": "xsd:string"
+    },
+    "firstPacket": {
+      "@id": "gn:firstPacket",
+      "@type": "xsd:dateTime"
+    },
+    "lastPacket": {
+      "@id": "gn:lastPacket",
+      "@type": "xsd:dateTime"
+    },
+    "source.ip": {
+      "@id": "gn:source.ip",
+      "@type": "xsd:string"
+    },
+    "source.port": {
+      "@id": "gn:source.port",
+      "@type": "xsd:integer"
+    },
+    "destination.ip": {
+      "@id": "gn:destination.ip",
+      "@type": "xsd:string"
+    },
+    "destination.port": {
+      "@id": "gn:destination.port",
+      "@type": "xsd:integer"
+    },
+    "source.bytes": {
+      "@id": "gn:source.bytes",
+      "@type": "xsd:integer"
+    },
+    "source.packets": {
+      "@id": "gn:source.packets",
+      "@type": "xsd:integer"
+    },
+    "destination.bytes": {
+      "@id": "gn:destination.bytes",
+      "@type": "xsd:integer"
+    },
+    "destination.packets": {
+      "@id": "gn:destination.packets",
+      "@type": "xsd:integer"
+    },
+    "nodes": {
+      "@id": "gn:nodes",
+      "@container": "@set"
+    },
+    "links": {
+      "@id": "gn:links",
+      "@container": "@set"
+    },
+    "request_metadata": "gn:request_metadata",
+    "source": {
+      "@id": "gn:source",
+      "@type": "xsd:string"
+    },
+    "target": {
+      "@id": "gn:target",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "gn:value",
+      "@type": "xsd:integer"
+    },
+    "label": {
+      "@id": "gn:label",
+      "@type": "xsd:string"
+    },
+    "count": {
+      "@id": "gn:count",
+      "@type": "xsd:integer"
+    },
+    "children": {
+      "@id": "gn:children",
+      "@container": "@set"
+    },
+    "fields": {
+      "@id": "gn:fields",
+      "@container": "@set"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "group": {
+      "@id": "gn:group",
+      "@type": "xsd:string"
+    },
+    "sortable": {
+      "@id": "gn:sortable",
+      "@type": "xsd:boolean"
+    },
+    "sessions": {
+      "@id": "gn:sessions",
+      "@container": "@set"
+    },
+    "pagination": "gn:pagination",
+    "sort_by": {
+      "@id": "gn:sort_by",
+      "@type": "xsd:string"
+    },
+    "sort_desc": {
+      "@id": "gn:sort_desc",
+      "@type": "xsd:boolean"
+    },
+    "start_time": {
+      "@id": "gn:start_time",
+      "@type": "xsd:string"
+    },
+    "end_time": {
+      "@id": "gn:end_time",
+      "@type": "xsd:string"
+    },
+    "query": {
+      "@id": "gn:query",
+      "@type": "xsd:string"
+    },
+    "timeseries": {
+      "@id": "gn:timeseries",
+      "@container": "@set"
+    },
+    "timestamp": {
+      "@id": "gn:timestamp",
+      "@type": "xsd:string"
+    },
+    "mobile": {
+      "@id": "gn:mobile",
+      "@type": "xsd:boolean"
+    },
+    "source_country": {
+      "@id": "gn:source_country",
+      "@type": "xsd:string"
+    },
+    "source_country_code": {
+      "@id": "gn:source_country_code",
+      "@type": "xsd:string"
+    },
+    "source_city": {
+      "@id": "gn:source_city",
+      "@type": "xsd:string"
+    },
+    "region": {
+      "@id": "schema:addressRegion",
+      "@type": "xsd:string"
+    },
+    "organization": {
+      "@id": "schema:provider",
+      "@type": "xsd:string"
+    },
+    "rdns": {
+      "@id": "gn:rdns",
+      "@type": "xsd:string"
+    },
+    "asn": {
+      "@id": "gn:asn",
+      "@type": "xsd:string"
+    },
+    "category": {
+      "@id": "gn:category",
+      "@type": "xsd:string"
+    },
+    "os": {
+      "@id": "gn:os",
+      "@type": "xsd:string"
+    },
+    "destination_countries": {
+      "@id": "gn:destination_countries",
+      "@container": "@set"
+    },
+    "destination_country_codes": {
+      "@id": "gn:destination_country_codes",
+      "@container": "@set"
+    },
+    "destination_cities": {
+      "@id": "gn:destination_cities",
+      "@container": "@set"
+    },
+    "destination_asns": {
+      "@id": "gn:destination_asns",
+      "@container": "@set"
+    },
+    "single_destination": {
+      "@id": "gn:single_destination",
+      "@type": "xsd:boolean"
+    },
+    "carrier": {
+      "@id": "gn:carrier",
+      "@type": "xsd:string"
+    },
+    "datacenter": {
+      "@id": "gn:datacenter",
+      "@type": "xsd:string"
+    },
+    "domain": {
+      "@id": "schema:domainName",
+      "@type": "xsd:string"
+    },
+    "rdns_parent": {
+      "@id": "gn:rdns_parent",
+      "@type": "xsd:string"
+    },
+    "rdns_validated": {
+      "@id": "gn:rdns_validated",
+      "@type": "xsd:boolean"
+    },
+    "latitude": {
+      "@id": "schema:latitude",
+      "@type": "xsd:double"
+    },
+    "longitude": {
+      "@id": "schema:longitude",
+      "@type": "xsd:double"
+    },
+    "sensor_count": {
+      "@id": "gn:sensor_count",
+      "@type": "xsd:integer"
+    },
+    "sensor_hits": {
+      "@id": "gn:sensor_hits",
+      "@type": "xsd:integer"
+    },
+    "internet_scanner_intelligence": "gn:internet_scanner_intelligence",
+    "found": {
+      "@id": "gn:found",
+      "@type": "xsd:boolean"
+    },
+    "tags": {
+      "@id": "gn:tags",
+      "@container": "@set"
+    },
+    "actor": {
+      "@id": "gn:actor",
+      "@type": "xsd:string"
+    },
+    "spoofable": {
+      "@id": "gn:spoofable",
+      "@type": "xsd:boolean"
+    },
+    "cves": {
+      "@id": "gn:cves",
+      "@container": "@set"
+    },
+    "vpn": {
+      "@id": "gn:vpn",
+      "@type": "xsd:boolean"
+    },
+    "vpn_service": {
+      "@id": "gn:vpn_service",
+      "@type": "xsd:string"
+    },
+    "tor": {
+      "@id": "gn:tor",
+      "@type": "xsd:boolean"
+    },
+    "last_seen_timestamp": {
+      "@id": "gn:last_seen_timestamp",
+      "@type": "xsd:dateTime"
+    },
+    "raw_data": "gn:raw_data",
+    "scan": {
+      "@id": "gn:scan",
+      "@container": "@set"
+    },
+    "ja3": {
+      "@id": "gn:ja3",
+      "@container": "@set"
+    },
+    "hassh": {
+      "@id": "gn:hassh",
+      "@container": "@set"
+    },
+    "http": "gn:http",
+    "tls": "gn:tls",
+    "ssh": "gn:ssh",
+    "tcp": "gn:tcp",
+    "port": {
+      "@id": "gn:port",
+      "@type": "xsd:integer"
+    },
+    "protocol": {
+      "@id": "gn:protocol",
+      "@type": "xsd:string"
+    },
+    "fingerprint": {
+      "@id": "gn:fingerprint",
+      "@type": "xsd:string"
+    },
+    "cookie_keys": {
+      "@id": "gn:cookie_keys",
+      "@container": "@set"
+    },
+    "request_authorization": {
+      "@id": "gn:request_authorization",
+      "@container": "@set"
+    },
+    "request_cookies": {
+      "@id": "gn:request_cookies",
+      "@container": "@set"
+    },
+    "request_header": {
+      "@id": "gn:request_header",
+      "@container": "@set"
+    },
+    "method": {
+      "@id": "gn:method",
+      "@container": "@set"
+    },
+    "path": {
+      "@id": "gn:path",
+      "@container": "@set"
+    },
+    "request_origin": {
+      "@id": "gn:request_origin",
+      "@container": "@set"
+    },
+    "useragent": {
+      "@id": "gn:useragent",
+      "@container": "@set"
+    },
+    "ja4h": {
+      "@id": "gn:ja4h",
+      "@container": "@set"
+    },
+    "bytes": {
+      "@id": "gn:bytes",
+      "@type": "xsd:integer"
+    },
+    "cipher": {
+      "@id": "gn:cipher",
+      "@container": "@set"
+    },
+    "ja4": {
+      "@id": "gn:ja4",
+      "@container": "@set"
+    },
+    "key": {
+      "@id": "gn:key",
+      "@container": "@set"
+    },
+    "ja4ssh": {
+      "@id": "gn:ja4ssh",
+      "@container": "@set"
+    },
+    "ja4t": {
+      "@id": "gn:ja4t",
+      "@container": "@set"
+    },
+    "ja4l": {
+      "@id": "gn:ja4l",
+      "@type": "xsd:string"
+    },
+    "min": {
+      "@id": "gn:min",
+      "@type": "xsd:integer"
+    },
+    "max": {
+      "@id": "gn:max",
+      "@type": "xsd:integer"
+    },
+    "data": {
+      "@id": "gn:data",
+      "@container": "@set"
+    },
+    "date": {
+      "@id": "gn:date",
+      "@type": "xsd:string"
+    },
+    "business_service_intelligence": "gn:business_service_intelligence",
+    "seen": {
+      "@id": "gn:seen",
+      "@type": "xsd:boolean"
+    },
+    "explanation": {
+      "@id": "gn:explanation",
+      "@type": "xsd:string"
+    },
+    "last_updated": {
+      "@id": "gn:last_updated",
+      "@type": "xsd:string"
+    },
+    "reference": {
+      "@id": "gn:reference",
+      "@type": "xsd:string"
+    },
+    "trust_level": {
+      "@id": "gn:trust_level",
+      "@type": "xsd:string"
+    },
+    "slug": {
+      "@id": "gn:slug",
+      "@type": "xsd:string"
+    },
+    "intention": {
+      "@id": "gn:intention",
+      "@type": "xsd:string"
+    },
+    "references": {
+      "@id": "gn:references",
+      "@container": "@set"
+    },
+    "recommend_block": {
+      "@id": "gn:recommend_block",
+      "@type": "xsd:boolean"
+    },
+    "created_at": {
+      "@id": "gn:created_at",
+      "@type": "xsd:string"
+    },
+    "updated_at": {
+      "@id": "gn:updated_at",
+      "@type": "xsd:string"
+    },
+    "complete": {
+      "@id": "gn:complete",
+      "@type": "xsd:boolean"
+    },
+    "scroll": {
+      "@id": "gn:scroll",
+      "@type": "xsd:string"
+    },
+    "adjusted_query": {
+      "@id": "gn:adjusted_query",
+      "@type": "xsd:string"
+    },
+    "restricted_fields": {
+      "@id": "gn:restricted_fields",
+      "@container": "@set"
+    },
+    "stats": "gn:stats",
+    "ips_not_found": {
+      "@id": "gn:ips_not_found",
+      "@container": "@set"
+    }
+  }
+}

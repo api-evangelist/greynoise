@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-time-series-scan-entry-schema.json",
+  "title": "TimeSeriesScanEntry",
+  "type": "object",
+  "properties": {
+    "port": {
+      "type": "integer",
+      "description": "Port number",
+      "example": 80
+    },
+    "protocol": {
+      "type": "string",
+      "description": "Protocol",
+      "example": "TCP"
+    }
+  }
+}

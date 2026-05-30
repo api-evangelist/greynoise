@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-pagination-structure.json",
+  "name": "SessionPagination",
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "int32",
+      "description": "Current page number.",
+      "example": 1
+    },
+    "page_size": {
+      "type": "int32",
+      "description": "Number of results per page.",
+      "example": 25
+    },
+    "sort_by": {
+      "type": "string",
+      "description": "Field used for sorting.",
+      "example": "lastPacket"
+    },
+    "sort_desc": {
+      "type": "boolean",
+      "description": "Whether results are sorted in descending order.",
+      "example": true
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-counts-response-schema.json",
+  "title": "SessionCountsResponse",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Aggregated count items.",
+      "items": {
+        "$ref": "./greynoise-session-count-item-schema.json#"
+      },
+      "example": []
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of sessions matching the query.",
+      "example": 5000
+    },
+    "request_metadata": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "end_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "query": {
+          "type": "string",
+          "example": "tags:Mirai"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

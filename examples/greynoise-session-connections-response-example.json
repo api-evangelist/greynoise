@@ -1,0 +1,14 @@
+{
+  "nodes": [],
+  "links": [],
+  "total": 250,
+  "request_metadata": {
+    "start_time": "string",
+    "end_time": "string",
+    "query": "tags:Mirai",
+    "src_field": "string",
+    "dest_field": "string",
+    "max_nodes": 1,
+    "min_connections": 1
+  }
+}

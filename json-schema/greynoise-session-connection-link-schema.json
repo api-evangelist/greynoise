@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-connection-link-schema.json",
+  "title": "SessionConnectionLink",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "Source node identifier.",
+      "example": "192.168.1.1"
+    },
+    "target": {
+      "type": "string",
+      "description": "Target node identifier.",
+      "example": "10.0.0.1"
+    },
+    "value": {
+      "type": "integer",
+      "description": "Number of connections between source and target.",
+      "example": 15
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-count-item-schema.json",
+  "title": "SessionCountItem",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "The value of the aggregated field.",
+      "example": "192.168.1.1"
+    },
+    "count": {
+      "type": "integer",
+      "description": "Number of sessions for this value.",
+      "example": 42
+    },
+    "children": {
+      "type": "array",
+      "description": "Nested aggregation results for multi-field queries.",
+      "items": {
+        "$ref": "./greynoise-session-count-item-schema.json#"
+      },
+      "example": []
+    }
+  }
+}

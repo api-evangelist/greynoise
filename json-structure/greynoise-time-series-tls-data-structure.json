@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-tls-data-structure.json",
+  "name": "TimeSeriesTLSData",
+  "type": "object",
+  "description": "TLS-related data",
+  "properties": {
+    "cipher": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The encryption algorithms or cipher suites used during secure\ncommunication. Identifying the ciphers helps assess the security\nof the connection, particularly in TLS/SSL traffic.\n",
+      "example": [
+        "TLS_AES_128_GCM_SHA256",
+        "TLS_AES_256_GCM_SHA384"
+      ]
+    },
+    "ja4": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of JA4 TLS fingerprints observed in network traffic from the IP.\nJA4 is a modern fingerprinting method that captures distinctive\ncharacteristics of TLS client behavior,\nuseful for identifying and clustering malicious or anomalous clients.\n",
+      "example": [
+        "t13d1516h2_8daaf6152771_02713d6af862"
+      ]
+    }
+  }
+}

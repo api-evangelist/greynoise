@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-stats-record-structure.json",
+  "name": "TimeSeriesStatsRecord",
+  "type": "object",
+  "description": "A single aggregated data point in a timeseries stats response",
+  "properties": {
+    "date": {
+      "type": "string",
+      "description": "The starting timestamp for this time interval in format\n'YYYY-MM-DD HH:mm:ss.SSS'.\nFor hourly intervals, the time component represents the hour.\nFor daily intervals, the time will be 00:00:00.000.\n",
+      "example": "2025-11-10 14:00:00.000"
+    },
+    "count": {
+      "type": "int32",
+      "description": "The number of unique IPs matching the query in this time\ninterval\n",
+      "example": 125
+    }
+  }
+}

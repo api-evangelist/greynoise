@@ -1,0 +1,18 @@
+{
+  "is_stage_1": false,
+  "is_stage_2": false,
+  "first_seen_after": "2026-05-01",
+  "first_seen_before": "2026-05-01",
+  "last_seen_after": "2026-05-01",
+  "last_seen_before": "2026-05-01",
+  "has_files": false,
+  "file_type": "string",
+  "file_name": "Google Public DNS",
+  "file_hash": "795bc7ce13f60d61e9ac03611dd36d90",
+  "scanner_ips": [
+    "string"
+  ],
+  "ips": [
+    "string"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-callback-filter-fields-structure.json",
+  "name": "CallbackFilterFields",
+  "type": "object",
+  "description": "Common filter fields for callback IP queries.",
+  "properties": {
+    "is_stage_1": {
+      "type": "boolean",
+      "description": "Filter by stage 1 status. true = file downloaded from this IP.\n",
+      "example": false
+    },
+    "is_stage_2": {
+      "type": "boolean",
+      "description": "Filter by stage 2 status. true = suspected C2 based on VT/sandbox analysis.\n",
+      "example": false
+    },
+    "first_seen_after": {
+      "type": "date",
+      "description": "Only include IPs first seen after this date (YYYY-MM-DD).",
+      "example": "2026-05-01"
+    },
+    "first_seen_before": {
+      "type": "date",
+      "description": "Only include IPs first seen before this date (YYYY-MM-DD).",
+      "example": "2026-05-01"
+    },
+    "last_seen_after": {
+      "type": "date",
+      "description": "Only include IPs last seen after this date (YYYY-MM-DD).",
+      "example": "2026-05-01"
+    },
+    "last_seen_before": {
+      "type": "date",
+      "description": "Only include IPs last seen before this date (YYYY-MM-DD).",
+      "example": "2026-05-01"
+    },
+    "has_files": {
+      "type": "boolean",
+      "description": "If true, only include IPs with associated malware files. If false, only IPs without files.",
+      "example": false
+    },
+    "file_type": {
+      "type": "string",
+      "description": "Filter by file MIME type (e.g. \"application/x-executable\").",
+      "example": "string"
+    },
+    "file_name": {
+      "type": "string",
+      "description": "Filter by file name substring match.",
+      "example": "Google Public DNS"
+    },
+    "file_hash": {
+      "type": "string",
+      "description": "Filter by file SHA256 hash.",
+      "example": "795bc7ce13f60d61e9ac03611dd36d90"
+    },
+    "scanner_ips": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Filter to IPs associated with these scanner IPs.",
+      "example": [
+        "string"
+      ]
+    },
+    "ips": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Filter to this specific set of callback IPs.",
+      "example": [
+        "string"
+      ]
+    }
+  }
+}

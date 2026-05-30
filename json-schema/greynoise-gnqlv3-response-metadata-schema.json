@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-gnqlv3-response-metadata-schema.json",
+  "title": "GNQLV3ResponseMetadata",
+  "type": "object",
+  "properties": {
+    "complete": {
+      "type": "boolean",
+      "example": false,
+      "description": "Whether all records have been delivered or not. `false` means there's another page"
+    },
+    "scroll": {
+      "type": "string",
+      "example": "DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn\n",
+      "description": "Scroll token to use for pagination"
+    },
+    "query": {
+      "type": "string",
+      "example": "last_seen:2019-07-28 classification:malicious",
+      "description": "The GNQL query string the requester queried"
+    },
+    "adjusted_query": {
+      "type": "string",
+      "example": "last_seen:2019-07-28 classification:malicious",
+      "description": "When certain query parameters are not specified or incompatible\nwith your current plan, GreyNoise automatically adjusts params on your\nquery prior to execution.\n"
+    },
+    "count": {
+      "type": "integer",
+      "example": 1,
+      "description": "The number of total results for the given GNQL query"
+    },
+    "message": {
+      "type": "string",
+      "example": "ok",
+      "description": "A status message indicating if there were issues with the request"
+    },
+    "restricted_fields": {
+      "type": "array",
+      "description": "The fields that were restricted due to plan limitations",
+      "example": [
+        "ip",
+        "asn",
+        "organization",
+        "country",
+        "city",
+        "region"
+      ],
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

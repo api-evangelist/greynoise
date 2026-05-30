@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-raw-data-structure.json",
+  "name": "TimeSeriesRawData",
+  "type": "object",
+  "description": "Raw data collected about the IP's scanning activity",
+  "properties": {
+    "scan": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-scan-entry-structure.json#"
+      },
+      "description": "Observed scan activity",
+      "example": []
+    },
+    "ja3": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-ja3-entry-structure.json#"
+      },
+      "description": "JA3 TLS fingerprints observed",
+      "example": []
+    },
+    "hassh": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-hassh-entry-structure.json#"
+      },
+      "description": "HASSH SSH fingerprints observed",
+      "example": []
+    },
+    "http": {
+      "$ref": "./greynoise-time-series-http-data-structure.json#"
+    },
+    "source": {
+      "$ref": "./greynoise-time-series-source-data-structure.json#"
+    },
+    "tls": {
+      "$ref": "./greynoise-time-series-tls-data-structure.json#"
+    },
+    "ssh": {
+      "$ref": "./greynoise-time-series-ssh-data-structure.json#"
+    },
+    "tcp": {
+      "$ref": "./greynoise-time-series-tcp-data-structure.json#"
+    }
+  }
+}

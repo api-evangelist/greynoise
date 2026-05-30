@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-tcp-data-structure.json",
+  "name": "TimeSeriesTCPData",
+  "type": "object",
+  "description": "TCP-related data",
+  "properties": {
+    "ja4t": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of JA4T TCP fingerprints observed in network traffic from the IP.\nJA4T captures TCP connection characteristics such as window size,\noptions, and MSS, useful for OS fingerprinting and identifying\nnetwork stacks.\n",
+      "example": [
+        "64240_2-1-3-1-1-4_1460_8"
+      ]
+    },
+    "ja4l": {
+      "type": "string",
+      "description": "JA4L light distance/latency fingerprint observed in network traffic\nfrom the IP. Captures TCP TTL and window size characteristics, useful\nfor estimating client-server distance and identifying proxied\nconnections.\n",
+      "example": "1460_64"
+    }
+  }
+}

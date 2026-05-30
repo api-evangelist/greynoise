@@ -1,0 +1,9 @@
+{
+  "cipher": [
+    "TLS_AES_128_GCM_SHA256",
+    "TLS_AES_256_GCM_SHA384"
+  ],
+  "ja4": [
+    "t13d1516h2_8daaf6152771_02713d6af862"
+  ]
+}

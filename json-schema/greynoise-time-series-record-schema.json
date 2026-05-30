@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-time-series-record-schema.json",
+  "title": "TimeSeriesRecord",
+  "type": "object",
+  "description": "A single IP record in a timeseries response",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The IP address",
+      "example": "203.0.113.45"
+    },
+    "internet_scanner_intelligence": {
+      "$ref": "./greynoise-time-series-intelligence-schema.json#"
+    }
+  }
+}

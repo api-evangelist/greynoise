@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-callback-ip-detail-response-structure.json",
+  "name": "CallbackIPDetailResponse",
+  "type": "object",
+  "description": "Detailed information about a single callback IP.",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The callback IP address.",
+      "example": "198.51.100.42"
+    },
+    "source_workspaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Labeled workspace sources where this IP was observed.\nValues are \"GreyNoise\", \"UserWorkspace\", or \"Community\".\n",
+      "example": [
+        "GreyNoise",
+        "UserWorkspace"
+      ]
+    },
+    "is_stage_1": {
+      "type": "boolean",
+      "description": "Whether a file was successfully downloaded from this IP (stage 1).",
+      "example": false
+    },
+    "is_stage_2": {
+      "type": "boolean",
+      "description": "Whether this IP is suspected C2 based on VT/sandbox analysis (stage 2).",
+      "example": false
+    },
+    "first_seen": {
+      "type": "string",
+      "nullable": true,
+      "description": "ISO 8601 timestamp of when this IP was first observed.",
+      "example": "2025-03-01T00:00:00Z"
+    },
+    "last_seen": {
+      "type": "string",
+      "nullable": true,
+      "description": "ISO 8601 timestamp of when this IP was most recently observed.",
+      "example": "2025-03-15T12:30:00Z"
+    },
+    "scanner_ips": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Scanner IPs that delivered payloads referencing this callback IP.",
+      "example": [
+        "203.0.113.7",
+        "192.0.2.99"
+      ]
+    },
+    "scanner_count": {
+      "type": "int32",
+      "description": "Number of distinct scanners associated with this IP.",
+      "example": 5
+    },
+    "file_count": {
+      "type": "int32",
+      "description": "Number of malware files associated with this IP.",
+      "example": 3
+    },
+    "active_files": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-callback-file-response-structure.json#"
+      },
+      "description": "Malware files associated with this callback IP.",
+      "example": []
+    }
+  }
+}

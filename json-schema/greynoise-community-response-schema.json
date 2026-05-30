@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-community-response-schema.json",
+  "title": "CommunityResponse",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "example": "1.2.3.4"
+    },
+    "noise": {
+      "type": "boolean",
+      "example": false
+    },
+    "riot": {
+      "type": "boolean",
+      "example": true
+    },
+    "classification": {
+      "type": "string",
+      "example": "benign"
+    },
+    "name": {
+      "type": "string",
+      "example": "Cloudflare"
+    },
+    "link": {
+      "type": "string",
+      "example": "https://viz.greynoise.io/riot/1.2.3.4"
+    },
+    "last_seen": {
+      "type": "string",
+      "example": "2020-01-01"
+    },
+    "message": {
+      "type": "string",
+      "example": "Success"
+    }
+  }
+}

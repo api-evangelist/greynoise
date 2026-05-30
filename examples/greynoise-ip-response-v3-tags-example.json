@@ -1,0 +1,17 @@
+{
+  "id": "ef0cc90d-d80c-436f-92c5-3d8f8665c9ac",
+  "slug": "mirai",
+  "name": "Mirai",
+  "category": "worm",
+  "intention": "malicious",
+  "description": "This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.",
+  "references": [
+    "string"
+  ],
+  "recommend_block": false,
+  "cves": [
+    "CVE-2021-44228"
+  ],
+  "created_at": "2020-04-07",
+  "updated_at": "2020-04-07"
+}

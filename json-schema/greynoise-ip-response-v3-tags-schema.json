@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-ip-response-v3-tags-schema.json",
+  "title": "IPResponseV3Tags",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "ef0cc90d-d80c-436f-92c5-3d8f8665c9ac",
+      "description": "The unique identifier for the tag.\n"
+    },
+    "slug": {
+      "type": "string",
+      "example": "mirai",
+      "description": "The slugified version of the tag name.\n"
+    },
+    "name": {
+      "type": "string",
+      "example": "Mirai",
+      "description": "The human-readable name for the tag.\n"
+    },
+    "category": {
+      "type": "string",
+      "example": "worm",
+      "description": "Category of the IP address such as hosting or ISP.\n"
+    },
+    "intention": {
+      "type": "string",
+      "example": "malicious",
+      "description": "The intent of the tag, either suspicious, malicious, benign, or unknown.\n"
+    },
+    "description": {
+      "type": "string",
+      "example": "This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.",
+      "description": "A detailed description of the tag, including the observed activity\nand any relevant context or details.\n"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "example": "https://en.wikipedia.org/wiki/Mirai_(malware)",
+        "description": "A list of URLs or references that provide additional information\nabout the tag and its associated activity.\n"
+      },
+      "example": [
+        "string"
+      ]
+    },
+    "recommend_block": {
+      "type": "boolean",
+      "example": false,
+      "description": "A boolean value indicating whether the tag should be recommended\nfor blocking or filtering purposes.\n"
+    },
+    "cves": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "example": "CVE-2020-1234",
+        "description": "A list of CVEs associated with the tag.\n"
+      },
+      "example": [
+        "CVE-2021-44228"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "example": "2020-04-07",
+      "description": "The date and time when the tag was created.\n"
+    },
+    "updated_at": {
+      "type": "string",
+      "example": "2020-04-07",
+      "description": "The date and time when the tag was last updated.\n"
+    }
+  }
+}

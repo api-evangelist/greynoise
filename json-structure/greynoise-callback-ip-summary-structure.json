@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-callback-ip-summary-structure.json",
+  "name": "CallbackIPSummary",
+  "type": "object",
+  "description": "Summary representation of a callback IP in list results.",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "example": "198.51.100.42"
+    },
+    "source_workspaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "GreyNoise"
+      ]
+    },
+    "is_stage_1": {
+      "type": "boolean",
+      "example": false
+    },
+    "is_stage_2": {
+      "type": "boolean",
+      "example": false
+    },
+    "first_seen": {
+      "type": "string",
+      "nullable": true,
+      "example": "2025-12-01"
+    },
+    "last_seen": {
+      "type": "string",
+      "nullable": true,
+      "example": "2026-05-01"
+    },
+    "scanner_ips": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "string"
+      ]
+    },
+    "scanner_count": {
+      "type": "int32",
+      "example": 42
+    },
+    "file_count": {
+      "type": "int32",
+      "example": 42
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-callback-file-summary-structure.json#"
+      },
+      "description": "Lightweight file references for this IP.",
+      "example": []
+    }
+  }
+}

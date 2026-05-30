@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-quick-ip-profile-schema.json",
+  "title": "QuickIpProfile",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "example": "8.8.8.8",
+      "description": "IP address that the information is about."
+    },
+    "business_service_intelligence": {
+      "$ref": "./greynoise-quick-business-service-intelligence-schema.json#"
+    },
+    "internet_scanner_intelligence": {
+      "$ref": "./greynoise-quick-internet-scanner-intelligence-schema.json#"
+    }
+  }
+}

@@ -1,0 +1,129 @@
+name: GreyNoise Intelligence FinOps Profile
+description: >-
+  FinOps Framework alignment for the GreyNoise Intelligence commercial offering.
+  Maps the GreyNoise billing surface to FOCUS / FinOps domains so security and
+  cloud financial-management teams can model GreyNoise as a managed-service
+  cost center.
+specVersion: api-commons-finops/0.1
+provider: GreyNoise Intelligence
+url: https://www.greynoise.io/pricing
+created: '2026-05-30'
+modified: '2026-05-30'
+
+# ── BillingModel ────────────────────────────────────────────────────────
+billing_model:
+  type: subscription
+  cadence: annual
+  currency: USD
+  list_price_published: false
+  contract_motion: sales-led
+  contract_minimum: 1-year typical
+  free_tier_exists: true
+  metered_usage_components:
+    # GreyNoise plans are flat-rate by tier, not pay-per-call. Usage is bounded
+    # by the per-tier limits (searches, alerts, blocklists, freshness, lookback).
+    - name: api-requests
+      metered: false
+      bound_by: [tier search quota, tier rate-limit]
+    - name: alerts
+      metered: false
+      bound_by: [tier alerts_max]
+    - name: blocklists
+      metered: false
+      bound_by: [tier blocklists_max]
+    - name: feeds
+      metered: false
+      bound_by: [tier feeds enablement]
+
+# ── PricingDimensions ───────────────────────────────────────────────────
+pricing_dimensions:
+  - name: tier
+    domain: [free, standard, advanced, elite]
+    impact: Sets data freshness, historical lookback, alert and blocklist quotas, and SLA.
+  - name: core_module
+    domain: [Triage, Investigate, Hunt]
+    impact: One core module is included; others can be added at cost.
+  - name: addon_modules
+    domain: [C2Detection, BusinessServices, VulnerabilityPrioritization]
+    impact: Each add-on module is priced separately.
+  - name: users
+    impact: All paid tiers include unlimited users; user count is not a billing dimension.
+  - name: integrations
+    impact: All paid tiers include all integrations; integration count is not a billing dimension.
+
+# ── FOCUS field alignment ───────────────────────────────────────────────
+focus_alignment:
+  description: >-
+    Suggested mapping from GreyNoise invoice/contract concepts to the FOCUS
+    1.0 column set. GreyNoise does not publish a FOCUS export, so the mapping
+    must be assembled from the order form and renewal docs.
+  fields:
+    - focus_field: BillingPeriodStart / BillingPeriodEnd
+      greynoise_source: Order form term dates
+    - focus_field: ServiceCategory
+      value: Security
+    - focus_field: ServiceSubcategory
+      value: Threat Intelligence
+    - focus_field: ProviderName
+      value: GreyNoise Intelligence
+    - focus_field: InvoiceIssuerName
+      value: GreyNoise Intelligence, Inc.
+    - focus_field: SkuId
+      greynoise_source: Plan tier + module combination on the order form (e.g. "advanced+triage+c2")
+    - focus_field: SkuPriceId
+      greynoise_source: Contract line item ID
+    - focus_field: ChargeCategory
+      value: Subscription
+    - focus_field: ChargeFrequency
+      value: Recurring (annual)
+    - focus_field: PricingUnit
+      value: Subscription seat (organization-wide)
+    - focus_field: PricingQuantity
+      value: 1 per active term
+    - focus_field: ListUnitPrice
+      greynoise_source: Order form (not published)
+    - focus_field: ContractedUnitPrice
+      greynoise_source: Order form (negotiated)
+    - focus_field: BilledCost / EffectiveCost / ContractedCost / ListCost
+      greynoise_source: Invoice line items
+
+# ── Cost-allocation guidance ────────────────────────────────────────────
+allocation:
+  recommended_strategy: cost-center
+  rationale: >-
+    GreyNoise is consumed organization-wide by the SOC, threat-intel, and IR
+    teams. Allocate to a single Security / Threat Intelligence cost center
+    rather than by API key or user, since the subscription does not meter
+    per-user or per-call.
+  tagging:
+    suggested_tags:
+      - cost_center: SOC | Threat Intel | Incident Response
+      - vendor: GreyNoise
+      - service_category: Security/ThreatIntelligence
+      - contract_year: "{{ YYYY }}"
+
+# ── Anomaly / utilization watchlist ─────────────────────────────────────
+watchlist:
+  - signal: Approaching weekly search cap (Community)
+    threshold: 80% of 50 searches/week
+    action: Plan upgrade to Standard.
+  - signal: Approaching alert cap
+    threshold: 80% of tier alert quota
+    action: Prune alerts or upgrade tier.
+  - signal: Approaching blocklist cap
+    threshold: 80% of tier blocklist quota
+    action: Consolidate blocklists or upgrade tier.
+  - signal: Sustained 206 Partial Content responses
+    threshold: "> 5% of authenticated requests"
+    action: Investigate missing module entitlement (BSI / VulnerabilityPrioritization).
+
+# ── Renewal & true-up ───────────────────────────────────────────────────
+renewal:
+  cadence: annual
+  notice_required: contractual (typically 30-60 days)
+  true_up_terms: Negotiated; not based on metered consumption since most dimensions are flat.
+
+reference:
+  - https://www.greynoise.io/pricing
+  - https://focus.finops.org/
+  - https://www.finops.org/framework/

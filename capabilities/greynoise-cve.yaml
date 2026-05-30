@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: GreyNoise API — CVE
+  description: 'CVE surface of GreyNoise API. 2 operations. Lead operation: Retrieve CVE Information. Self-contained Naftiko capability covering one GreyNoise business surface.'
+  tags:
+    - GreyNoise
+    - Security
+    - CVE
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+  - namespace: env
+    keys:
+      GREYNOISE_API_KEY: GREYNOISE_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: greynoise-cve
+      baseUri: https://api.greynoise.io
+      description: GreyNoise API — CVE business capability. Self-contained, no shared references.
+      authentication:
+        type: apikey
+        key: key
+        value: '{{env.GREYNOISE_API_KEY}}'
+        placement: header
+      resources:
+        - name: v1-cve-cve-id
+          path: /v1/cve/{cve_id}
+          operations:
+            - name: getCVE
+              method: GET
+              description: Retrieve CVE Information
+              inputParameters:
+                - name: cve_id
+                  in: path
+                  type: string
+                  required: true
+                  description: The CVE ID to query (e.g., CVE-2024-12345)
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v3-cves
+          path: /v3/cves
+          operations:
+            - name: bulkCVELookup
+              method: POST
+              description: Bulk CVE Lookup
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+                  description: Request body.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+  exposes:
+    - type: rest
+      namespace: greynoise-cve-rest
+      port: 8080
+      description: REST adapter for GreyNoise API — CVE. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+      resources:
+        - path: /v1/cve/{cve-id}
+          name: v1-cve-cve-id
+          description: REST surface for Retrieve CVE Information.
+          operations:
+            - method: GET
+              name: getCVE
+              description: Retrieve CVE Information
+              call: greynoise-cve.getCVE
+              with:
+                cve_id: rest.cve_id
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/cves
+          name: v1-cves
+          description: REST surface for Bulk CVE Lookup.
+          operations:
+            - method: POST
+              name: bulkCVELookup
+              description: Bulk CVE Lookup
+              call: greynoise-cve.bulkCVELookup
+              with:
+                body: rest.body
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: greynoise-cve-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for GreyNoise API — CVE. One tool per consumed operation, routed inline through this capability's consumes block.
+      tools:
+        - name: retrieve-cve-information
+          description: Retrieve CVE Information
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-cve.getCVE
+          with:
+            cve_id: tools.cve_id
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: bulk-cve-lookup
+          description: Bulk CVE Lookup
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: false
+          call: greynoise-cve.bulkCVELookup
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.

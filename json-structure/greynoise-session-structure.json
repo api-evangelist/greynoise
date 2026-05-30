@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-structure.json",
+  "name": "Session",
+  "type": "object",
+  "description": "A network session captured by GreyNoise sensors. Sessions contain network\nflow data, protocol details, and enrichment metadata. The full set of fields\nis dynamic and can be discovered via the `/v3/sessions/fields` endpoint.\n",
+  "additionalProperties": true,
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Unique session identifier.",
+      "example": "2505-abcdef123456"
+    },
+    "firstPacket": {
+      "type": "datetime",
+      "description": "Timestamp of the first packet in the session.",
+      "example": "2025-01-15T10:30:00Z"
+    },
+    "lastPacket": {
+      "type": "datetime",
+      "description": "Timestamp of the last packet in the session.",
+      "example": "2025-01-15T10:30:05Z"
+    },
+    "source.ip": {
+      "type": "string",
+      "description": "Source IP address.",
+      "example": "203.0.113.45"
+    },
+    "source.port": {
+      "type": "int32",
+      "description": "Source port number.",
+      "example": 54321
+    },
+    "destination.ip": {
+      "type": "string",
+      "description": "Destination IP address.",
+      "example": "198.51.100.10"
+    },
+    "destination.port": {
+      "type": "int32",
+      "description": "Destination port number.",
+      "example": 443
+    },
+    "source.bytes": {
+      "type": "int32",
+      "description": "Total bytes sent from source.",
+      "example": 1024
+    },
+    "source.packets": {
+      "type": "int32",
+      "description": "Total packets sent from source.",
+      "example": 10
+    },
+    "destination.bytes": {
+      "type": "int32",
+      "description": "Total bytes sent from destination.",
+      "example": 2048
+    },
+    "destination.packets": {
+      "type": "int32",
+      "description": "Total packets sent from destination.",
+      "example": 8
+    },
+    "classification": {
+      "type": "string",
+      "description": "GreyNoise classification of the source IP.",
+      "example": "malicious"
+    }
+  }
+}

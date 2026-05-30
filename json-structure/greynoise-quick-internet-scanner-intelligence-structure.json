@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-quick-internet-scanner-intelligence-structure.json",
+  "name": "QuickInternetScannerIntelligence",
+  "type": "object",
+  "properties": {
+    "found": {
+      "type": "boolean",
+      "description": "Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as 'noise'.\n",
+      "example": false
+    },
+    "classification": {
+      "type": "string",
+      "description": "The classification of the IP address, either \"benign\", \"malicious\",\nor \"unknown\", based on the activity observed by GreyNoise.\n",
+      "enum": [
+        "benign",
+        "malicious",
+        "unknown"
+      ],
+      "example": "benign"
+    }
+  }
+}

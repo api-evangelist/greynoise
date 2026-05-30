@@ -1,0 +1,34 @@
+{
+  "mobile": false,
+  "source_country": "United States",
+  "source_country_code": "US",
+  "source_city": "Seattle",
+  "region": "Seattle",
+  "organization": "DigitalOcean, LLC",
+  "rdns": "crawl-66-249-79-17.googlebot.com",
+  "asn": "AS521",
+  "category": "education",
+  "os": "Windows 7/8",
+  "destination_countries": [
+    "string"
+  ],
+  "destination_country_codes": [
+    "US"
+  ],
+  "destination_cities": [
+    "string"
+  ],
+  "destination_asns": [
+    "string"
+  ],
+  "single_destination": true,
+  "carrier": "AIS",
+  "datacenter": "us-west-1",
+  "domain": "example.com",
+  "rdns_parent": "example.com",
+  "rdns_validated": true,
+  "latitude": 37.7749,
+  "longitude": -122.4194,
+  "sensor_count": 10,
+  "sensor_hits": 10
+}

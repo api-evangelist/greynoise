@@ -1,0 +1,16 @@
+{
+  "total_ips": 142,
+  "stage_1_ips": 98,
+  "stage_2_ips": 44,
+  "total_files": 230,
+  "files_with_vt": 180,
+  "files_without_vt": 50,
+  "total_cross_refs": 312,
+  "total_scanner_links": 456,
+  "ips_with_files": 110,
+  "ips_without_files": 32,
+  "ips_with_scanners": 130,
+  "ips_without_scanners": 12,
+  "distinct_scanners": 89,
+  "top_threat_names": []
+}

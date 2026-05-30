@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-time-series-raw-data-schema.json",
+  "title": "TimeSeriesRawData",
+  "type": "object",
+  "description": "Raw data collected about the IP's scanning activity",
+  "properties": {
+    "scan": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-scan-entry-schema.json#"
+      },
+      "description": "Observed scan activity",
+      "example": []
+    },
+    "ja3": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-ja3-entry-schema.json#"
+      },
+      "description": "JA3 TLS fingerprints observed",
+      "example": []
+    },
+    "hassh": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-hassh-entry-schema.json#"
+      },
+      "description": "HASSH SSH fingerprints observed",
+      "example": []
+    },
+    "http": {
+      "$ref": "./greynoise-time-series-http-data-schema.json#"
+    },
+    "source": {
+      "$ref": "./greynoise-time-series-source-data-schema.json#"
+    },
+    "tls": {
+      "$ref": "./greynoise-time-series-tls-data-schema.json#"
+    },
+    "ssh": {
+      "$ref": "./greynoise-time-series-ssh-data-schema.json#"
+    },
+    "tcp": {
+      "$ref": "./greynoise-time-series-tcp-data-schema.json#"
+    }
+  }
+}

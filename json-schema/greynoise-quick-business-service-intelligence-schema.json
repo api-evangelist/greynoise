@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-quick-business-service-intelligence-schema.json",
+  "title": "QuickBusinessServiceIntelligence",
+  "type": "object",
+  "properties": {
+    "found": {
+      "type": "boolean",
+      "description": "Indicates if an IP is part of the RIOT dataset or not.\n",
+      "example": false
+    },
+    "trust_level": {
+      "type": "string",
+      "description": "Trust level assigned to this IP/provider. One of:\n  - \"1\" \u2014 high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" \u2014 moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" \u2014 label only; cloud compute or bulk hosting provider with no inherent trust signal.\n",
+      "example": "1"
+    }
+  }
+}

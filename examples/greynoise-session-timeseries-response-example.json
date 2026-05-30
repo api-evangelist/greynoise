@@ -1,0 +1,12 @@
+{
+  "timeseries": [],
+  "items": [],
+  "total": 1000,
+  "request_metadata": {
+    "start_time": "string",
+    "end_time": "string",
+    "query": "tags:Mirai",
+    "field": "string",
+    "interval": "string"
+  }
+}

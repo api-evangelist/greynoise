@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-business-service-intelligence-structure.json",
+  "name": "BusinessServiceIntelligence",
+  "properties": {
+    "found": {
+      "type": "boolean",
+      "description": "Indicates if an IP is part of the RIOT dataset or not.\n",
+      "example": true
+    },
+    "category": {
+      "type": "string",
+      "description": "RIOT category the provider belongs to, identifying the type of service provided.\n",
+      "example": "hosting"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the provider and/or service.\n",
+      "example": "example.com"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the provider and what they do.\n",
+      "example": "example.com"
+    },
+    "explanation": {
+      "type": "string",
+      "description": "An explanation of the category type and what may be expected from this provider and category.\n",
+      "example": "string"
+    },
+    "last_updated": {
+      "type": "string",
+      "description": "Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).\n",
+      "example": "2025-01-15T12:30:45Z"
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference URL for information about this provider and/or service.\n",
+      "example": "https://example.com"
+    },
+    "trust_level": {
+      "type": "string",
+      "description": "Trust level assigned to this IP/provider. One of:\n  - \"1\" \u2014 high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" \u2014 moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" \u2014 label only; cloud compute or bulk hosting provider with no inherent trust signal.\n",
+      "example": "1"
+    }
+  }
+}

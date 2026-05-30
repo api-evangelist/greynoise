@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-gnqlip-context-v3-schema.json",
+  "title": "GNQLIPContextV3",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "IP address that the information is about.",
+      "example": "71.6.135.131"
+    },
+    "internet_scanner_intelligence": {
+      "$ref": "./greynoise-internet-scanner-intelligence-schema.json#"
+    },
+    "business_service_intelligence": {
+      "$ref": "./greynoise-business-service-intelligence-schema.json#"
+    }
+  }
+}

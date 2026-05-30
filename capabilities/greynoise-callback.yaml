@@ -1,0 +1,206 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: GreyNoise API — Callback
+  description: 'Callback surface of GreyNoise API. 4 operations. Lead operation: Export Callback IPs. Self-contained Naftiko capability covering one GreyNoise business surface.'
+  tags:
+    - GreyNoise
+    - Security
+    - Callback
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+  - namespace: env
+    keys:
+      GREYNOISE_API_KEY: GREYNOISE_API_KEY
+capability:
+  consumes:
+    - type: http
+      namespace: greynoise-callback
+      baseUri: https://api.greynoise.io
+      description: GreyNoise API — Callback business capability. Self-contained, no shared references.
+      authentication:
+        type: apikey
+        key: key
+        value: '{{env.GREYNOISE_API_KEY}}'
+        placement: header
+      resources:
+        - name: v1-callback-export-ips
+          path: /v1/callback/export-ips
+          operations:
+            - name: CallbackExportIPs
+              method: POST
+              description: Export Callback IPs
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: false
+                  description: Request body.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v1-callback-ip-ip
+          path: /v1/callback/ip/{ip}
+          operations:
+            - name: CallbackGetIP
+              method: GET
+              description: Callback IP Lookup
+              inputParameters:
+                - name: ip
+                  in: path
+                  type: string
+                  required: true
+                  description: The callback IP address to look up.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v1-callback-ips
+          path: /v1/callback/ips
+          operations:
+            - name: CallbackListIPs
+              method: POST
+              description: List Callback IPs
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: false
+                  description: Request body.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: v1-callback-overview
+          path: /v1/callback/overview
+          operations:
+            - name: CallbackOverview
+              method: POST
+              description: Callback Overview Statistics
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: false
+                  description: Request body.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+  exposes:
+    - type: rest
+      namespace: greynoise-callback-rest
+      port: 8080
+      description: REST adapter for GreyNoise API — Callback. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+      resources:
+        - path: /v1/callback/export-ips
+          name: v1-callback-export-ips
+          description: REST surface for Export Callback IPs.
+          operations:
+            - method: POST
+              name: CallbackExportIPs
+              description: Export Callback IPs
+              call: greynoise-callback.CallbackExportIPs
+              with:
+                body: rest.body
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/callback/ip/{ip}
+          name: v1-callback-ip-ip
+          description: REST surface for Callback IP Lookup.
+          operations:
+            - method: GET
+              name: CallbackGetIP
+              description: Callback IP Lookup
+              call: greynoise-callback.CallbackGetIP
+              with:
+                ip: rest.ip
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/callback/ips
+          name: v1-callback-ips
+          description: REST surface for List Callback IPs.
+          operations:
+            - method: POST
+              name: CallbackListIPs
+              description: List Callback IPs
+              call: greynoise-callback.CallbackListIPs
+              with:
+                body: rest.body
+              outputParameters:
+                - type: object
+                  mapping: $.
+        - path: /v1/callback/overview
+          name: v1-callback-overview
+          description: REST surface for Callback Overview Statistics.
+          operations:
+            - method: POST
+              name: CallbackOverview
+              description: Callback Overview Statistics
+              call: greynoise-callback.CallbackOverview
+              with:
+                body: rest.body
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: greynoise-callback-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for GreyNoise API — Callback. One tool per consumed operation, routed inline through this capability's consumes block.
+      tools:
+        - name: export-callback-ips
+          description: Export Callback IPs
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: false
+          call: greynoise-callback.CallbackExportIPs
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: callback-ip-lookup
+          description: Callback IP Lookup
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: greynoise-callback.CallbackGetIP
+          with:
+            ip: tools.ip
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: list-callback-ips
+          description: List Callback IPs
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: false
+          call: greynoise-callback.CallbackListIPs
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.
+        - name: callback-overview-statistics
+          description: Callback Overview Statistics
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: greynoise-callback.CallbackOverview
+          with:
+            body: tools.body
+          outputParameters:
+            - type: object
+              mapping: $.

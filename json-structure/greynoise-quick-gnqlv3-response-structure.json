@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-quick-gnqlv3-response-structure.json",
+  "name": "QuickGNQLV3Response",
+  "type": "object",
+  "properties": {
+    "request_metadata": {
+      "$ref": "./greynoise-gnqlv3-response-metadata-structure.json#"
+    },
+    "data": {
+      "type": "array",
+      "description": "The relevant IP records requested by the user",
+      "items": {
+        "$ref": "./greynoise-quick-ip-profile-structure.json#"
+      },
+      "example": []
+    }
+  }
+}

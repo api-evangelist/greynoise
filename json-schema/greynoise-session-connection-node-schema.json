@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-connection-node-schema.json",
+  "title": "SessionConnectionNode",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Node identifier (field value).",
+      "example": "192.168.1.1"
+    },
+    "type": {
+      "type": "string",
+      "description": "Whether this is a source or destination node.",
+      "example": "source"
+    }
+  }
+}

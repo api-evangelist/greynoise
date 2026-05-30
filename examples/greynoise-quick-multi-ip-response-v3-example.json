@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "ip": "8.8.8.8",
+      "business_service_intelligence": {
+        "found": false,
+        "trust_level": "1"
+      },
+      "internet_scanner_intelligence": {
+        "found": false,
+        "classification": "benign"
+      }
+    }
+  ],
+  "request_metadata": {
+    "restricted_fields": [
+      "ip",
+      "cve",
+      "destination_cities"
+    ],
+    "message": "ok",
+    "ips_not_found": [
+      "string"
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-counts-response-structure.json",
+  "name": "SessionCountsResponse",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Aggregated count items.",
+      "items": {
+        "$ref": "./greynoise-session-count-item-structure.json#"
+      },
+      "example": []
+    },
+    "total": {
+      "type": "int32",
+      "description": "Total number of sessions matching the query.",
+      "example": 5000
+    },
+    "request_metadata": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "end_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "query": {
+          "type": "string",
+          "example": "tags:Mirai"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

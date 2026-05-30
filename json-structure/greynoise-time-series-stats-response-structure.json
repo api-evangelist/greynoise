@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-stats-response-structure.json",
+  "name": "TimeSeriesStatsResponse",
+  "type": "object",
+  "description": "Response object for the timeseries stats/aggregation endpoint.\nThis provides aggregated IP counts over time intervals matching\na GNQL query.\n",
+  "properties": {
+    "count": {
+      "type": "int32",
+      "description": "The sum of all IP counts across all time intervals",
+      "example": 1500
+    },
+    "min": {
+      "type": "int32",
+      "description": "The minimum IP count observed in any single time interval",
+      "example": 10
+    },
+    "max": {
+      "type": "int32",
+      "description": "The maximum IP count observed in any single time interval",
+      "example": 250
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-time-series-stats-record-structure.json#"
+      },
+      "description": "Array of aggregated data points, one per time interval",
+      "example": []
+    }
+  },
+  "example": {
+    "count": 1500,
+    "min": 10,
+    "max": 250,
+    "data": [
+      {
+        "date": "2025-11-10 14:00:00.000",
+        "count": 125
+      },
+      {
+        "date": "2025-11-10 15:00:00.000",
+        "count": 250
+      },
+      {
+        "date": "2025-11-10 16:00:00.000",
+        "count": 180
+      }
+    ]
+  }
+}

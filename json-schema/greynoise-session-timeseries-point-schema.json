@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-timeseries-point-schema.json",
+  "title": "SessionTimeseriesPoint",
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "description": "Timestamp for this data point.",
+      "example": "2025-01-01T00:00:00Z"
+    },
+    "count": {
+      "type": "integer",
+      "description": "Number of sessions in this time bucket.",
+      "example": 42
+    }
+  }
+}

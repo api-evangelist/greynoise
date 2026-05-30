@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-multi-ip-request-schema.json",
+  "title": "MultiIpRequest",
+  "type": "object",
+  "required": [
+    "ips"
+  ],
+  "properties": {
+    "ips": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "example": "8.8.8.8"
+      },
+      "example": [
+        "string"
+      ]
+    }
+  }
+}

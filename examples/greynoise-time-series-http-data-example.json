@@ -1,0 +1,37 @@
+{
+  "md5": [
+    "9764955b67107eeb9edfae76f429e783"
+  ],
+  "cookie_keys": [
+    "expremotekey"
+  ],
+  "request_authorization": [
+    "Bearer exampletoken",
+    "Basic username:password"
+  ],
+  "request_cookies": [
+    "session_id=1234567890"
+  ],
+  "request_header": [
+    "Content-Type: application/json",
+    "Accept: application/json"
+  ],
+  "method": [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE"
+  ],
+  "path": [
+    "/robots.txt"
+  ],
+  "request_origin": [
+    "111.111.1.1"
+  ],
+  "useragent": [
+    "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\n"
+  ],
+  "ja4h": [
+    "ge11cn060000_4e59edc1297a_4da5efaf0cbd"
+  ]
+}

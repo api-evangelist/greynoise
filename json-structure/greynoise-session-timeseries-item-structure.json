@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-timeseries-item-structure.json",
+  "name": "SessionTimeseriesItem",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "The field value for this group.",
+      "example": "192.168.1.1"
+    },
+    "count": {
+      "type": "int32",
+      "description": "Total sessions for this group.",
+      "example": 150
+    },
+    "timeseries": {
+      "type": "array",
+      "description": "Timeseries data for this group.",
+      "items": {
+        "$ref": "./greynoise-session-timeseries-point-structure.json#"
+      },
+      "example": []
+    }
+  }
+}

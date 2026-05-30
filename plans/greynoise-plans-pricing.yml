@@ -1,0 +1,164 @@
+name: GreyNoise Intelligence Plans & Pricing
+description: >-
+  GreyNoise commercial pricing surface captured against the API Commons Plans
+  0.1 schema. Pricing is tier-based with optional intelligence add-on modules.
+  Specific list prices are not published; "Contact Sales" applies to all paid
+  tiers.
+specVersion: api-commons-plans/0.1
+provider: GreyNoise Intelligence
+url: https://www.greynoise.io/pricing
+created: '2026-05-30'
+modified: '2026-05-30'
+
+plans:
+
+  - id: free
+    name: Community (Free)
+    summary: >-
+      Free tier for individual researchers, students, and small teams. Limits
+      data freshness and historical depth; restricts API access to the
+      Community endpoint only.
+    pricing:
+      model: free
+      currency: USD
+      amount: 0
+    entitlements:
+      data_freshness: every-8-hours
+      historical_lookback_days: 10
+      alerts_max: 3
+      blocklists_max: 1
+      search_quota_per_week: 50
+      api_access:
+        - CommunityAPI
+      modules: []
+    support:
+      coverage: 8x5 ET
+      channels: [slack-community]
+    intended_users:
+      - Individual researchers
+      - Students
+      - Hobbyists
+
+  - id: standard
+    name: Standard
+    summary: >-
+      Entry-level paid tier with Enterprise + GNQL API access, unlimited search,
+      and ten alerts.
+    pricing:
+      model: subscription
+      basis: annual
+      currency: USD
+      amount: null
+      contact_sales_url: https://www.greynoise.io/contact
+    entitlements:
+      data_freshness: every-4-hours
+      historical_lookback_days: 10
+      alerts_max: 10
+      blocklists_max: 3
+      search_quota_per_week: unlimited
+      api_access:
+        - EnterpriseAPI
+        - GNQL
+      feeds: true
+      modules_choose_one: [Triage, Investigate, Hunt]
+      addon_modules_available: [C2Detection, BusinessServices, VulnerabilityPrioritization]
+    support:
+      coverage: 8x5 ET
+      sla_response: 1-business-day
+    intended_users:
+      - SMB SOC teams
+      - MSSPs starting with GreyNoise
+
+  - id: advanced
+    name: Advanced
+    summary: >-
+      Most-popular paid tier. Higher freshness, 30-day historical lookback,
+      and 8-hour SLA support.
+    pricing:
+      model: subscription
+      basis: annual
+      currency: USD
+      amount: null
+      contact_sales_url: https://www.greynoise.io/contact
+    entitlements:
+      data_freshness: every-2-hours
+      historical_lookback_days: 30
+      alerts_max: 25
+      blocklists_max: 10
+      search_quota_per_week: unlimited
+      api_access:
+        - EnterpriseAPI
+        - GNQL
+      feeds: true
+      modules_choose_one: [Triage, Investigate, Hunt]
+      addon_modules_available: [C2Detection, BusinessServices, VulnerabilityPrioritization]
+    support:
+      coverage: 8x5 ET
+      sla_response: 8-hours
+    intended_users:
+      - Mid-market and enterprise SOC teams
+      - Regional MSSPs
+
+  - id: elite
+    name: Elite
+    summary: >-
+      Premium tier with hourly freshness, 90-day lookback, unlimited alerts,
+      feeds and blocklists, and 4-hour SLA.
+    pricing:
+      model: subscription
+      basis: annual
+      currency: USD
+      amount: null
+      contact_sales_url: https://www.greynoise.io/contact
+    entitlements:
+      data_freshness: every-hour
+      historical_lookback_days: 90
+      alerts_max: unlimited
+      blocklists_max: unlimited
+      search_quota_per_week: unlimited
+      api_access:
+        - EnterpriseAPI
+        - GNQL
+      feeds: true
+      modules_choose_one: [Triage, Investigate, Hunt]
+      addon_modules_available: [C2Detection, BusinessServices, VulnerabilityPrioritization]
+    support:
+      coverage: 12x5 ET
+      sla_response: 4-hours
+    intended_users:
+      - Large enterprises
+      - Global MSSPs
+      - Critical-infrastructure operators
+
+modules:
+  description: >-
+    Intelligence modules attach to any paid tier. Each paid tier includes one
+    core module of the customer's choice; the others can be added on.
+
+  core:
+    - id: triage
+      name: Triage
+      description: Filter known internet noise out of alert pipelines.
+    - id: investigate
+      name: Investigate
+      description: Enrich and pivot on indicators during investigations.
+    - id: hunt
+      name: Hunt
+      description: Proactive hunting across GreyNoise telemetry and sensors.
+
+  addons:
+    - id: c2-detection
+      name: C2 Detection
+      description: Identify command-and-control infrastructure.
+    - id: business-services
+      name: Business Services (BSI / formerly RIOT)
+      description: Identify benign business-operated traffic.
+    - id: vuln-prioritization
+      name: Vulnerability Prioritization
+      description: Prioritize CVEs by observed in-the-wild exploitation.
+
+notes:
+  - All paid tiers include unlimited users.
+  - All paid tiers include access to every published integration (SIEM, SOAR, TIP, AI/ML).
+  - Specific dollar amounts are not published on the pricing page; contact GreyNoise sales for a quote.
+  - The Community API is rate-limited; the Enterprise API enforces per-key request and concurrency limits — see rate-limits/greynoise-rate-limits.yml.

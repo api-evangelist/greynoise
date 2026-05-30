@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-callback-overview-response-schema.json",
+  "title": "CallbackOverviewResponse",
+  "type": "object",
+  "description": "Aggregate statistics for callback IPs matching the given filters.",
+  "properties": {
+    "total_ips": {
+      "type": "integer",
+      "description": "Total number of callback IPs.",
+      "example": 142
+    },
+    "stage_1_ips": {
+      "type": "integer",
+      "description": "Number of stage 1 (initial payload delivery) IPs.",
+      "example": 98
+    },
+    "stage_2_ips": {
+      "type": "integer",
+      "description": "Number of stage 2 (post-exploitation callback) IPs.",
+      "example": 44
+    },
+    "total_files": {
+      "type": "integer",
+      "description": "Total number of associated malware files.",
+      "example": 230
+    },
+    "files_with_vt": {
+      "type": "integer",
+      "description": "Files that have been analyzed by VirusTotal.",
+      "example": 180
+    },
+    "files_without_vt": {
+      "type": "integer",
+      "description": "Files pending VirusTotal analysis.",
+      "example": 50
+    },
+    "total_cross_refs": {
+      "type": "integer",
+      "description": "Total IP-to-file associations.",
+      "example": 312
+    },
+    "total_scanner_links": {
+      "type": "integer",
+      "description": "Total scanner-to-callback-IP associations.",
+      "example": 456
+    },
+    "ips_with_files": {
+      "type": "integer",
+      "description": "Number of IPs that have associated files.",
+      "example": 110
+    },
+    "ips_without_files": {
+      "type": "integer",
+      "description": "Number of IPs with no associated files.",
+      "example": 32
+    },
+    "ips_with_scanners": {
+      "type": "integer",
+      "description": "Number of IPs with known scanner associations.",
+      "example": 130
+    },
+    "ips_without_scanners": {
+      "type": "integer",
+      "description": "Number of IPs with no known scanner associations.",
+      "example": 12
+    },
+    "distinct_scanners": {
+      "type": "integer",
+      "description": "Total number of unique scanner IPs.",
+      "example": 89
+    },
+    "top_threat_names": {
+      "type": "array",
+      "items": {
+        "$ref": "./greynoise-callback-threat-name-stat-schema.json#"
+      },
+      "description": "Top VirusTotal threat names by file count.",
+      "example": []
+    }
+  }
+}

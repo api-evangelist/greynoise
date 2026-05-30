@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-time-series-ja3-entry-structure.json",
+  "name": "TimeSeriesJA3Entry",
+  "type": "object",
+  "properties": {
+    "fingerprint": {
+      "type": "string",
+      "example": "c3a6cf0bf2e690ac8e1ecf6081f17a50",
+      "description": "JA3 hash fingerprint string"
+    },
+    "port": {
+      "type": "int32",
+      "example": 443,
+      "description": "TCP port connection that the SSL/TLS communication occurred over"
+    }
+  }
+}

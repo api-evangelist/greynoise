@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-session-connections-response-structure.json",
+  "name": "SessionConnectionsResponse",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "description": "Network nodes in the connection graph.",
+      "items": {
+        "$ref": "./greynoise-session-connection-node-structure.json#"
+      },
+      "example": []
+    },
+    "links": {
+      "type": "array",
+      "description": "Connections between nodes.",
+      "items": {
+        "$ref": "./greynoise-session-connection-link-structure.json#"
+      },
+      "example": []
+    },
+    "total": {
+      "type": "int32",
+      "description": "Total number of connections.",
+      "example": 250
+    },
+    "request_metadata": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "end_time": {
+          "type": "string",
+          "example": "string"
+        },
+        "query": {
+          "type": "string",
+          "example": "tags:Mirai"
+        },
+        "src_field": {
+          "type": "string",
+          "example": "string"
+        },
+        "dest_field": {
+          "type": "string",
+          "example": "string"
+        },
+        "max_nodes": {
+          "type": "int32",
+          "example": 1
+        },
+        "min_connections": {
+          "type": "int32",
+          "example": 1
+        }
+      }
+    }
+  }
+}

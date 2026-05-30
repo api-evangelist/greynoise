@@ -1,0 +1,11 @@
+{
+  "restricted_fields": [
+    "ip",
+    "cve",
+    "destination_cities"
+  ],
+  "message": "ok",
+  "ips_not_found": [
+    "string"
+  ]
+}

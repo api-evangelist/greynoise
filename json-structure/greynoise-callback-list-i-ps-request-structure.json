@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-callback-list-i-ps-request-structure.json",
+  "name": "CallbackListIPsRequest",
+  "allOf": [
+    {
+      "$ref": "./greynoise-callback-filter-fields-structure.json#"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "int32",
+          "minimum": 0,
+          "default": 0,
+          "description": "Zero-indexed page number.",
+          "example": 100
+        },
+        "page_size": {
+          "type": "int32",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20,
+          "description": "Number of results per page (1-100).",
+          "example": 100
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-time-series-response-schema.json",
+  "title": "TimeSeriesResponse",
+  "type": "object",
+  "description": "Response object for the timeseries endpoint. The response is a map\nwhere keys are time intervals and values are arrays of IP records\nobserved in that interval.\n\nTime interval keys are formatted as YYYY-MM-DD-HH (e.g., \"2025-01-15-14\")\n",
+  "additionalProperties": {
+    "description": "Time interval key (format: YYYY-MM-DD-HH)\n",
+    "type": "array",
+    "items": {
+      "$ref": "./greynoise-time-series-record-schema.json#"
+    }
+  },
+  "example": {
+    "2025-11-10-14": [
+      {
+        "ip": "203.0.113.45",
+        "internet_scanner_intelligence": {
+          "first_seen": "2018-01-28",
+          "last_seen": "2018-02-28",
+          "found": true,
+          "tags": [
+            "Mirai",
+            "Telnet Worm"
+          ],
+          "actor": "Shodan.io",
+          "spoofable": true,
+          "classification": "benign",
+          "cves": [
+            "CVE-2020-1234",
+            "CVE-2021-2345"
+          ],
+          "vpn": true,
+          "vpn_service": "IPVANISH_VPN",
+          "tor": false,
+          "last_seen_timestamp": "2025-01-15T12:30:45Z",
+          "metadata": {
+            "asn": "AS13335",
+            "source_country": "United States",
+            "source_country_code": "US",
+            "organization": "Example Hosting"
+          },
+          "raw_data": {
+            "scan": [
+              {
+                "port": 22,
+                "protocol": "tcp"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

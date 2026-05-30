@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-tags-metadata-structure.json",
+  "name": "TagsMetadata",
+  "type": "object",
+  "properties": {
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "ef0cc90d-d80c-436f-92c5-3d8f8665c9ac"
+          },
+          "label": {
+            "type": "string",
+            "example": "MIRAI"
+          },
+          "slug": {
+            "type": "string",
+            "example": "mirai"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mirai"
+          },
+          "category": {
+            "type": "string",
+            "example": "worm"
+          },
+          "intention": {
+            "type": "string",
+            "example": "malicious"
+          },
+          "description": {
+            "type": "string",
+            "example": "This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware."
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "https://en.wikipedia.org/wiki/Mirai_(malware)"
+            },
+            "example": [
+              "string"
+            ]
+          },
+          "recommend_block": {
+            "type": "boolean",
+            "example": false
+          },
+          "cves": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "CVE-2020-1234"
+            },
+            "example": [
+              "CVE-2021-44228"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-04-07"
+          },
+          "related_tags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "da78f2eb-fe6b-4e84-913c-cdab4ff067c2"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Oracle WebLogic RCE CVE-2020-14882"
+                },
+                "intention": {
+                  "type": "string",
+                  "example": "malicious"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "activity"
+                },
+                "slug": {
+                  "type": "string",
+                  "example": "oracle-weblogic-rce-cve-2020-14882"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

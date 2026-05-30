@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-gnql-stats-structure.json",
+  "name": "GNQLStats",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "The GNQL query string the requester queried",
+      "example": "last_seen:2019-07-28 classification:malicious"
+    },
+    "count": {
+      "type": "int32",
+      "description": "The number of total results for the given GNQL query",
+      "example": 50000
+    },
+    "adjusted_query": {
+      "type": "string",
+      "description": "If the original query was adjusted due to plan limitations (for\nexample, the requested data reach was reduced), this field\ncontains the query that was actually executed. Empty when the\noriginal query was run unchanged.\n",
+      "example": "last_seen:2019-07-28 classification:malicious last_seen:7d"
+    },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "classifications": {
+          "type": "array",
+          "description": "Most common classifications",
+          "items": {
+            "type": "object",
+            "properties": {
+              "classification": {
+                "type": "string",
+                "example": "malicious"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "spoofable": {
+          "type": "array",
+          "description": "Count of which are spoofable",
+          "items": {
+            "type": "object",
+            "properties": {
+              "spoofable": {
+                "type": "boolean",
+                "example": false
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "organizations": {
+          "type": "array",
+          "description": "Most common organizations",
+          "items": {
+            "type": "object",
+            "properties": {
+              "organization": {
+                "type": "string",
+                "example": "DigitalOcean, LLC"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "actors": {
+          "type": "array",
+          "description": "Most common actors",
+          "items": {
+            "type": "object",
+            "properties": {
+              "actor": {
+                "type": "string",
+                "example": "Shodan.io"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "countries": {
+          "type": "array",
+          "description": "Most common countries (Same data as\nmetadata.source_countries. source_countries is preferred)\n",
+          "items": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string",
+                "example": "United States"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "source_countries": {
+          "type": "array",
+          "description": "Most common source countries",
+          "items": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string",
+                "example": "United States"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "destination_countries": {
+          "type": "array",
+          "description": "Most common destination countries",
+          "items": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string",
+                "example": "United States"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Most common tags",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tag": {
+                "type": "string",
+                "example": "SSH Bruteforcer"
+              },
+              "id": {
+                "type": "uuid",
+                "description": "The unique identifier for the tag",
+                "example": "4c076d9c-be48-4bd1-bec4-6005e06c0f89"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "operating_systems": {
+          "type": "array",
+          "description": "Most common operating systems",
+          "items": {
+            "type": "object",
+            "properties": {
+              "operating_system": {
+                "type": "string",
+                "example": "Windows 7/8"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "categories": {
+          "type": "array",
+          "description": "Most common categories",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "example": "education"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        },
+        "asns": {
+          "type": "array",
+          "description": "Most common ASNs",
+          "items": {
+            "type": "object",
+            "properties": {
+              "asn": {
+                "type": "string",
+                "example": "AS4134"
+              },
+              "count": {
+                "type": "int32",
+                "example": 5000
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

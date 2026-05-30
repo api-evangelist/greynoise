@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-time-series-http-data-schema.json",
+  "title": "TimeSeriesHTTPData",
+  "type": "object",
+  "description": "HTTP-related data observed",
+  "properties": {
+    "md5": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MD5 hashes of the body content. These compact,\nunique representations of the data allow for quick\ncomparisons and deduplication of payloads without\nstoring the raw content.\n",
+      "example": [
+        "9764955b67107eeb9edfae76f429e783"
+      ]
+    },
+    "cookie_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The keys or names of cookies exchanged in the communication.\nThese can reveal session identifiers, tracking mechanisms,\nor other metadata used in web interactions,\nproviding clues about application behavior or vulnerabilities.\n",
+      "example": [
+        "expremotekey"
+      ]
+    },
+    "request_authorization": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The contents of the Authorization header in a request,\nwhich can include credentials, tokens, or other authentication\ninformation.\n",
+      "example": [
+        "Bearer exampletoken",
+        "Basic username:password"
+      ]
+    },
+    "request_cookies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key-value pairs stored in cookies sent with an HTTP request.\nThese cookies often contain session identifiers, user preferences,\nor tracking data, which can be analyzed to detect unauthorized\naccess or manipulation.\n",
+      "example": [
+        "session_id=1234567890"
+      ]
+    },
+    "request_header": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Request Headers are the keys (names) of HTTP headers\nthat a client sends to a server.\n",
+      "example": [
+        "Content-Type: application/json",
+        "Accept: application/json"
+      ]
+    },
+    "method": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The HTTP method used in the request, such as GET, POST, PUT, or DELETE.\nAnalyzing methods can reveal the intent of the request,\nsuch as retrieving or modifying resources,\nand identify unexpected or suspicious activity.\n",
+      "example": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ]
+    },
+    "path": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Observed scanning activity traversed this web path.",
+      "example": [
+        "/robots.txt"
+      ]
+    },
+    "request_origin": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Indicates the origin of the request,\ntypically used in cross-origin resource sharing (CORS)\nto specify where the request originated.\nThis helps identify unauthorized or potentially\nmalicious cross-origin requests.\n",
+      "example": [
+        "111.111.1.1"
+      ]
+    },
+    "useragent": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Observed scanning activity used these user agents.",
+      "example": [
+        "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\n"
+      ]
+    },
+    "ja4h": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of JA4H HTTP client fingerprints observed in network traffic from the IP.\nJA4H captures characteristics of HTTP client behavior including method,\nheaders, and cookie fields, useful for identifying and tracking HTTP clients.\n",
+      "example": [
+        "ge11cn060000_4e59edc1297a_4da5efaf0cbd"
+      ]
+    }
+  }
+}

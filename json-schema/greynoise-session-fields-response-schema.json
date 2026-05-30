@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/greynoise/json-schema/greynoise-session-fields-response-schema.json",
+  "title": "SessionFieldsResponse",
+  "type": "object",
+  "properties": {
+    "fields": {
+      "type": "array",
+      "description": "List of available session fields.",
+      "items": {
+        "$ref": "./greynoise-session-field-schema.json#"
+      },
+      "example": []
+    }
+  }
+}

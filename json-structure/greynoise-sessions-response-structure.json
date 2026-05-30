@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://api-evangelist.github.io/greynoise/json-structure/greynoise-sessions-response-structure.json",
+  "name": "SessionsResponse",
+  "type": "object",
+  "properties": {
+    "sessions": {
+      "type": "array",
+      "description": "Array of session objects matching the query.",
+      "items": {
+        "$ref": "./greynoise-session-structure.json#"
+      },
+      "example": []
+    },
+    "total": {
+      "type": "int32",
+      "description": "Total number of sessions matching the query.",
+      "example": 150
+    },
+    "pagination": {
+      "$ref": "./greynoise-session-pagination-structure.json#"
+    },
+    "request_metadata": {
+      "$ref": "./greynoise-session-request-metadata-structure.json#"
+    }
+  }
+}

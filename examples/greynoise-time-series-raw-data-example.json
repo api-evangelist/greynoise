@@ -1,0 +1,68 @@
+{
+  "scan": [],
+  "ja3": [],
+  "hassh": [],
+  "http": {
+    "md5": [
+      "9764955b67107eeb9edfae76f429e783"
+    ],
+    "cookie_keys": [
+      "expremotekey"
+    ],
+    "request_authorization": [
+      "Bearer exampletoken",
+      "Basic username:password"
+    ],
+    "request_cookies": [
+      "session_id=1234567890"
+    ],
+    "request_header": [
+      "Content-Type: application/json",
+      "Accept: application/json"
+    ],
+    "method": [
+      "GET",
+      "POST",
+      "PUT",
+      "DELETE"
+    ],
+    "path": [
+      "/robots.txt"
+    ],
+    "request_origin": [
+      "111.111.1.1"
+    ],
+    "useragent": [
+      "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\n"
+    ],
+    "ja4h": [
+      "ge11cn060000_4e59edc1297a_4da5efaf0cbd"
+    ]
+  },
+  "source": {
+    "bytes": 1024
+  },
+  "tls": {
+    "cipher": [
+      "TLS_AES_128_GCM_SHA256",
+      "TLS_AES_256_GCM_SHA384"
+    ],
+    "ja4": [
+      "t13d1516h2_8daaf6152771_02713d6af862"
+    ]
+  },
+  "ssh": {
+    "key": [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890"
+    ],
+    "ja4ssh": [
+      "c76s76_c71s59_c0s0"
+    ]
+  },
+  "tcp": {
+    "ja4t": [
+      "64240_2-1-3-1-1-4_1460_8"
+    ],
+    "ja4l": "1460_64"
+  }
+}

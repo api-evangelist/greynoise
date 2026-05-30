@@ -1,0 +1,8 @@
+{
+  "value": "source.ip",
+  "label": "Source IP",
+  "description": "The source IP address of the session.",
+  "type": "ip",
+  "group": "source",
+  "sortable": true
+}

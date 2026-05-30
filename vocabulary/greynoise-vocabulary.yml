@@ -1,0 +1,147 @@
+name: GreyNoise Vocabulary
+description: >-
+  Operational vocabulary and taxonomy for the GreyNoise Intelligence API and
+  platform. Captures the core noun set (IPs, sessions, tags, CVEs, callbacks),
+  classification system, and query-language facets used across the Community
+  and Enterprise APIs.
+url: https://api-evangelist.github.io/greynoise/vocabulary/greynoise-vocabulary.yml
+created: '2026-05-30'
+modified: '2026-05-30'
+provider: GreyNoise Intelligence
+domain: Cybersecurity / Threat Intelligence
+
+dimensions:
+
+  - name: Entity
+    description: Primary nouns observed and enriched by the GreyNoise platform.
+    terms:
+      - name: IP
+        description: An IPv4 address observed scanning or crawling the internet, or matched against the Business Services (RIOT) dataset.
+        aliases: [ipAddress, source, host]
+      - name: Session
+        description: A network connection captured by a GreyNoise sensor — a series of packets between a source IP and a sensor's destination service.
+      - name: Tag
+        description: A label applied to an IP describing observed behavior (e.g. "Mirai", "RDP Scanner", "Web Crawler") or affiliation (e.g. "Shodan", "Censys").
+      - name: CVE
+        description: A Common Vulnerabilities and Exposures identifier the IP has been observed attempting to exploit.
+      - name: CallbackIP
+        description: An IP observed in malware command-and-control or post-exploit callback chains.
+      - name: Sensor
+        description: A GreyNoise-operated honeypot deployed across the internet that captures unsolicited scan and attack traffic.
+      - name: BusinessService
+        description: A known business-operated network (formerly RIOT) — search engines, CDNs, public DNS, cloud platforms — whose activity is benign noise.
+
+  - name: Classification
+    description: How GreyNoise categorizes an observed IP.
+    terms:
+      - name: malicious
+        description: The IP has been observed performing malicious activity (exploitation, abuse, attacks).
+      - name: benign
+        description: The IP belongs to a known legitimate service (search engines, security scanners, CDNs).
+      - name: unknown
+        description: The IP has been observed scanning but classification is undetermined.
+      - name: suspicious
+        description: The IP exhibits suspicious behavior that does not yet meet the malicious threshold.
+
+  - name: TrustLevel
+    description: Trust tier assigned to Business Services (RIOT) entries.
+    terms:
+      - {name: trust_level_1, description: Highest trust — verified by GreyNoise.}
+      - {name: trust_level_2, description: Reasonable trust — likely benign.}
+
+  - name: Module
+    description: Optional intelligence modules a customer can subscribe to.
+    terms:
+      - {name: Triage,             description: Filter false positives out of alert pipelines.}
+      - {name: Investigate,        description: Enrich and pivot on indicators during investigations.}
+      - {name: Hunt,               description: Proactive hunting across GreyNoise telemetry.}
+      - {name: BusinessServices,   description: RIOT dataset — identify benign business traffic.}
+      - {name: C2Detection,        description: Identify command-and-control infrastructure.}
+      - {name: VulnerabilityPrioritization, description: Prioritize CVEs by observed in-the-wild exploitation.}
+
+  - name: APIService
+    description: Distinct API surfaces exposed by GreyNoise.
+    terms:
+      - name: CommunityAPI
+        description: "Free, IP-only lookups against the public dataset. /v3/community/{ip}."
+      - name: IPLookup
+        description: "Full IP context for a single or multi IP. /v3/ip/{ip}, /v3/ip."
+      - name: GNQL
+        description: "GreyNoise Query Language — Lucene-style queries over the dataset."
+      - name: Recall
+        description: "Time-series GNQL queries with hourly or daily granularity."
+      - name: Sessions
+        description: "Per-session packet and connection telemetry plus PCAP export."
+      - name: Tags
+        description: "Taxonomy of behavior tags."
+      - name: CVE
+        description: "Per-CVE exploitation telemetry."
+      - name: Callback
+        description: "Post-exploit callback IP telemetry."
+      - name: IPTimeline
+        description: "Historical activity timeline per IP and per field."
+      - name: Utility
+        description: "Service-health endpoints (ping)."
+
+  - name: GNQLFacet
+    description: First-class fields available to GNQL queries.
+    terms:
+      - {name: ip,                                description: Scanning device IP.}
+      - {name: classification,                    description: malicious | benign | unknown | suspicious.}
+      - {name: first_seen,                        description: Date first observed.}
+      - {name: last_seen,                         description: Date most recently observed.}
+      - {name: actor,                             description: Benign actor name (Shodan, Censys, GoogleBot…).}
+      - {name: tags,                              description: Behavior/affiliation tags assigned in the last 90 days.}
+      - {name: spoofable,                         description: Activity may be spoofed (no full TCP handshake).}
+      - {name: vpn,                               description: IP is associated with a VPN service.}
+      - {name: vpn_service,                       description: Named VPN service.}
+      - {name: tor,                               description: Known Tor exit node.}
+      - {name: cve,                               description: CVEs associated with the IP.}
+      - {name: single_destination,                description: IP observed in only one destination country.}
+      - {name: metadata.category,                 description: business | isp | hosting | education | mobile.}
+      - {name: metadata.carrier,                  description: ISP / telco for the source IP.}
+      - {name: metadata.country,                  description: Country name.}
+      - {name: metadata.country_code,             description: ISO-3166 alpha-2 country code.}
+      - {name: metadata.datacenter,               description: Hosting/datacenter provider.}
+      - {name: metadata.domain,                   description: Domain associated with the IP.}
+      - {name: metadata.sensor_hits,              description: Unique data points recorded by sensors.}
+      - {name: metadata.sensor_count,             description: Number of sensors that observed the IP.}
+      - {name: metadata.city,                     description: City.}
+      - {name: metadata.region,                   description: Region.}
+      - {name: metadata.organization,             description: Owning organization.}
+      - {name: metadata.rdns,                     description: Reverse DNS pointer.}
+      - {name: metadata.asn,                      description: Autonomous System Number.}
+      - {name: raw_data.scan.port,                description: Target port observed on a sensor.}
+      - {name: raw_data.scan.protocol,            description: Target protocol observed.}
+      - {name: raw_data.web.paths,                description: HTTP paths crawled.}
+      - {name: raw_data.web.useragents,           description: HTTP user-agents seen.}
+      - {name: raw_data.ja3.fingerprint,          description: JA3 TLS/SSL client fingerprint.}
+      - {name: raw_data.tls.ja4,                  description: JA4 TLS fingerprint.}
+      - {name: raw_data.http.ja4h,                description: JA4H HTTP fingerprint.}
+      - {name: raw_data.ssh.ja4ssh,               description: JA4SSH fingerprint.}
+      - {name: raw_data.tcp.ja4t,                 description: JA4T TCP fingerprint.}
+      - {name: raw_data.tcp.ja4l,                 description: JA4L latency/distance fingerprint.}
+      - {name: raw_data.hassh.fingerprint,        description: HASSH SSH client fingerprint.}
+
+  - name: AuthScheme
+    description: How callers authenticate to the API.
+    terms:
+      - {name: APIKeyHeaderAuth, description: API key passed in the "key" HTTP header.}
+
+  - name: SDK
+    description: Officially supported SDKs and CLIs.
+    terms:
+      - {name: pygreynoise,   description: Python3 client library + CLI.}
+      - {name: GreyNoisePS,   description: PowerShell module.}
+      - {name: terraform-provider-greynoise, description: Terraform provider for blocklist + alert management.}
+      - {name: greynoise-mcp-server,        description: Model Context Protocol server exposing the Enterprise API to AI agents.}
+
+  - name: IntegrationCategory
+    description: Categories of downstream tools GreyNoise integrates with.
+    terms:
+      - {name: SIEM,         description: Splunk, Azure Sentinel, Google SecOps (Chronicle), CrowdStrike NG-SIEM, Cribl.}
+      - {name: SOAR,         description: Splunk SOAR (Phantom), Cortex XSOAR (Demisto), FortiSOAR, Swimlane, Tines, Google SecOps SOAR.}
+      - {name: TIP,          description: Anomali, MISP, Recorded Future, ThreatQ, OpenCTI.}
+      - {name: AnalystTools, description: Maltego, Polarity.}
+      - {name: AI,           description: Microsoft Copilot for Security, GreyNoise MCP server.}
+      - {name: Firewalls,    description: Palo Alto Networks EDL, fail2ban.}
