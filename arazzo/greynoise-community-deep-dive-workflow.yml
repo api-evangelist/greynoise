@@ -1,0 +1,96 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise Community Deep Dive
+  summary: Check an IP against the free Community API, then escalate to full context.
+  description: >-
+    Starts with the free Community API, which reports whether an IP is internet
+    noise, part of the RIOT benign-service dataset, and its classification. When
+    the IP is flagged as noise or RIOT the workflow escalates to the full IP
+    Lookup for the complete internet scanner and business service intelligence
+    context; otherwise it stops early. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: community-deep-dive
+  summary: Community-check an IP and escalate noisy or RIOT IPs to full context.
+  description: >-
+    Queries the Community API for a quick noise/RIOT signal and, when present,
+    pulls the full IP context for deeper investigation.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ip
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      ip:
+        type: string
+        description: The routable IPv4 address to look up (e.g. 1.2.3.4).
+  steps:
+  - stepId: communityCheck
+    description: >-
+      Query the Community API for a subset of IP context, returning whether the
+      IP is noise, whether it is in the RIOT dataset, and its classification.
+    operationId: getCommunityIP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      noise: $response.body#/noise
+      riot: $response.body#/riot
+      classification: $response.body#/classification
+      name: $response.body#/name
+    onSuccess:
+    - name: escalate
+      type: goto
+      stepId: fullContext
+      criteria:
+      - context: $response.body
+        condition: $.noise == true || $.riot == true
+        type: jsonpath
+    - name: nothingToSee
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.noise == false && $.riot == false
+        type: jsonpath
+  - stepId: fullContext
+    description: >-
+      Retrieve the full IP context including metadata, associated actor,
+      activity tags, and business service intelligence.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      classification: $response.body#/internet_scanner_intelligence/classification
+      actor: $response.body#/internet_scanner_intelligence/actor
+      bsiCategory: $response.body#/business_service_intelligence/category
+  outputs:
+    noise: $steps.communityCheck.outputs.noise
+    riot: $steps.communityCheck.outputs.riot
+    classification: $steps.communityCheck.outputs.classification
+    actor: $steps.fullContext.outputs.actor

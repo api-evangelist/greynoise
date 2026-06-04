@@ -1,0 +1,128 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise Tag Hunt To Context
+  summary: Resolve an activity tag, hunt IPs carrying it, then context the top hit.
+  description: >-
+    Turns a human-friendly tag name into a concrete investigation. The workflow
+    first lists matching tags to resolve a canonical tag slug, branches on
+    whether any tag matched, then runs a GNQL query for IPs carrying that tag
+    and finally retrieves the full IP context for the first matching IP. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: tag-hunt-to-context
+  summary: Resolve a tag slug, GNQL-hunt it, then context the first matching IP.
+  description: >-
+    Lists tags by name to resolve a slug, queries GNQL for IPs tagged with it,
+    and pulls the full IP context for the first matching IP.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - tagName
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      tagName:
+        type: string
+        description: The tag name to resolve (partial match, e.g. Mirai).
+      size:
+        type: integer
+        description: Number of results per page in the GNQL hunt step.
+        default: 10
+  steps:
+  - stepId: resolveTag
+    description: >-
+      List tags filtered by name to resolve the canonical tag slug and metadata.
+    operationId: listTags
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: name
+      in: query
+      value: $inputs.tagName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      slug: $response.body#/tags/0/slug
+      tagId: $response.body#/tags/0/id
+    onSuccess:
+    - name: tagFound
+      type: goto
+      stepId: huntTag
+      criteria:
+      - context: $response.body
+        condition: $.tags.length > 0
+        type: jsonpath
+    - name: noTag
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.tags.length == 0
+        type: jsonpath
+  - stepId: huntTag
+    description: >-
+      Run a GNQL query for IP addresses carrying the resolved tag slug.
+    operationId: gnqlV3Query
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: query
+      in: query
+      value: "tags:$steps.resolveTag.outputs.slug"
+    - name: size
+      in: query
+      value: $inputs.size
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      count: $response.body#/request_metadata/count
+      firstIp: $response.body#/data/0/ip
+    onSuccess:
+    - name: haveHits
+      type: goto
+      stepId: contextFirst
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noHits
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: contextFirst
+    description: >-
+      Retrieve the full IP context for the first IP carrying the tag, including
+      metadata, classification, associated actor, and raw scan data.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $steps.huntTag.outputs.firstIp
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      classification: $response.body#/internet_scanner_intelligence/classification
+      actor: $response.body#/internet_scanner_intelligence/actor
+  outputs:
+    slug: $steps.resolveTag.outputs.slug
+    count: $steps.huntTag.outputs.count
+    firstIp: $steps.huntTag.outputs.firstIp
+    classification: $steps.contextFirst.outputs.classification

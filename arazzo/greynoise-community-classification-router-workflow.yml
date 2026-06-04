@@ -1,0 +1,117 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise Community Classification Router
+  summary: Community-check an IP and route malicious vs benign to different lookups.
+  description: >-
+    Routes an IP down different investigation paths based on its community
+    classification. The free Community API first returns the IP's
+    classification, then the workflow branches: malicious IPs are sent to the
+    full IP context for deep enrichment, while benign IPs are sent to the RIOT
+    business service intelligence view via a quick context lookup. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: community-classification-router
+  summary: Community classify an IP then route malicious and benign separately.
+  description: >-
+    Uses the Community API classification to branch malicious IPs into a full
+    context lookup and benign IPs into a quick context lookup.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ip
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      ip:
+        type: string
+        description: The routable IPv4 address to classify and route.
+  steps:
+  - stepId: communityCheck
+    description: >-
+      Query the Community API for the IP's classification to decide which
+      enrichment path to take.
+    operationId: getCommunityIP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      classification: $response.body#/classification
+      noise: $response.body#/noise
+      riot: $response.body#/riot
+    onSuccess:
+    - name: maliciousPath
+      type: goto
+      stepId: deepContext
+      criteria:
+      - context: $response.body
+        condition: $.classification == "malicious"
+        type: jsonpath
+    - name: benignPath
+      type: goto
+      stepId: quickContext
+      criteria:
+      - context: $response.body
+        condition: $.classification != "malicious"
+        type: jsonpath
+  - stepId: deepContext
+    description: >-
+      Retrieve the full IP context for a malicious IP, including metadata,
+      associated actor, activity tags, and raw scan data.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      classification: $response.body#/internet_scanner_intelligence/classification
+      actor: $response.body#/internet_scanner_intelligence/actor
+    onSuccess:
+    - name: done
+      type: end
+  - stepId: quickContext
+    description: >-
+      Retrieve a quick IP context for a benign or unknown IP, surfacing its
+      business service intelligence trust level without the full payload.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      bsiTrustLevel: $response.body#/business_service_intelligence/trust_level
+  outputs:
+    classification: $steps.communityCheck.outputs.classification
+    maliciousActor: $steps.deepContext.outputs.actor
+    benignTrustLevel: $steps.quickContext.outputs.bsiTrustLevel

@@ -1,0 +1,137 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise GNQL Stats Then Sample
+  summary: Aggregate a GNQL query, confirm volume, then sample and context an IP.
+  description: >-
+    Profiles the scope of a GNQL query before drilling in. The workflow first
+    pulls aggregate statistics (top organizations, actors, tags, ASNs,
+    countries, classifications) for the query, branches on whether the matched
+    count is non-zero, then runs the same query to retrieve a sample page of
+    results and finally fetches the full IP context for the first sampled IP.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: gnql-stats-then-sample
+  summary: GNQL stats, then sample results and deep-context the first IP.
+  description: >-
+    Retrieves aggregate stats for a GNQL query, and when the query matches
+    records it samples the results and pulls the full IP context for the first
+    sampled IP.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - query
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      query:
+        type: string
+        description: The GNQL query string to aggregate and sample.
+      count:
+        type: integer
+        description: Number of top aggregates to grab in the stats step.
+        default: 10
+      size:
+        type: integer
+        description: Number of results per page in the sample step.
+        default: 10
+  steps:
+  - stepId: aggregate
+    description: >-
+      Get aggregate statistics for the GNQL query including the total matched
+      count and the top classifications, tags, actors, and organizations.
+    operationId: gnqlV3Stats
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: count
+      in: query
+      value: $inputs.count
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      total: $response.body#/count
+      classifications: $response.body#/stats/classifications
+      tags: $response.body#/stats/tags
+    onSuccess:
+    - name: hasMatches
+      type: goto
+      stepId: sample
+      criteria:
+      - context: $response.body
+        condition: $.count > 0
+        type: jsonpath
+    - name: empty
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.count == 0
+        type: jsonpath
+  - stepId: sample
+    description: >-
+      Run the same GNQL query to retrieve a sample page of matching IP records.
+    operationId: gnqlV3Query
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: size
+      in: query
+      value: $inputs.size
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstIp: $response.body#/data/0/ip
+    onSuccess:
+    - name: haveSample
+      type: goto
+      stepId: contextFirst
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noSample
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: contextFirst
+    description: >-
+      Retrieve the full IP context for the first sampled IP, including metadata,
+      associated actor, activity tags, and raw scan data.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $steps.sample.outputs.firstIp
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      classification: $response.body#/internet_scanner_intelligence/classification
+      actor: $response.body#/internet_scanner_intelligence/actor
+  outputs:
+    total: $steps.aggregate.outputs.total
+    firstIp: $steps.sample.outputs.firstIp
+    classification: $steps.contextFirst.outputs.classification

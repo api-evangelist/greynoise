@@ -80,6 +80,39 @@ apis:
         url: capabilities/greynoise-utility.yaml
 
 common:
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+    - url: arazzo/greynoise-bulk-ip-triage-workflow.yml
+      name: GreyNoise Bulk IP Triage
+      summary: Quick-lookup a batch of IPs, then deep-context the first flagged one.
+    - url: arazzo/greynoise-community-classification-router-workflow.yml
+      name: GreyNoise Community Classification Router
+      summary: Community-check an IP and route malicious vs benign to different lookups.
+    - url: arazzo/greynoise-community-deep-dive-workflow.yml
+      name: GreyNoise Community Deep Dive
+      summary: Check an IP against the free Community API, then escalate to full context.
+    - url: arazzo/greynoise-community-to-timeline-workflow.yml
+      name: GreyNoise Community To Timeline
+      summary: Community-check an IP, escalate noisy ones to context, then chart activity.
+    - url: arazzo/greynoise-cve-exposure-scan-workflow.yml
+      name: GreyNoise CVE Exposure Scan
+      summary: Look up a CVE, then aggregate and sample the IPs exploiting it.
+    - url: arazzo/greynoise-gnql-investigate-top-result-workflow.yml
+      name: GreyNoise GNQL Investigate Top Result
+      summary: Run a GNQL query, then pull full context for the first matching IP.
+    - url: arazzo/greynoise-gnql-stats-then-sample-workflow.yml
+      name: GreyNoise GNQL Stats Then Sample
+      summary: Aggregate a GNQL query, confirm volume, then sample and context an IP.
+    - url: arazzo/greynoise-ip-context-timeline-workflow.yml
+      name: GreyNoise IP Context Timeline
+      summary: Pull an IP's full context, then chart its activity timeline if observed.
+    - url: arazzo/greynoise-ip-quick-triage-workflow.yml
+      name: GreyNoise IP Quick Triage
+      summary: Quickly classify an IP, then pull full context only when it is worth it.
+    - url: arazzo/greynoise-tag-hunt-to-context-workflow.yml
+      name: GreyNoise Tag Hunt To Context
+      summary: Resolve an activity tag, hunt IPs carrying it, then context the top hit.
 
   # ── Portal & web ─────────────────────────────────────────────────
   - type: Website

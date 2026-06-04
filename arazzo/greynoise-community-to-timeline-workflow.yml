@@ -1,0 +1,134 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise Community To Timeline
+  summary: Community-check an IP, escalate noisy ones to context, then chart activity.
+  description: >-
+    A three-stage escalation that starts cheap and ends detailed. The free
+    Community API first reports whether an IP is internet noise; only noisy IPs
+    proceed to the full IP context, which confirms the IP was actually observed
+    before the workflow charts its noise activity timeline. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: community-to-timeline
+  summary: Community check then context then timeline for noisy IPs.
+  description: >-
+    Uses the Community API to detect noise, escalates noisy IPs to the full
+    context, and when the IP has been seen retrieves its activity timeline.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ip
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      ip:
+        type: string
+        description: The routable IPv4 address to investigate.
+      field:
+        type: string
+        description: The field to break activity down by in the timeline.
+        default: classification
+      days:
+        type: string
+        description: Number of days of timeline data to show.
+        default: '7'
+  steps:
+  - stepId: communityCheck
+    description: >-
+      Query the Community API to determine whether the IP is internet noise.
+    operationId: getCommunityIP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      noise: $response.body#/noise
+      classification: $response.body#/classification
+    onSuccess:
+    - name: isNoise
+      type: goto
+      stepId: fullContext
+      criteria:
+      - context: $response.body
+        condition: $.noise == true
+        type: jsonpath
+    - name: notNoise
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.noise == false
+        type: jsonpath
+  - stepId: fullContext
+    description: >-
+      Retrieve the full IP context and confirm the IP was observed by the
+      sensor network before pulling its timeline.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      seen: $response.body#/internet_scanner_intelligence/seen
+      actor: $response.body#/internet_scanner_intelligence/actor
+    onSuccess:
+    - name: observed
+      type: goto
+      stepId: timeline
+      criteria:
+      - context: $response.body
+        condition: $.internet_scanner_intelligence.seen == true
+        type: jsonpath
+    - name: notObserved
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.internet_scanner_intelligence.seen == false
+        type: jsonpath
+  - stepId: timeline
+    description: >-
+      Retrieve the IP's noise activity timeline summary for the chosen field
+      over the requested window of days.
+    operationId: getIPTimelineFieldSummary
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: field
+      in: query
+      value: $inputs.field
+    - name: days
+      in: query
+      value: $inputs.days
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body#/results
+      firstSeen: $response.body#/metadata/first_seen
+  outputs:
+    noise: $steps.communityCheck.outputs.noise
+    actor: $steps.fullContext.outputs.actor
+    timeline: $steps.timeline.outputs.results

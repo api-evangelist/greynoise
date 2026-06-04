@@ -1,0 +1,97 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise Bulk IP Triage
+  summary: Quick-lookup a batch of IPs, then deep-context the first flagged one.
+  description: >-
+    Triages many IPs at once and drills into the first that matters. The
+    workflow first runs a quick multi-IP lookup over a submitted set of
+    addresses, branches on whether the first returned record is non-benign, and
+    when so pulls the full IP context for that first address. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: bulk-ip-triage
+  summary: Quick multi-IP lookup then deep-context the first flagged IP.
+  description: >-
+    Submits a batch of IPs for a quick multi lookup and, when the first record
+    is malicious or unknown, retrieves the full IP context for that address.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ips
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      ips:
+        type: array
+        description: The set of IPv4 addresses to look up (up to 10,000).
+        items:
+          type: string
+  steps:
+  - stepId: bulkLookup
+    description: >-
+      Run a quick multi-IP lookup over the submitted set of addresses, returning
+      only the classification or trust level per IP for a fast response.
+    operationId: V3MultiIP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: quick
+      in: query
+      value: true
+    requestBody:
+      contentType: application/json
+      payload:
+        ips: $inputs.ips
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstIp: $response.body#/data/0/ip
+      firstClassification: $response.body#/data/0/internet_scanner_intelligence/classification
+    onSuccess:
+    - name: firstFlagged
+      type: goto
+      stepId: contextFlagged
+      criteria:
+      - context: $response.body
+        condition: $.data[0].internet_scanner_intelligence.classification != "benign"
+        type: jsonpath
+    - name: firstBenign
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data[0].internet_scanner_intelligence.classification == "benign"
+        type: jsonpath
+  - stepId: contextFlagged
+    description: >-
+      Retrieve the full IP context for the first flagged IP, including metadata,
+      associated actor, activity tags, and raw scan data.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $steps.bulkLookup.outputs.firstIp
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      classification: $response.body#/internet_scanner_intelligence/classification
+      actor: $response.body#/internet_scanner_intelligence/actor
+  outputs:
+    firstIp: $steps.bulkLookup.outputs.firstIp
+    firstClassification: $steps.bulkLookup.outputs.firstClassification
+    actor: $steps.contextFlagged.outputs.actor

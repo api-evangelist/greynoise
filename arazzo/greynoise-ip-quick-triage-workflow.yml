@@ -1,0 +1,96 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise IP Quick Triage
+  summary: Quickly classify an IP, then pull full context only when it is worth it.
+  description: >-
+    A fast two-stage triage for a single IP address. The workflow first runs a
+    quick IP lookup that returns only the classification and trust level for a
+    minimal-latency response, then branches on that classification: when the IP
+    is malicious or unknown it pulls the full IP context (metadata, actor, tags,
+    and raw scan data), and when the IP is benign it stops early to conserve
+    quota. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: ip-quick-triage
+  summary: Quick-classify an IP then conditionally fetch full context.
+  description: >-
+    Runs a quick IP lookup to obtain the classification, and only when the IP is
+    flagged as malicious or unknown does it retrieve the full internet scanner
+    and business service intelligence context.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ip
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      ip:
+        type: string
+        description: The IPv4 address to triage (e.g. 8.8.8.8).
+  steps:
+  - stepId: quickCheck
+    description: >-
+      Run a quick IP lookup that returns only the IP address and its
+      classification or trust level for the fastest possible response.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      classification: $response.body#/internet_scanner_intelligence/classification
+    onSuccess:
+    - name: needsContext
+      type: goto
+      stepId: fullContext
+      criteria:
+      - context: $response.body
+        condition: $.internet_scanner_intelligence.classification != "benign"
+        type: jsonpath
+    - name: benignDone
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.internet_scanner_intelligence.classification == "benign"
+        type: jsonpath
+  - stepId: fullContext
+    description: >-
+      Retrieve the full IP context including metadata, associated actor,
+      activity tags, and raw port scan and web request information.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ip: $response.body#/ip
+      classification: $response.body#/internet_scanner_intelligence/classification
+      actor: $response.body#/internet_scanner_intelligence/actor
+      seen: $response.body#/internet_scanner_intelligence/seen
+  outputs:
+    classification: $steps.quickCheck.outputs.classification
+    actor: $steps.fullContext.outputs.actor
+    seen: $steps.fullContext.outputs.seen

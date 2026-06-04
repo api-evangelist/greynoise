@@ -1,0 +1,112 @@
+arazzo: 1.0.1
+info:
+  title: GreyNoise IP Context Timeline
+  summary: Pull an IP's full context, then chart its activity timeline if observed.
+  description: >-
+    Builds a temporal picture of a single IP. The workflow first retrieves the
+    full IP context and branches on whether GreyNoise has actually observed the
+    IP; when it has been seen, it pulls the noise activity timeline for a chosen
+    field (such as classification or destination_port) over a window of days.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: greynoiseApi
+  url: ../openapi/greynoise-openapi.yml
+  type: openapi
+workflows:
+- workflowId: ip-context-timeline
+  summary: Context an IP, then chart its activity timeline when it has been seen.
+  description: >-
+    Fetches the full IP context and, when the IP has been observed by the sensor
+    network, retrieves its noise activity timeline summary for a given field.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ip
+    properties:
+      apiKey:
+        type: string
+        description: GreyNoise API key passed via the 'key' HTTP header.
+      ip:
+        type: string
+        description: The IPv4 address to investigate (e.g. 36.32.2.102).
+      field:
+        type: string
+        description: The field to break activity down by in the timeline.
+        default: classification
+      days:
+        type: string
+        description: Number of days of timeline data to show.
+        default: '7'
+      granularity:
+        type: string
+        description: Granularity of activity date ranges (e.g. 8h or 1d).
+        default: 1d
+  steps:
+  - stepId: fullContext
+    description: >-
+      Retrieve the full IP context and determine whether the IP has been
+      observed by the GreyNoise sensor network.
+    operationId: V3IP
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: quick
+      in: query
+      value: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      seen: $response.body#/internet_scanner_intelligence/seen
+      classification: $response.body#/internet_scanner_intelligence/classification
+    onSuccess:
+    - name: observed
+      type: goto
+      stepId: timeline
+      criteria:
+      - context: $response.body
+        condition: $.internet_scanner_intelligence.seen == true
+        type: jsonpath
+    - name: neverSeen
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.internet_scanner_intelligence.seen == false
+        type: jsonpath
+  - stepId: timeline
+    description: >-
+      Retrieve the IP's summary of noise activity for the chosen field over the
+      requested window of days at the requested granularity.
+    operationId: getIPTimelineFieldSummary
+    parameters:
+    - name: key
+      in: header
+      value: $inputs.apiKey
+    - name: ip
+      in: path
+      value: $inputs.ip
+    - name: field
+      in: query
+      value: $inputs.field
+    - name: days
+      in: query
+      value: $inputs.days
+    - name: granularity
+      in: query
+      value: $inputs.granularity
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body#/results
+      firstSeen: $response.body#/metadata/first_seen
+  outputs:
+    seen: $steps.fullContext.outputs.seen
+    classification: $steps.fullContext.outputs.classification
+    timeline: $steps.timeline.outputs.results
+    firstSeen: $steps.timeline.outputs.firstSeen
