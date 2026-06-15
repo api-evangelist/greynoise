@@ -1,0 +1,995 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Utility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ping",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/ping"
+          },
+          "docs": "Provides a simple endpoint to check GreyNoise status and GreyNoise\nAPI access\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Callback",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Callback IPs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v1/callback/export-ips",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export callback IPs matching the given filters as a newline-delimited\nplain text list. Supports the same filter parameters as the List\nCallback IPs endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "Callback IP Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v1/callback/ip/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "path",
+                "description": "The callback IP address to look up."
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information about a specific callback IP, including\nattack stage, scanner associations, and downloaded malware files.\n"
+        },
+        {
+          "info": {
+            "name": "List Callback IPs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v1/callback/ips",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve a paginated list of callback IPs with filtering by attack\nstage, date ranges, file attributes, and scanner associations.\n"
+        },
+        {
+          "info": {
+            "name": "Callback Overview Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v1/callback/overview",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve aggregate statistics for callback IPs including counts by\nattack stage, file analysis status, scanner associations, and top\nthreat names.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CVE",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve CVE Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v1/cve/:cve_id",
+            "params": [
+              {
+                "name": "cve_id",
+                "value": "",
+                "type": "path",
+                "description": "The CVE ID to query (e.g., CVE-2024-12345)"
+              }
+            ]
+          },
+          "docs": "Retrieve details about a specific Common Vulnerabilities and Exposures (CVE)."
+        },
+        {
+          "info": {
+            "name": "Bulk CVE Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v3/cves",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve information about multiple CVEs in a single request. Supports up to 10,000 CVEs per request.\n\nThis endpoint requires a business email address and appropriate entitlements.\nResponse type depends on user entitlements (minimal, basic, or advanced).\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Community",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Community API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/community/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "8.8.8.8",
+                "type": "path",
+                "description": "IP address to query"
+              }
+            ]
+          },
+          "docs": "The Community API provides community users with a free tool to\nquery IPs in the GreyNoise dataset and retrieve a subset of the full\nIP context data returned by the IP Lookup API.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "GNQL",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GNQL V3 Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "The number of results provided per page for paginating through all results of a query"
+              },
+              {
+                "name": "scroll",
+                "value": "",
+                "type": "query",
+                "description": "Scroll token to paginate through results. Incompatible with `format=csv`."
+              },
+              {
+                "name": "quick",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will only include the IP address and the classification or trust level."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the desired format of the results. Must be either csv or json."
+              },
+              {
+                "name": "exclude",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to exclude from the response.\nRecognized top-level response fields (e.g. `tags`, `cves`, `vpn`, `tor`, `raw_data`, `metadata`),\n`metadata.<subfield>` paths (e.g. `metadata.organization`, `metadata.source_country`,\n`metadata.destination_countries`), and `raw_data.<subfield>` paths (e.g. `raw_data.ja3`,\n`raw_data.http.useragent`) are accepted. The special value `tags.details` preserves tag\nidentity (id, slug) and strips only the enriched details. Unknown field names return 400.\n"
+              }
+            ]
+          },
+          "docs": "GreyNoise Query Language\nGNQL (GreyNoise Query Language) is a domain-specific query language\nthat uses Lucene deep under the hood. GNQL aims to enable GreyNoise\nEnterprise and Research users to make complex and one-off queries\nagainst the GreyNoise dataset as new business cases arise. GNQL is\nbuilt with self-defeat and fully featured product lines in mind. If\nwe do our job correctly, each individual GNQL query that brings our\nusers and customers sufficient value will eventually be transitioned\ni"
+        },
+        {
+          "info": {
+            "name": "GNQL V3 Metadata Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql/metadata",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "The number of results provided per page for paginating through all results of a query"
+              },
+              {
+                "name": "scroll",
+                "value": "",
+                "type": "query",
+                "description": "Scroll token to paginate through results"
+              },
+              {
+                "name": "quick",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will only include the IP address and the classification or trust level."
+              },
+              {
+                "name": "exclude",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of additional fields to exclude from the response.\n`raw_data` is always excluded by this endpoint; specifying it is redundant.\nRecognized top-level response fields (e.g. `tags`, `cves`, `vpn`, `tor`, `metadata`)\nand `metadata.<subfield>` paths (e.g. `metadata.organization`, `metadata.source_country`,\n`metadata.destination_countries`) are accepted. The special value `tags.details`\npreserves tag identity (id, slug) and strips only the enriched details. Unknown\nfield names return 400.\n"
+              }
+            ]
+          },
+          "docs": "GreyNoise Query Language Metadata Endpoint\nThis endpoint provides the same functionality as the main GNQL endpoint\nbut with additional field filtering capabilities. It automatically excludes\nraw data from responses and allows you to specify additional fields to exclude.\n\nThe metadata endpoint is designed for use cases where you need to retrieve\nIP intelligence data without the raw scan data, making it more efficient\nfor metadata-focused queries.\n\n_License: The `business_service_intelligence` res"
+        },
+        {
+          "info": {
+            "name": "GNQL V3 Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql/stats",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of top aggregates to grab"
+              }
+            ]
+          },
+          "docs": "Get aggregate statistics for the top organizations, actors, tags,\nASNs, countries, classifications, and operating systems of all the\nresults of a given GNQL query.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Recall",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GNQL V3 Recall",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql/timeseries",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "start",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start date for the desired time range"
+              },
+              {
+                "name": "end",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End date for the desired time range"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the desired format of the results. Must be either csv or json."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the number of records desired from the backend query. For example, if you specify a limit of 100, you will get the first 100 records for your query, divided up by hour."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the offset at which to apply the limit. With limit, can be used to paginate through a large response. For example, if you specify a limit of 100 and and an offset of 200, you will get the next 100 records starting at the 200th record."
+              }
+            ]
+          },
+          "docs": "Get hourly GNQL records for a given time range.\n"
+        },
+        {
+          "info": {
+            "name": "GNQL V3 Recall Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql/timeseries/stats",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "start",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start date for the desired time range"
+              },
+              {
+                "name": "end",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End date for the desired time range"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the desired format of the results. Must be either csv or json."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the time interval over which to aggregate unique IPs that return the given GNQL query."
+              }
+            ]
+          },
+          "docs": "Get the number of unique IPs that match a GNQL query\nper hour/day over a given time range.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "IP Lookup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IP Lookup - Multi",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v3/ip",
+            "params": [
+              {
+                "name": "quick",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will only include the IP address and the classification or trust level."
+              },
+              {
+                "name": "workspace_labels",
+                "value": "string",
+                "type": "query",
+                "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves information about the submitted set of IP addresses\nfrom the Internet Scanner and Business Service intelligence datasets\n(consolidated response based on subscription entitlements).\nReturns time ranges, IP metadata (network owner, ASN, reverse DNS pointer, country),\nassociated actors, tags, raw port scan data, web request information,\nclassification and/or trust level, and provider information.\n\nUse the `quick` parameter to return a subset of the response fields, for a faster response t"
+        },
+        {
+          "info": {
+            "name": "IP Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/ip/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "8.8.8.8",
+                "type": "path",
+                "description": "IP address to query"
+              },
+              {
+                "name": "quick",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will only include the IP address and the classification or trust level."
+              },
+              {
+                "name": "workspace_labels",
+                "value": "string",
+                "type": "query",
+                "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Get more information about a given IP address. Returns time ranges,\nIP metadata (network owner, ASN, reverse DNS pointer, country),\nassociated actors, activity tags, and raw port scan and web\nrequest information.\n\nUse the `quick` parameter to return a subset of the response fields, for a faster response time.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "IP Timeline",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IP Timeline Field Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/noise/ips/:ip/timeline",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "path",
+                "description": "IPv4 address to look up Noise time series activity timeline for\n"
+              },
+              {
+                "name": "days",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to show data for"
+              },
+              {
+                "name": "field",
+                "value": "",
+                "type": "query",
+                "description": "Field over which to show activity breakdown"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Granularity of activity date ranges. This can be in hours (e.g. Xh)\nor days (Xd).\nValid hours are between 1 and 24. Valid days are between 1 and 90.\n"
+              },
+              {
+                "name": "workspace_labels",
+                "value": "string",
+                "type": "query",
+                "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve an IP address' summary of noise activity for a specific field.\n\n_License: This endpoint requires an additional subscription\nlicense to use._\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page."
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "sort_desc",
+                "value": "",
+                "type": "query",
+                "description": "Whether to sort in descending order."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of network sessions matching the query criteria.\nSessions represent individual network connections captured by GreyNoise sensors.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/connections",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "src_field",
+                "value": "",
+                "type": "query",
+                "description": "Source field to aggregate on."
+              },
+              {
+                "name": "dest_field",
+                "value": "",
+                "type": "query",
+                "description": "Destination field to aggregate on."
+              },
+              {
+                "name": "max_nodes",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of nodes to return."
+              },
+              {
+                "name": "min_connections",
+                "value": "",
+                "type": "query",
+                "description": "Minimum number of connections to include a node."
+              }
+            ]
+          },
+          "docs": "Returns a graph of connections between source and destination fields.\nUseful for visualizing network relationships and communication patterns.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/counts",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "fields",
+                "value": "source.ip,destination.port",
+                "type": "query",
+                "description": "Comma-separated list of fields to aggregate on."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of buckets per aggregation level."
+              }
+            ]
+          },
+          "docs": "Returns aggregated counts of sessions grouped by the specified fields.\nUseful for building dashboards and understanding traffic distribution.\n"
+        },
+        {
+          "info": {
+            "name": "Export PCAP for Multiple Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/export",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of sessions to include in the export."
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "sort_desc",
+                "value": "",
+                "type": "query",
+                "description": "Whether to sort in descending order."
+              }
+            ]
+          },
+          "docs": "Returns a PCAP file containing packets from sessions matching the query criteria.\nThe response is a binary PCAP file suitable for analysis with tools like Wireshark.\n\nNot available when `scope=demo` (returns 403).\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/fields",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              }
+            ]
+          },
+          "docs": "Returns the list of available session fields for querying and display.\nUse this to discover which fields can be used in queries, sorting, and aggregations.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Timeseries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/timeseries",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "field",
+                "value": "",
+                "type": "query",
+                "description": "Field to group timeseries by."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of groups to return when field is provided."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "Time interval for bucketing."
+              }
+            ]
+          },
+          "docs": "Returns timeseries data for sessions, optionally grouped by a field.\nUseful for visualizing session volume over time and identifying trends.\n"
+        },
+        {
+          "info": {
+            "name": "Get Unique Field Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/unique",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "field",
+                "value": "source.ip",
+                "type": "query",
+                "description": "Field to get unique values for."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "include_counts",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include counts in the output."
+              }
+            ]
+          },
+          "docs": "Returns unique values for a session field as a CSV download, optionally with counts.\nUseful for extracting distinct IPs, ports, or other field values matching a query.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/:session_id",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique session identifier."
+              }
+            ]
+          },
+          "docs": "Returns a single session by its ID, including full session metadata\nand connection details.\n"
+        },
+        {
+          "info": {
+            "name": "Export Session Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/:session_id/export",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique session identifier."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Export format type."
+              }
+            ]
+          },
+          "docs": "Downloads session data as PCAP or raw payload for a single session.\nUse the `type` parameter to select the export format.\n\nNot available when `scope=demo` (returns 403).\n"
+        },
+        {
+          "info": {
+            "name": "Get Session PCAP",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/:session_id/frames",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique session identifier."
+              }
+            ]
+          },
+          "docs": "Returns raw PCAP bytes for a single session. The response is a binary\nPCAP file suitable for analysis with tools like Wireshark.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/tags",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter tags by name (partial match)"
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query",
+                "description": "Filter tags by slug (exact match)"
+              },
+              {
+                "name": "cve",
+                "value": "",
+                "type": "query",
+                "description": "Filter tags by associated CVE"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of tags with their metadata. Supports filtering by name, slug, and CVE.\n\nThis endpoint returns tag information including ID, name, slug, category, intention,\ndescription, references, CVEs, and related tags.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

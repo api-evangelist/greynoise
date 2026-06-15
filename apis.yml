@@ -1,13 +1,11 @@
 aid: greynoise
 name: GreyNoise Intelligence
 description: >-
-  GreyNoise Intelligence collects and analyzes Internet-wide scan and attack
-  traffic from a global network of sensors. Use GreyNoise to contextualize
-  alerts, filter false positives, identify compromised devices, prioritize
-  vulnerabilities by in-the-wild exploitation, and track emerging threats. The
-  platform exposes a free Community API and a paid Enterprise API surface
-  (IP Lookup, GNQL, RIOT/Business Services, Tags, CVE, Sessions, Callback,
-  Recall, IP Timeline, Utility) plus an MCP server for AI workflows.
+  GreyNoise Intelligence collects and analyzes Internet-wide scan and attack traffic from a global network of sensors.
+  Use GreyNoise to contextualize alerts, filter false positives, identify compromised devices, prioritize
+  vulnerabilities by in-the-wild exploitation, and track emerging threats. The platform exposes a free Community API and
+  a paid Enterprise API surface (IP Lookup, GNQL, RIOT/Business Services, Tags, CVE, Sessions, Callback, Recall, IP
+  Timeline, Utility) plus an MCP server for AI workflows.
 url: https://www.greynoise.io
 humanURL: https://docs.greynoise.io
 baseURL: https://api.greynoise.io
@@ -21,305 +19,261 @@ x-source: public-apis/public-apis
 x-tier: 3
 x-tier-reason: bulk-registered-from-public-apis
 tags:
+- Security
+- Threat Intelligence
+- Cybersecurity
+- IP Reputation
+- Vulnerability Management
+- Network Telemetry
+- SOC Automation
+- Public APIs
+apis:
+- name: GreyNoise API
+  description: >-
+    Unified GreyNoise API surface spanning the free Community endpoint and the paid Enterprise endpoints. Covers IP
+    intelligence, GNQL query language, sessions / packet telemetry, CVE exploitation telemetry, callback IP
+    intelligence, tag taxonomy, IP timelines, and recall time-series queries.
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
   - Security
   - Threat Intelligence
-  - Cybersecurity
   - IP Reputation
-  - Vulnerability Management
-  - Network Telemetry
-  - SOC Automation
-  - Public APIs
-
-apis:
-
-  - name: GreyNoise API
-    description: >-
-      Unified GreyNoise API surface spanning the free Community endpoint and
-      the paid Enterprise endpoints. Covers IP intelligence, GNQL query
-      language, sessions / packet telemetry, CVE exploitation telemetry,
-      callback IP intelligence, tag taxonomy, IP timelines, and recall
-      time-series queries.
-    humanURL: https://docs.greynoise.io
-    baseURL: https://api.greynoise.io
-    tags:
-      - Security
-      - Threat Intelligence
-      - IP Reputation
-    properties:
-      - type: Documentation
-        url: https://docs.greynoise.io
-      - type: APIReference
-        url: https://docs.greynoise.io/reference/getcommunityip
-      - type: OpenAPI
-        url: openapi/greynoise-openapi.yml
-      - type: Authentication
-        url: https://docs.greynoise.io/docs/using-the-greynoise-api
-      - type: GettingStarted
-        url: https://docs.greynoise.io/docs/getting-started
-      - type: Quickstart
-        url: https://docs.greynoise.io/docs/using-the-greynoise-api
-      - type: NaftikoCapability
-        url: capabilities/greynoise-community.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-ip-lookup.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-gnql.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-recall.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-ip-timeline.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-sessions.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-tags.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-cve.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-callback.yaml
-      - type: NaftikoCapability
-        url: capabilities/greynoise-utility.yaml
-
-common:
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-    - url: arazzo/greynoise-bulk-ip-triage-workflow.yml
-      name: GreyNoise Bulk IP Triage
-      summary: Quick-lookup a batch of IPs, then deep-context the first flagged one.
-    - url: arazzo/greynoise-community-classification-router-workflow.yml
-      name: GreyNoise Community Classification Router
-      summary: Community-check an IP and route malicious vs benign to different lookups.
-    - url: arazzo/greynoise-community-deep-dive-workflow.yml
-      name: GreyNoise Community Deep Dive
-      summary: Check an IP against the free Community API, then escalate to full context.
-    - url: arazzo/greynoise-community-to-timeline-workflow.yml
-      name: GreyNoise Community To Timeline
-      summary: Community-check an IP, escalate noisy ones to context, then chart activity.
-    - url: arazzo/greynoise-cve-exposure-scan-workflow.yml
-      name: GreyNoise CVE Exposure Scan
-      summary: Look up a CVE, then aggregate and sample the IPs exploiting it.
-    - url: arazzo/greynoise-gnql-investigate-top-result-workflow.yml
-      name: GreyNoise GNQL Investigate Top Result
-      summary: Run a GNQL query, then pull full context for the first matching IP.
-    - url: arazzo/greynoise-gnql-stats-then-sample-workflow.yml
-      name: GreyNoise GNQL Stats Then Sample
-      summary: Aggregate a GNQL query, confirm volume, then sample and context an IP.
-    - url: arazzo/greynoise-ip-context-timeline-workflow.yml
-      name: GreyNoise IP Context Timeline
-      summary: Pull an IP's full context, then chart its activity timeline if observed.
-    - url: arazzo/greynoise-ip-quick-triage-workflow.yml
-      name: GreyNoise IP Quick Triage
-      summary: Quickly classify an IP, then pull full context only when it is worth it.
-    - url: arazzo/greynoise-tag-hunt-to-context-workflow.yml
-      name: GreyNoise Tag Hunt To Context
-      summary: Resolve an activity tag, hunt IPs carrying it, then context the top hit.
-
-  # ── Portal & web ─────────────────────────────────────────────────
-  - type: Website
-    url: https://www.greynoise.io
-  - type: DeveloperPortal
+  properties:
+  - type: Documentation
     url: https://docs.greynoise.io
-  - type: Console
-    url: https://viz.greynoise.io
-  - type: SignUp
-    url: https://viz.greynoise.io/signup
-  - type: Login
-    url: https://viz.greynoise.io/login
-  - type: Pricing
-    url: https://www.greynoise.io/pricing
-  - type: Plans
-    url: plans/greynoise-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/greynoise-rate-limits.yml
-
-  # ── Support & status ────────────────────────────────────────────
-  - type: Support
-    url: https://support.greynoise.io
-  - type: StatusPage
-    url: https://status.greynoise.io
-  - type: Contact
-    url: https://www.greynoise.io/contact
-  - type: FAQ
-    url: https://docs.greynoise.io/docs/vulnerability-prioritization-faq
-  - type: Glossary
-    url: https://docs.greynoise.io/docs/swarm-glossary
-
-  # ── Legal & compliance ──────────────────────────────────────────
-  - type: TermsOfService
-    url: https://www.greynoise.io/terms
-  - type: PrivacyPolicy
-    url: https://www.greynoise.io/privacy
-  - type: TrustCenter
-    url: https://trust.greynoise.io
-
-  # ── Knowledge & content ─────────────────────────────────────────
-  - type: Blog
-    url: https://www.greynoise.io/blog
-  - type: ChangeLog
-    url: https://docs.greynoise.io/changelog
-  - type: Academy
-    url: https://www.greynoise.io/university
-  - type: Training
-    url: https://docs.greynoise.io/docs/greynoise-university-series-list
-  - type: Tutorials
-    url: https://docs.greynoise.io/docs/api-and-cli-training-modules
-  - type: Webinars
-    url: https://docs.greynoise.io/docs/community-resources
-
-  # ── Source & ecosystem ──────────────────────────────────────────
-  - type: GitHubOrganization
-    url: https://github.com/GreyNoise-Intelligence
-  - type: GitHubRepository
-    url: https://github.com/GreyNoise-Intelligence/api.greynoise.io
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/greynoise-intelligence
-  - type: X
-    url: https://x.com/GreyNoiseIO
-
-  # ── SDKs & CLI ──────────────────────────────────────────────────
-  - type: SDK
-    name: pygreynoise (Python SDK + CLI)
-    url: https://github.com/GreyNoise-Intelligence/pygreynoise
-  - type: SDK
-    name: GreyNoisePS (PowerShell module)
-    url: https://github.com/GreyNoise-Intelligence/GreyNoisePS
-  - type: SDK
-    name: greynoiselabs (Python client for the Labs GraphQL API)
-    url: https://github.com/GreyNoise-Intelligence/greynoiselabs
-  - type: CLI
-    name: greynoise (bundled with pygreynoise)
-    url: https://github.com/GreyNoise-Intelligence/pygreynoise
-
-  # ── Generated artifacts ─────────────────────────────────────────
-  - type: SpectralRules
-    url: rules/greynoise-spectral-rules.yml
-  - type: Vocabulary
-    url: vocabulary/greynoise-vocabulary.yml
-  - type: JSON-LD
-    url: json-ld/greynoise-context.jsonld
-
-  # ── Tools (MCP / agentic) ───────────────────────────────────────
-  - type: Tools
-    name: GreyNoise MCP Server
-    description: Official Model Context Protocol server for the GreyNoise Enterprise API. Exposes IP reputation, RIOT/business-service checks, tag and CVE intelligence, GNQL stats, and more as MCP tools.
-    url: https://github.com/GreyNoise-Intelligence/greynoise-mcp-server
-  - type: Tools
-    name: Terraform Provider for GreyNoise
-    description: Manage GreyNoise alerts and blocklists via Terraform.
-    url: https://github.com/GreyNoise-Intelligence/terraform-provider-greynoise
-  - type: Tools
-    name: GreyNoise Splunk App (SA-GreyNoise)
-    description: Splunk integration enriching events with GreyNoise data.
-    url: https://github.com/GreyNoise-Intelligence/SA-GreyNoise
-
-  # ── Features ────────────────────────────────────────────────────
-  - type: Features
-    data:
-      - name: IP Lookup (Quick + Context)
-        description: Fast IP enrichment with classification, RIOT trust, ASN, geo, tags, and raw scan/web telemetry.
-      - name: Multi-IP Lookup
-        description: Bulk IP enrichment up to 10,000 IPs per request.
-      - name: GNQL (GreyNoise Query Language)
-        description: Lucene-style query language across the GreyNoise dataset with rich facets and time-window operators.
-      - name: GNQL Stats + Recall
-        description: Aggregate statistics and hourly/daily time-series over a GNQL query window.
-      - name: Sessions & PCAP
-        description: Session-level packet capture, connection graphs, time-series, and PCAP export from GreyNoise sensors.
-      - name: CVE Exploitation Telemetry
-        description: Per-CVE in-the-wild exploitation evidence; bulk CVE lookup.
-      - name: Callback IP Intelligence
-        description: Post-exploit / C2 callback IP enrichment and aggregate statistics.
-      - name: Tag Trends
-        description: Trending, anomalous, most-active, and most-recent behavior tags over the GreyNoise dataset.
-      - name: Business Service Intelligence (RIOT)
-        description: Identify benign business-operated traffic to filter false positives.
-      - name: C2 Detection
-        description: Identify command-and-control infrastructure.
-      - name: Vulnerability Prioritization
-        description: Prioritize CVE remediation by observed in-the-wild exploitation.
-      - name: Alerts, Feeds, and Blocklists
-        description: Schedule alerts, generate query-based blocklists, and consume GreyNoise feeds.
-      - name: Project Swarm (sensor program)
-        description: Deploy GreyNoise sensors on owned networks for tailored intelligence.
-      - name: MCP Server for AI Agents
-        description: Expose GreyNoise enterprise capabilities to LLM agents via Model Context Protocol.
-
-  # ── Use cases ───────────────────────────────────────────────────
-  - type: UseCases
-    data:
-      - name: Alert triage
-        description: Drop alerts on IPs known to be benign internet noise to reduce SOC workload.
-      - name: Incident response enrichment
-        description: Enrich indicators of compromise with classification, tags, and historical activity during investigations.
-      - name: Threat hunting
-        description: Hunt across GreyNoise sensor telemetry for emerging campaigns or specific TTPs.
-      - name: Vulnerability prioritization
-        description: Reorder remediation queues by which CVEs are actively exploited in the wild.
-      - name: Perimeter defense
-        description: Generate query-based blocklists to ingest into firewalls and edge platforms.
-      - name: AI-assisted SOC
-        description: Let LLM agents call GreyNoise through the MCP server during automated triage and reporting.
-
-  # ── Integrations ────────────────────────────────────────────────
-  - type: Integrations
-    data:
-      - name: Splunk
-        description: SIEM enrichment via the GreyNoise Splunk app (SA-GreyNoise).
-      - name: Microsoft Sentinel
-        description: TI Feed integration documented for Azure Sentinel.
-      - name: Google SecOps (Chronicle) / SecOps SOAR
-        description: SIEM + SOAR integration via the greynoise-google-secops repository.
-      - name: CrowdStrike NG-SIEM
-        description: Native enrichment integration.
-      - name: Cribl
-        description: GreyNoise enrichment pipeline in Cribl Stream.
-      - name: Cortex XSOAR (Demisto)
-        description: SOAR playbook content for incident enrichment.
-      - name: Splunk SOAR (Phantom)
-        description: SOAR integration and playbooks via greynoise-splunk-soar.
-      - name: FortiSOAR
-        description: SOAR connector via connector-greynoise.
-      - name: Swimlane
-        description: SOAR integration via greynoise-swimlane.
-      - name: Tines
-        description: SOAR integration documented for Tines.
-      - name: Anomali ThreatStream
-        description: TIP integration via greynoise-anomali.
-      - name: MISP
-        description: TIP integration via misp-modules.
-      - name: Recorded Future
-        description: TIP integration documented.
-      - name: ThreatQ
-        description: TIP integration documented.
-      - name: OpenCTI
-        description: TIP connector via the OpenCTI connectors repo.
-      - name: Maltego
-        description: Analyst transforms via greynoise-maltego.
-      - name: Polarity
-        description: Analyst overlay integration.
-      - name: Palo Alto Networks PAN-OS
-        description: GreyNoise blocklists consumable as External Dynamic Lists (EDLs).
-      - name: fail2ban
-        description: Open-source enrichment plugin (greynoise-fail2ban).
-      - name: Microsoft Copilot for Security
-        description: AI/ML integration plug-in for Copilot for Security.
-      - name: Model Context Protocol (MCP)
-        description: Native MCP server for LLM agent integration.
-      - name: Terraform
-        description: Manage alerts and blocklists declaratively (terraform-provider-greynoise).
-
-  # ── Solutions / product tiers ───────────────────────────────────
-  - type: Solutions
-    data:
-      - name: Community (Free)
-        description: Free tier for individual researchers; Community API only.
-      - name: Standard
-        description: Entry-level paid tier with Enterprise + GNQL API access.
-      - name: Advanced
-        description: Most-popular tier with 30-day lookback and 2-hour freshness.
-      - name: Elite
-        description: Premium tier with hourly freshness, 90-day lookback, and unlimited alerts/feeds/blocklists.
-
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: OpenAPI
+    url: openapi/greynoise-openapi.yml
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: Quickstart
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - url: graphql/greynoise-graphql.md
+    type: GraphQL
+common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/greynoise-intelligence/overview
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/greynoise-bulk-ip-triage-workflow.yml
+    name: GreyNoise Bulk IP Triage
+    summary: Quick-lookup a batch of IPs, then deep-context the first flagged one.
+  - url: arazzo/greynoise-community-classification-router-workflow.yml
+    name: GreyNoise Community Classification Router
+    summary: Community-check an IP and route malicious vs benign to different lookups.
+  - url: arazzo/greynoise-community-deep-dive-workflow.yml
+    name: GreyNoise Community Deep Dive
+    summary: Check an IP against the free Community API, then escalate to full context.
+  - url: arazzo/greynoise-community-to-timeline-workflow.yml
+    name: GreyNoise Community To Timeline
+    summary: Community-check an IP, escalate noisy ones to context, then chart activity.
+  - url: arazzo/greynoise-cve-exposure-scan-workflow.yml
+    name: GreyNoise CVE Exposure Scan
+    summary: Look up a CVE, then aggregate and sample the IPs exploiting it.
+  - url: arazzo/greynoise-gnql-investigate-top-result-workflow.yml
+    name: GreyNoise GNQL Investigate Top Result
+    summary: Run a GNQL query, then pull full context for the first matching IP.
+  - url: arazzo/greynoise-gnql-stats-then-sample-workflow.yml
+    name: GreyNoise GNQL Stats Then Sample
+    summary: Aggregate a GNQL query, confirm volume, then sample and context an IP.
+  - url: arazzo/greynoise-ip-context-timeline-workflow.yml
+    name: GreyNoise IP Context Timeline
+    summary: Pull an IP's full context, then chart its activity timeline if observed.
+  - url: arazzo/greynoise-ip-quick-triage-workflow.yml
+    name: GreyNoise IP Quick Triage
+    summary: Quickly classify an IP, then pull full context only when it is worth it.
+  - url: arazzo/greynoise-tag-hunt-to-context-workflow.yml
+    name: GreyNoise Tag Hunt To Context
+    summary: Resolve an activity tag, hunt IPs carrying it, then context the top hit.
+- type: Website
+  url: https://www.greynoise.io
+- type: DeveloperPortal
+  url: https://docs.greynoise.io
+- type: Console
+  url: https://viz.greynoise.io
+- type: SignUp
+  url: https://viz.greynoise.io/signup
+- type: Login
+  url: https://viz.greynoise.io/login
+- type: Pricing
+  url: https://www.greynoise.io/pricing
+- type: Plans
+  url: plans/greynoise-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/greynoise-rate-limits.yml
+- type: Support
+  url: https://support.greynoise.io
+- type: StatusPage
+  url: https://status.greynoise.io
+- type: Contact
+  url: https://www.greynoise.io/contact
+- type: FAQ
+  url: https://docs.greynoise.io/docs/vulnerability-prioritization-faq
+- type: Glossary
+  url: https://docs.greynoise.io/docs/swarm-glossary
+- type: TermsOfService
+  url: https://www.greynoise.io/terms
+- type: PrivacyPolicy
+  url: https://www.greynoise.io/privacy
+- type: TrustCenter
+  url: https://trust.greynoise.io
+- type: Blog
+  url: https://www.greynoise.io/blog
+- type: ChangeLog
+  url: https://docs.greynoise.io/changelog
+- type: Academy
+  url: https://www.greynoise.io/university
+- type: Training
+  url: https://docs.greynoise.io/docs/greynoise-university-series-list
+- type: Tutorials
+  url: https://docs.greynoise.io/docs/api-and-cli-training-modules
+- type: Webinars
+  url: https://docs.greynoise.io/docs/community-resources
+- type: GitHubOrganization
+  url: https://github.com/GreyNoise-Intelligence
+- type: GitHubRepository
+  url: https://github.com/GreyNoise-Intelligence/api.greynoise.io
+- type: LinkedIn
+  url: https://www.linkedin.com/company/greynoise-intelligence
+- type: X
+  url: https://x.com/GreyNoiseIO
+- type: SDK
+  name: pygreynoise (Python SDK + CLI)
+  url: https://github.com/GreyNoise-Intelligence/pygreynoise
+- type: SDK
+  name: GreyNoisePS (PowerShell module)
+  url: https://github.com/GreyNoise-Intelligence/GreyNoisePS
+- type: SDK
+  name: greynoiselabs (Python client for the Labs GraphQL API)
+  url: https://github.com/GreyNoise-Intelligence/greynoiselabs
+- type: CLI
+  name: greynoise (bundled with pygreynoise)
+  url: https://github.com/GreyNoise-Intelligence/pygreynoise
+- type: SpectralRules
+  url: rules/greynoise-spectral-rules.yml
+- type: Vocabulary
+  url: vocabulary/greynoise-vocabulary.yml
+- type: JSON-LD
+  url: json-ld/greynoise-context.jsonld
+- type: Tools
+  name: GreyNoise MCP Server
+  description: >-
+    Official Model Context Protocol server for the GreyNoise Enterprise API. Exposes IP reputation,
+    RIOT/business-service checks, tag and CVE intelligence, GNQL stats, and more as MCP tools.
+  url: https://github.com/GreyNoise-Intelligence/greynoise-mcp-server
+- type: Tools
+  name: Terraform Provider for GreyNoise
+  description: Manage GreyNoise alerts and blocklists via Terraform.
+  url: https://github.com/GreyNoise-Intelligence/terraform-provider-greynoise
+- type: Tools
+  name: GreyNoise Splunk App (SA-GreyNoise)
+  description: Splunk integration enriching events with GreyNoise data.
+  url: https://github.com/GreyNoise-Intelligence/SA-GreyNoise
+- type: Features
+  data:
+  - name: IP Lookup (Quick + Context)
+    description: Fast IP enrichment with classification, RIOT trust, ASN, geo, tags, and raw scan/web telemetry.
+  - name: Multi-IP Lookup
+    description: Bulk IP enrichment up to 10,000 IPs per request.
+  - name: GNQL (GreyNoise Query Language)
+    description: Lucene-style query language across the GreyNoise dataset with rich facets and time-window operators.
+  - name: GNQL Stats + Recall
+    description: Aggregate statistics and hourly/daily time-series over a GNQL query window.
+  - name: Sessions & PCAP
+    description: Session-level packet capture, connection graphs, time-series, and PCAP export from GreyNoise sensors.
+  - name: CVE Exploitation Telemetry
+    description: Per-CVE in-the-wild exploitation evidence; bulk CVE lookup.
+  - name: Callback IP Intelligence
+    description: Post-exploit / C2 callback IP enrichment and aggregate statistics.
+  - name: Tag Trends
+    description: Trending, anomalous, most-active, and most-recent behavior tags over the GreyNoise dataset.
+  - name: Business Service Intelligence (RIOT)
+    description: Identify benign business-operated traffic to filter false positives.
+  - name: C2 Detection
+    description: Identify command-and-control infrastructure.
+  - name: Vulnerability Prioritization
+    description: Prioritize CVE remediation by observed in-the-wild exploitation.
+  - name: Alerts, Feeds, and Blocklists
+    description: Schedule alerts, generate query-based blocklists, and consume GreyNoise feeds.
+  - name: Project Swarm (sensor program)
+    description: Deploy GreyNoise sensors on owned networks for tailored intelligence.
+  - name: MCP Server for AI Agents
+    description: Expose GreyNoise enterprise capabilities to LLM agents via Model Context Protocol.
+- type: UseCases
+  data:
+  - name: Alert triage
+    description: Drop alerts on IPs known to be benign internet noise to reduce SOC workload.
+  - name: Incident response enrichment
+    description: Enrich indicators of compromise with classification, tags, and historical activity during investigations.
+  - name: Threat hunting
+    description: Hunt across GreyNoise sensor telemetry for emerging campaigns or specific TTPs.
+  - name: Vulnerability prioritization
+    description: Reorder remediation queues by which CVEs are actively exploited in the wild.
+  - name: Perimeter defense
+    description: Generate query-based blocklists to ingest into firewalls and edge platforms.
+  - name: AI-assisted SOC
+    description: Let LLM agents call GreyNoise through the MCP server during automated triage and reporting.
+- type: Integrations
+  data:
+  - name: Splunk
+    description: SIEM enrichment via the GreyNoise Splunk app (SA-GreyNoise).
+  - name: Microsoft Sentinel
+    description: TI Feed integration documented for Azure Sentinel.
+  - name: Google SecOps (Chronicle) / SecOps SOAR
+    description: SIEM + SOAR integration via the greynoise-google-secops repository.
+  - name: CrowdStrike NG-SIEM
+    description: Native enrichment integration.
+  - name: Cribl
+    description: GreyNoise enrichment pipeline in Cribl Stream.
+  - name: Cortex XSOAR (Demisto)
+    description: SOAR playbook content for incident enrichment.
+  - name: Splunk SOAR (Phantom)
+    description: SOAR integration and playbooks via greynoise-splunk-soar.
+  - name: FortiSOAR
+    description: SOAR connector via connector-greynoise.
+  - name: Swimlane
+    description: SOAR integration via greynoise-swimlane.
+  - name: Tines
+    description: SOAR integration documented for Tines.
+  - name: Anomali ThreatStream
+    description: TIP integration via greynoise-anomali.
+  - name: MISP
+    description: TIP integration via misp-modules.
+  - name: Recorded Future
+    description: TIP integration documented.
+  - name: ThreatQ
+    description: TIP integration documented.
+  - name: OpenCTI
+    description: TIP connector via the OpenCTI connectors repo.
+  - name: Maltego
+    description: Analyst transforms via greynoise-maltego.
+  - name: Polarity
+    description: Analyst overlay integration.
+  - name: Palo Alto Networks PAN-OS
+    description: GreyNoise blocklists consumable as External Dynamic Lists (EDLs).
+  - name: fail2ban
+    description: Open-source enrichment plugin (greynoise-fail2ban).
+  - name: Microsoft Copilot for Security
+    description: AI/ML integration plug-in for Copilot for Security.
+  - name: Model Context Protocol (MCP)
+    description: Native MCP server for LLM agent integration.
+  - name: Terraform
+    description: Manage alerts and blocklists declaratively (terraform-provider-greynoise).
+- type: Solutions
+  data:
+  - name: Community (Free)
+    description: Free tier for individual researchers; Community API only.
+  - name: Standard
+    description: Entry-level paid tier with Enterprise + GNQL API access.
+  - name: Advanced
+    description: Most-popular tier with 30-day lookback and 2-hour freshness.
+  - name: Elite
+    description: Premium tier with hourly freshness, 90-day lookback, and unlimited alerts/feeds/blocklists.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

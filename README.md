@@ -1,125 +1,96 @@
 # GreyNoise Intelligence (greynoise)
 
-GreyNoise Intelligence collects and analyzes Internet-wide scan and attack traffic from a global network of sensors. Use GreyNoise to contextualize alerts, filter false positives, identify compromised devices, prioritize vulnerabilities by in-the-wild exploitation, and track emerging threats.
+GreyNoise Intelligence collects and analyzes Internet-wide scan and attack traffic from a global network of sensors. Use GreyNoise to contextualize alerts, filter false positives, identify compromised devices, prioritize vulnerabilities by in-the-wild exploitation, and track emerging threats. The platform exposes a free Community API and a paid Enterprise API surface (IP Lookup, GNQL, RIOT/Business Services, Tags, CVE, Sessions, Callback, Recall, IP Timeline, Utility) plus an MCP server for AI workflows.
 
-**APIs.yml:** [apis.yml](apis.yml)
-
-## Type
-
-- **x-type:** company
-- **x-category:** Security
-- **x-tier:** 3 (bulk-registered from public-apis, enriched 2026-05-30)
-- **Source:** [public-apis/public-apis](https://github.com/public-apis/public-apis)
-
-## Provider
-
-- **Website:** https://www.greynoise.io
-- **Developer Portal:** https://docs.greynoise.io
-- **Console:** https://viz.greynoise.io
-- **GitHub Organization:** https://github.com/GreyNoise-Intelligence
-- **Pricing:** https://www.greynoise.io/pricing
-- **Status:** https://status.greynoise.io
-- **Trust Center:** https://trust.greynoise.io
-
-## APIs
-
-### GreyNoise API
-
-Unified API surface spanning the free Community endpoint and the paid Enterprise endpoints. **27 operations** across 9 tag groups.
-
-- **Base URL:** https://api.greynoise.io
-- **Authentication:** API key in the `key` HTTP header (`APIKeyHeaderAuth`)
-- **Documentation:** https://docs.greynoise.io
-- **API Reference:** https://docs.greynoise.io/reference/getcommunityip
-- **OpenAPI:** [openapi/greynoise-openapi.yml](openapi/greynoise-openapi.yml)
-
-#### Operation groups
-
-| Tag | Operations | Notes |
-|---|---|---|
-| Community | 1 | Free community IP lookup |
-| IP Lookup | 2 | Single + multi-IP (up to 10,000 per request) full context |
-| GNQL | 3 | Query / metadata-query / stats |
-| Recall | 2 | Hourly/daily time-series over a GNQL query |
-| IP Timeline | 1 | Per-IP per-field activity summary |
-| Sessions | 10 | Sensor session telemetry, connection graphs, PCAP export |
-| Tags | 1 | List behavior/affiliation tags |
-| CVE | 2 | Per-CVE + bulk CVE (up to 10,000 per request) lookup |
-| Callback | 4 | Post-exploit / C2 callback IP intelligence |
-| Utility | 1 | Service-health ping |
-
-## Tools
-
-- **MCP Server:** [greynoise-mcp-server](https://github.com/GreyNoise-Intelligence/greynoise-mcp-server) — official Model Context Protocol server for the Enterprise API.
-- **Terraform Provider:** [terraform-provider-greynoise](https://github.com/GreyNoise-Intelligence/terraform-provider-greynoise) — manage alerts and blocklists as code.
-- **Splunk App:** [SA-GreyNoise](https://github.com/GreyNoise-Intelligence/SA-GreyNoise).
-
-## SDKs & CLI
-
-- **Python SDK + CLI:** [pygreynoise](https://github.com/GreyNoise-Intelligence/pygreynoise)
-- **PowerShell Module:** [GreyNoisePS](https://github.com/GreyNoise-Intelligence/GreyNoisePS)
-- **Labs GraphQL Client:** [greynoiselabs](https://github.com/GreyNoise-Intelligence/greynoiselabs)
-
-## Generated Artifacts
-
-This repo has been profiled by the API Evangelist pipeline. Counts below were produced on 2026-05-30.
-
-| Artifact | Folder | Files |
-|---|---|---|
-| OpenAPI 3.0.0 spec (full, with Microcks examples) | `openapi/` | 1 |
-| Naftiko capabilities (one per OpenAPI tag) | `capabilities/` | 10 |
-| Spectral ruleset (GreyNoise conventions) | `rules/` | 1 |
-| JSON Schema (one per component schema) | `json-schema/` | 65 |
-| JSON Structure (one per component schema) | `json-structure/` | 65 |
-| Example payloads (one per component schema) | `examples/` | 65 |
-| JSON-LD context (provider-wide) | `json-ld/` | 1 |
-| Controlled vocabulary | `vocabulary/` | 1 |
-| Plans & pricing (API Commons Plans 0.1) | `plans/` | 1 |
-| Rate limits (API Commons Rate Limits 0.1) | `rate-limits/` | 1 |
-| FinOps profile (FOCUS-aligned) | `finops/` | 1 |
-
-### Naftiko Capabilities
-
-Each file is self-contained: inline `consumes` block plus paired `rest` and `mcp` exposers.
-
-| File | Operations |
-|---|---|
-| `capabilities/greynoise-community.yaml` | 1 |
-| `capabilities/greynoise-ip-lookup.yaml` | 2 |
-| `capabilities/greynoise-gnql.yaml` | 3 |
-| `capabilities/greynoise-recall.yaml` | 2 |
-| `capabilities/greynoise-ip-timeline.yaml` | 1 |
-| `capabilities/greynoise-sessions.yaml` | 10 |
-| `capabilities/greynoise-tags.yaml` | 1 |
-| `capabilities/greynoise-cve.yaml` | 2 |
-| `capabilities/greynoise-callback.yaml` | 4 |
-| `capabilities/greynoise-utility.yaml` | 1 |
-
-## Plans
-
-GreyNoise sells four tiers (Free, Standard, Advanced, Elite) plus three core intelligence modules (Triage, Investigate, Hunt) and three add-on modules (C2 Detection, Business Services / RIOT, Vulnerability Prioritization). See [plans/greynoise-plans-pricing.yml](plans/greynoise-plans-pricing.yml) for details.
-
-## Rate Limits
-
-The free Community API caps at ~50 searches per week per source IP. The Enterprise API enforces per-key contract-specific limits with usage telemetry in the GreyNoise web UI. Multi-IP lookup and Bulk CVE lookup cap at 10,000 items per request. See [rate-limits/greynoise-rate-limits.yml](rate-limits/greynoise-rate-limits.yml).
-
-## FinOps
-
-GreyNoise is sold as an annual flat-rate subscription per tier with optional priced modules; per-call usage is not metered. See [finops/greynoise-finops.yml](finops/greynoise-finops.yml) for FOCUS-aligned billing mapping and cost-allocation guidance.
-
-## Integrations
-
-SIEM (Splunk, Microsoft Sentinel, Google SecOps, CrowdStrike NG-SIEM, Cribl) · SOAR (Splunk SOAR, Cortex XSOAR, FortiSOAR, Swimlane, Tines, Google SecOps SOAR) · TIP (Anomali ThreatStream, MISP, Recorded Future, ThreatQ, OpenCTI) · Analyst tools (Maltego, Polarity) · Firewalls (Palo Alto Networks PAN-OS EDL, fail2ban) · AI (Microsoft Copilot for Security, MCP) · Infrastructure (Terraform).
+**APIs.json:** [https://www.greynoise.io](https://www.greynoise.io)
 
 ## Tags
 
-Security, Threat Intelligence, Cybersecurity, IP Reputation, Vulnerability Management, Network Telemetry, SOC Automation, Public APIs
+- Security
+- Threat Intelligence
+- Cybersecurity
+- IP Reputation
+- Vulnerability Management
+- Network Telemetry
+- SOC Automation
+- Public APIs
 
 ## Timestamps
 
 - **Created:** 2026-05-28
 - **Modified:** 2026-05-30
 
+## APIs
+
+### GreyNoise API
+
+Unified GreyNoise API surface spanning the free Community endpoint and the paid Enterprise endpoints. Covers IP intelligence, GNQL query language, sessions / packet telemetry, CVE exploitation telemetry, callback IP intelligence, tag taxonomy, IP timelines, and recall time-series queries.
+
+- **Human URL:** [https://docs.greynoise.io](https://docs.greynoise.io)
+- **Base URL:** `https://api.greynoise.io`
+
+#### Tags
+
+- Security
+- Threat Intelligence
+- IP Reputation
+
+#### Properties
+
+- [Documentation](https://docs.greynoise.io)
+- [API Reference](https://docs.greynoise.io/reference/getcommunityip)
+- [OpenAPI](openapi/greynoise-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/greynoise.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/greynoise.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Authentication](https://docs.greynoise.io/docs/using-the-greynoise-api)
+- [Getting Started](https://docs.greynoise.io/docs/getting-started)
+- [Quickstart](https://docs.greynoise.io/docs/using-the-greynoise-api)
+
+## Common Properties
+
+- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
+- [Website](https://www.greynoise.io)
+- [Developer Portal](https://docs.greynoise.io)
+- [Console](https://viz.greynoise.io)
+- [Sign Up](https://viz.greynoise.io/signup)
+- [Login](https://viz.greynoise.io/login)
+- [Pricing](https://www.greynoise.io/pricing)
+- [Plans](plans/greynoise-plans-pricing.yml)
+- [Rate Limits](rate-limits/greynoise-rate-limits.yml)
+- [Support](https://support.greynoise.io)
+- [Status Page](https://status.greynoise.io)
+- [Contact](https://www.greynoise.io/contact)
+- [F A Q](https://docs.greynoise.io/docs/vulnerability-prioritization-faq)
+- [Glossary](https://docs.greynoise.io/docs/swarm-glossary)
+- [Terms of Service](https://www.greynoise.io/terms)
+- [Privacy Policy](https://www.greynoise.io/privacy)
+- [Trust Center](https://trust.greynoise.io)
+- [Blog](https://www.greynoise.io/blog)
+- [Changelog](https://docs.greynoise.io/changelog)
+- [Academy](https://www.greynoise.io/university)
+- [Training](https://docs.greynoise.io/docs/greynoise-university-series-list)
+- [Tutorials](https://docs.greynoise.io/docs/api-and-cli-training-modules)
+- [Webinars](https://docs.greynoise.io/docs/community-resources)
+- [GitHub Organization](https://github.com/GreyNoise-Intelligence)
+- [GitHub Repository](https://github.com/GreyNoise-Intelligence/api.greynoise.io)
+- [LinkedIn](https://www.linkedin.com/company/greynoise-intelligence)
+- [X (Twitter)](https://x.com/GreyNoiseIO)
+- [SDK](https://github.com/GreyNoise-Intelligence/pygreynoise)
+- [SDK](https://github.com/GreyNoise-Intelligence/GreyNoisePS)
+- [SDK](https://github.com/GreyNoise-Intelligence/greynoiselabs)
+- [C L I](https://github.com/GreyNoise-Intelligence/pygreynoise)
+- [Spectral Rules](rules/greynoise-spectral-rules.yml)
+- [Vocabulary](vocabulary/greynoise-vocabulary.yml)
+- [J S O N- L D](json-ld/greynoise-context.jsonld)
+- [Tools](https://github.com/GreyNoise-Intelligence/greynoise-mcp-server)
+- [Tools](https://github.com/GreyNoise-Intelligence/terraform-provider-greynoise)
+- [Tools](https://github.com/GreyNoise-Intelligence/SA-GreyNoise)
+- [Features](undefined)
+- [Use Cases](undefined)
+- [Integrations](undefined)
+- [Solutions](undefined)
+
 ## Maintainers
 
-- **Kin Lane** — kin@apievangelist.com
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
