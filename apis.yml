@@ -55,6 +55,10 @@ apis:
   - url: graphql/greynoise-graphql.md
     type: GraphQL
 common:
+- type: DomainSecurity
+  url: security/greynoise-domain-security.yml
+- type: Authentication
+  url: authentication/greynoise-authentication.yml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/greynoise-intelligence/overview
 - type: Arazzo

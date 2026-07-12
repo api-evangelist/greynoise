@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/greynoise-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: APIKeyHeaderAuth
+  type: apiKey
+  in: header
+  parameter: key
+  description: GreyNoise API key passed via the 'key' HTTP header.
+  sources:
+  - openapi/greynoise-openapi.yml
