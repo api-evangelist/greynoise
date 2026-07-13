@@ -1,152 +1,149 @@
-# GreyNoise API Spectral Ruleset
-# Enforces conventions observed across the GreyNoise v3 / Enterprise APIs.
-extends: spectral:oas
-
+# greynoise — Spectral ruleset (strengthened)
+# Plain Spectral. Existing hand-authored rules preserved; measured rules added
+# from this provider's own OpenAPI conventions by strengthen_ruleset.py,
+# then self-validated against the spec.
+#
+# Provenance:
+#   - servers-https-only: 100% of servers already https (error)
+#   - servers-expected-domain: 1/1 servers on greynoise.io
+#   - path-params-casing: snake @ 100% (n=8)
+#   - query-params-casing: snake @ 100% (n=78)
+#   - operationid-casing: camel @ 74% (n=27)
+#   - schema-names-casing: pascal @ 100% (n=66)
+#   - schema-properties-casing: snake @ 96% (n=318)
+#   - security: global (root) — NOT emitting operation-security-required
+#   - error-schema-defined: Error
+#   - operation-documents-400: 89% adherence
+#   - operation-documents-401: 85% adherence
+#   - pagination params observed: ['count', 'limit', 'offset', 'page', 'page_size', 'size']
+#   - merge: kept 33 existing, added 9 measured, upgraded 0
+#   - added: servers-expected-domain, path-params-casing, query-params-casing, operationid-casing, schema-names-casing, schema-properties-casing, error-schema-defined, operation-documents-400, no-empty-descriptions
+extends:
+  - spectral:oas
 rules:
-
-  # ── INFO / METADATA ─────────────────────────────────────────────────
   greynoise-info-title-prefix:
     description: API title must begin with "GreyNoise".
     message: '{{description}} — title "{{value}}" should start with "GreyNoise".'
     severity: error
-    given: "$.info.title"
+    given: $.info.title
     then:
       function: pattern
       functionOptions:
-        match: "^GreyNoise"
-
+        match: ^GreyNoise
   greynoise-info-version-semver:
     description: API version must be a semver string (e.g. 3.0.0).
     severity: error
-    given: "$.info.version"
+    given: $.info.version
     then:
       function: pattern
       functionOptions:
-        match: "^\\d+\\.\\d+\\.\\d+$"
-
+        match: ^\d+\.\d+\.\d+$
   greynoise-info-description-required:
     description: Info description is required and must be at least 40 characters.
     severity: error
-    given: "$.info"
+    given: $.info
     then:
       field: description
       function: length
       functionOptions:
         min: 40
-
   greynoise-info-contact-required:
     description: A contact email is required (typically hello@greynoise.io).
     severity: warn
-    given: "$.info.contact"
+    given: $.info.contact
     then:
       field: email
       function: truthy
-
   greynoise-info-license-required:
     description: A license entry is required.
     severity: warn
-    given: "$.info"
+    given: $.info
     then:
       field: license
       function: truthy
-
-  # ── OPENAPI VERSION ─────────────────────────────────────────────────
   greynoise-openapi-version:
     description: OpenAPI version must be 3.0.x to match GreyNoise published specs.
     severity: error
-    given: "$.openapi"
+    given: $.openapi
     then:
       function: pattern
       functionOptions:
-        match: "^3\\.0\\."
-
-  # ── SERVERS ─────────────────────────────────────────────────────────
+        match: ^3\.0\.
   greynoise-servers-defined:
     description: At least one server entry must be defined.
     severity: error
-    given: "$.servers"
+    given: $.servers
     then:
       function: schema
       functionOptions:
         schema:
           type: array
           minItems: 1
-
   greynoise-servers-https:
     description: All server URLs must use HTTPS.
     severity: error
-    given: "$.servers[*].url"
+    given: $.servers[*].url
     then:
       function: pattern
       functionOptions:
-        match: "^https://"
-
+        match: ^https://
   greynoise-servers-canonical-host:
     description: Primary server URL should be https://api.greynoise.io.
     severity: warn
-    given: "$.servers[0].url"
+    given: $.servers[0].url
     then:
       function: pattern
       functionOptions:
-        match: "^https://api\\.greynoise\\.io"
-
-  # ── PATHS — NAMING CONVENTIONS ──────────────────────────────────────
+        match: ^https://api\.greynoise\.io
   greynoise-paths-lowercase:
     description: Paths must be all lowercase.
     severity: error
-    given: "$.paths.*~"
+    given: $.paths.*~
     then:
       function: pattern
       functionOptions:
-        match: "^[^A-Z]*$"
-
+        match: ^[^A-Z]*$
   greynoise-paths-no-trailing-slash:
     description: Paths must not end with a trailing slash.
     severity: error
-    given: "$.paths.*~"
+    given: $.paths.*~
     then:
       function: pattern
       functionOptions:
-        notMatch: ".+/$"
-
+        notMatch: .+/$
   greynoise-paths-versioned:
     description: Paths should begin with /v1, /v2, /v3, or /ping (utility).
     severity: warn
-    given: "$.paths.*~"
+    given: $.paths.*~
     then:
       function: pattern
       functionOptions:
-        match: "^/(v[0-9]+/|ping$)"
-
-  # ── OPERATIONS ──────────────────────────────────────────────────────
+        match: ^/(v[0-9]+/|ping$)
   greynoise-operation-summary-required:
     description: Every operation must have a summary in Title Case.
     severity: error
-    given: "$.paths.*[get,post,put,patch,delete]"
+    given: $.paths.*[get,post,put,patch,delete]
     then:
       field: summary
       function: truthy
-
   greynoise-operation-description-required:
     description: Every operation must have a description.
     severity: warn
-    given: "$.paths.*[get,post,put,patch,delete]"
+    given: $.paths.*[get,post,put,patch,delete]
     then:
       field: description
       function: truthy
-
   greynoise-operation-operationid-required:
     description: Every operation must declare an operationId.
     severity: error
-    given: "$.paths.*[get,post,put,patch,delete]"
+    given: $.paths.*[get,post,put,patch,delete]
     then:
       field: operationId
       function: truthy
-
   greynoise-operation-tags-required:
     description: Every operation must declare at least one tag.
     severity: warn
-    given: "$.paths.*[get,post,put,patch,delete]"
+    given: $.paths.*[get,post,put,patch,delete]
     then:
       field: tags
       function: schema
@@ -154,164 +151,216 @@ rules:
         schema:
           type: array
           minItems: 1
-
-  # ── TAGS ────────────────────────────────────────────────────────────
   greynoise-tags-defined-globally:
     description: A global tags array should be defined.
     severity: warn
-    given: "$"
+    given: $
     then:
       field: tags
       function: truthy
-
   greynoise-tag-title-case:
     description: Tag names should be in Title Case (e.g. "IP Lookup", "GNQL").
     severity: warn
-    given: "$.tags[*].name"
+    given: $.tags[*].name
     then:
       function: pattern
       functionOptions:
-        match: "^[A-Z][A-Za-z0-9 ]+$"
-
-  # ── PARAMETERS ──────────────────────────────────────────────────────
+        match: ^[A-Z][A-Za-z0-9 ]+$
   greynoise-parameter-description:
     description: Every parameter must have a description.
     severity: warn
-    given: "$.paths.*[get,post,put,patch,delete].parameters[*]"
+    given: $.paths.*[get,post,put,patch,delete].parameters[*]
     then:
       field: description
       function: truthy
-
   greynoise-parameter-name-snake-case:
     description: Parameter names should be snake_case (GreyNoise convention).
     severity: warn
-    given: "$.paths.*[get,post,put,patch,delete].parameters[*].name"
+    given: $.paths.*[get,post,put,patch,delete].parameters[*].name
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-z0-9_]*$"
-
+        match: ^[a-z][a-z0-9_]*$
   greynoise-api-key-in-header:
     description: API key must be passed via header, never query string.
     severity: error
-    given: "$.paths.*[get,post,put,patch,delete].parameters[?(@.name=='key' || @.name=='api_key' || @.name=='apikey')]"
+    given: $.paths.*[get,post,put,patch,delete].parameters[?(@.name=='key' || @.name=='api_key' || @.name=='apikey')]
     then:
       field: in
       function: pattern
       functionOptions:
-        match: "^header$"
-
-  # ── REQUEST BODIES ──────────────────────────────────────────────────
+        match: ^header$
   greynoise-request-body-json:
     description: Request bodies must include application/json.
     severity: warn
-    given: "$.paths.*[post,put,patch].requestBody.content"
+    given: $.paths.*[post,put,patch].requestBody.content
     then:
       field: application/json
       function: truthy
-
-  # ── RESPONSES ───────────────────────────────────────────────────────
   greynoise-response-2xx-required:
     description: Every operation must declare at least one 2xx response.
     severity: error
-    given: "$.paths.*[get,post,put,patch,delete].responses"
+    given: $.paths.*[get,post,put,patch,delete].responses
     then:
       function: schema
       functionOptions:
         schema:
           type: object
           patternProperties:
-            "^2\\d\\d$":
+            ^2\d\d$:
               type: object
           minProperties: 1
-
   greynoise-response-401-recommended:
     description: Authenticated operations should declare a 401 response.
     severity: info
-    given: "$.paths.*[get,post,put,patch,delete].responses"
+    given: $.paths.*[get,post,put,patch,delete].responses
     then:
-      field: "401"
+      field: '401'
       function: truthy
-
   greynoise-response-429-recommended:
     description: Operations should declare a 429 (rate-limit) response.
     severity: info
-    given: "$.paths.*[get,post,put,patch,delete].responses"
+    given: $.paths.*[get,post,put,patch,delete].responses
     then:
-      field: "429"
+      field: '429'
       function: truthy
-
   greynoise-response-description-required:
     description: Every response must have a description.
     severity: warn
-    given: "$.paths.*[get,post,put,patch,delete].responses.*"
+    given: $.paths.*[get,post,put,patch,delete].responses.*
     then:
       field: description
       function: truthy
-
-  # ── SCHEMAS — PROPERTY NAMING ───────────────────────────────────────
   greynoise-schema-property-snake-case:
     description: Schema property names should be snake_case (GreyNoise convention).
     severity: warn
-    given: "$.components.schemas[*].properties.*~"
+    given: $.components.schemas[*].properties.*~
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-z0-9_]*$"
-
+        match: ^[a-z][a-z0-9_]*$
   greynoise-schema-type-required:
     description: Schemas should declare a type (unless using oneOf/allOf/anyOf/$ref).
     severity: warn
-    given: "$.components.schemas[?(!@.oneOf && !@.allOf && !@.anyOf && !@.$ref)]"
+    given: $.components.schemas[?(!@.oneOf && !@.allOf && !@.anyOf && !@.$ref)]
     then:
       field: type
       function: truthy
-
-  # ── SECURITY ────────────────────────────────────────────────────────
   greynoise-security-defined-globally:
     description: A global security entry must be defined.
     severity: error
-    given: "$"
+    given: $
     then:
       field: security
       function: truthy
-
   greynoise-security-scheme-apikey-header:
     description: The APIKeyHeaderAuth scheme must be apiKey/header named "key".
     severity: error
-    given: "$.components.securitySchemes.APIKeyHeaderAuth"
+    given: $.components.securitySchemes.APIKeyHeaderAuth
     then:
       function: schema
       functionOptions:
         schema:
           type: object
-          required: [type, in, name]
+          required:
+          - type
+          - in
+          - name
           properties:
-            type: {const: apiKey}
-            in: {const: header}
-            name: {const: key}
-
-  # ── HTTP METHOD CONVENTIONS ─────────────────────────────────────────
+            type:
+              const: apiKey
+            in:
+              const: header
+            name:
+              const: key
   greynoise-get-no-request-body:
     description: GET operations must not declare a requestBody.
     severity: error
-    given: "$.paths.*.get"
+    given: $.paths.*.get
     then:
       field: requestBody
       function: falsy
-
   greynoise-delete-no-request-body:
     description: DELETE operations must not declare a requestBody.
     severity: warn
-    given: "$.paths.*.delete"
+    given: $.paths.*.delete
     then:
       field: requestBody
       function: falsy
-
-  # ── GENERAL QUALITY ─────────────────────────────────────────────────
   greynoise-operation-examples-encouraged:
     description: Operations are encouraged to provide response examples for Microcks mocking.
     severity: info
-    given: "$.paths.*[get,post,put,patch,delete].responses['200'].content.application/json"
+    given: $.paths.*[get,post,put,patch,delete].responses['200'].content.application/json
+    then:
+      function: truthy
+  servers-expected-domain:
+    description: Server URLs should be on the greynoise.io domain.
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: greynoise\.io
+  path-params-casing:
+    description: Path parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*].parameters[?(@.in=='path')].name
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+  query-params-casing:
+    description: Query parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in=='query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: snake
+  operationid-casing:
+    description: Operation IDs should be camelCase (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][A-Za-z0-9]*$
+  schema-names-casing:
+    description: Component schema names should be PascalCase (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: ^[A-Z][A-Za-z0-9]*$
+  schema-properties-casing:
+    description: Schema properties should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas[*].properties
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: snake
+  error-schema-defined:
+    description: A shared error schema (Error) should be defined for error payloads.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: Error
+      function: truthy
+  operation-documents-400:
+    description: Operations should document a 400 response (documented on 89% of this API's operations).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      field: '400'
+      function: truthy
+  no-empty-descriptions:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: $..description
     then:
       function: truthy
