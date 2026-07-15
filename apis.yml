@@ -55,6 +55,8 @@ apis:
   - url: graphql/greynoise-graphql.md
     type: GraphQL
 common:
+- type: AgenticAccess
+  url: agentic-access/greynoise-agentic-access.yml
 - type: DomainSecurity
   url: security/greynoise-domain-security.yml
 - type: Authentication
