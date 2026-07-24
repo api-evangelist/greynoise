@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: GreyNoise Callback Community API
+  version: 3.0.0
+  description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
+  contact:
+    email: hello@greynoise.io
+  license:
+    name: Proprietary
+    url: https://www.greynoise.io/terms
+servers:
+- url: https://api.greynoise.io
+  description: Production
+security:
+- APIKeyHeaderAuth: []
+tags:
+- name: Community
+  description: Endpoints for the community level users
+paths:
+  /v3/community/{ip}:
+    get:
+      operationId: getCommunityIP
+      parameters:
+      - $ref: '#/components/parameters/ip'
+      tags:
+      - Community
+      summary: Community API
+      description: 'The Community API provides community users with a free tool to
+
+        query IPs in the GreyNoise dataset and retrieve a subset of the full
+
+        IP context data returned by the IP Lookup API.
+
+        '
+      responses:
+        '200':
+          description: Query was successful, Community API found either a RIOT or Noise record for submitted IP address.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+              examples:
+                GetCommunityIP200Example:
+                  summary: Default getCommunityIP 200 response
+                  x-microcks-default: true
+                  value:
+                    ip: 1.2.3.4
+                    noise: false
+                    riot: true
+                    classification: benign
+                    name: Cloudflare
+                    link: https://viz.greynoise.io/riot/1.2.3.4
+                    last_seen: '2020-01-01'
+                    message: Success
+        '400':
+          description: 'The IP address submitted is not a valid routable IPv4 address.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Request is not a valid routable IPv4 address
+              examples:
+                GetCommunityIP400Example:
+                  summary: Default getCommunityIP 400 response
+                  x-microcks-default: true
+                  value:
+                    message: Request is not a valid routable IPv4 address
+        '404':
+          description: The community API was unable to find a record for the requested IP address.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ip:
+                    type: string
+                    example: 1.2.3.4
+                  noise:
+                    type: boolean
+                    example: false
+                  riot:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: IP not observed scanning the internet or contained in RIOT data set.
+              examples:
+                GetCommunityIP404Example:
+                  summary: Default getCommunityIP 404 response
+                  x-microcks-default: true
+                  value:
+                    ip: 1.2.3.4
+                    noise: false
+                    riot: false
+                    message: IP not observed scanning the internet or contained in RIOT data set.
+        '429':
+          description: Predefined rate-limit has been reached
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    type: string
+                    example: unauthenticated
+                  rate-limit:
+                    type: string
+                    example: 100-lookups/day
+                  plan_url:
+                    type: string
+                    example: https://greynoise.io/pricing
+                  message:
+                    type: string
+                    example: 'You have hit your daily rate limit of 100 requests per day. Please create a free account or upgrade your plan at https://greynoise.io/pricing.
+
+                      '
+              examples:
+                GetCommunityIP429Example:
+                  summary: Default getCommunityIP 429 response
+                  x-microcks-default: true
+                  value:
+                    plan: unauthenticated
+                    rate-limit: 100-lookups/day
+                    plan_url: https://greynoise.io/pricing
+                    message: 'You have hit your daily rate limit of 100 requests per day. Please create a free account or upgrade your plan at https://greynoise.io/pricing.
+
+                      '
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  parameters:
+    ip:
+      name: ip
+      in: path
+      description: IP address to query
+      required: true
+      schema:
+        type: string
+      example: 8.8.8.8
+  responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+  schemas:
+    CommunityResponse:
+      type: object
+      properties:
+        ip:
+          type: string
+          example: 1.2.3.4
+        noise:
+          type: boolean
+          example: false
+        riot:
+          type: boolean
+          example: true
+        classification:
+          type: string
+          example: benign
+        name:
+          type: string
+          example: Cloudflare
+        link:
+          type: string
+          example: https://viz.greynoise.io/riot/1.2.3.4
+        last_seen:
+          type: string
+          example: '2020-01-01'
+        message:
+          type: string
+          example: Success
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+  securitySchemes:
+    APIKeyHeaderAuth:
+      type: apiKey
+      in: header
+      name: key
+      description: GreyNoise API key passed via the 'key' HTTP header.

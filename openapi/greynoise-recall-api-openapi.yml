@@ -1,0 +1,965 @@
+openapi: 3.0.0
+info:
+  title: GreyNoise Callback Recall API
+  version: 3.0.0
+  description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
+  contact:
+    email: hello@greynoise.io
+  license:
+    name: Proprietary
+    url: https://www.greynoise.io/terms
+servers:
+- url: https://api.greynoise.io
+  description: Production
+security:
+- APIKeyHeaderAuth: []
+tags:
+- name: Recall
+  description: 'Endpoint that are used for retrieving GNQL data over time. Allows users
+
+    to view hourly snapshots of IP activity for IPs that return for any
+
+    GNQL query.
+
+    '
+paths:
+  /v3/gnql/timeseries:
+    get:
+      tags:
+      - Recall
+      summary: GNQL V3 Recall
+      operationId: gnqlTimeSeries
+      description: 'Get hourly GNQL records for a given time range.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/query'
+      - in: query
+        name: start
+        description: Start date for the desired time range
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end
+        description: End date for the desired time range
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: format
+        description: Specifies the desired format of the results. Must be either csv or json.
+        required: false
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          default: json
+      - in: query
+        name: limit
+        description: Specifies the number of records desired from the backend query. For example, if you specify a limit of 100, you will get the first 100 records for your query, divided up by hour.
+        required: false
+        schema:
+          type: integer
+      - in: query
+        name: offset
+        description: Specifies the offset at which to apply the limit. With limit, can be used to paginate through a large response. For example, if you specify a limit of 100 and and an offset of 200, you will get the next 100 records starting at the 200th record.
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Query successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+              examples:
+                GnqlTimeSeries200Example:
+                  summary: Default gnqlTimeSeries 200 response
+                  x-microcks-default: true
+                  value: &id001
+                    2025-11-10-14:
+                    - ip: 203.0.113.45
+                      internet_scanner_intelligence:
+                        first_seen: '2018-01-28'
+                        last_seen: '2018-02-28'
+                        found: true
+                        tags:
+                        - Mirai
+                        - Telnet Worm
+                        actor: Shodan.io
+                        spoofable: true
+                        classification: benign
+                        cves:
+                        - CVE-2020-1234
+                        - CVE-2021-2345
+                        vpn: true
+                        vpn_service: IPVANISH_VPN
+                        tor: false
+                        last_seen_timestamp: '2025-01-15T12:30:45Z'
+                        metadata:
+                          asn: AS13335
+                          source_country: United States
+                          source_country_code: US
+                          organization: Example Hosting
+                        raw_data:
+                          scan:
+                          - port: 22
+                            protocol: tcp
+        '206':
+          description: 'Partial content - request partially successful.
+
+            Due to plan limitations, your request only returned a subset of
+
+            fields and/or data. Contact sales@greynoise.io to upgrade your
+
+            plan and unlock full results.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+              examples:
+                GnqlTimeSeries206Example:
+                  summary: Default gnqlTimeSeries 206 response
+                  x-microcks-default: true
+                  value: *id001
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/gnql/timeseries/stats:
+    get:
+      tags:
+      - Recall
+      summary: GNQL V3 Recall Stats
+      operationId: gnqlTimeSeriesStats
+      description: 'Get the number of unique IPs that match a GNQL query
+
+        per hour/day over a given time range.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/query'
+      - in: query
+        name: start
+        description: Start date for the desired time range
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end
+        description: End date for the desired time range
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: format
+        description: Specifies the desired format of the results. Must be either csv or json.
+        required: false
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          default: json
+      - in: query
+        name: interval
+        description: Specifies the time interval over which to aggregate unique IPs that return the given GNQL query.
+        required: true
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+      responses:
+        '200':
+          description: Query successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesStatsResponse'
+              examples:
+                GnqlTimeSeriesStats200Example:
+                  summary: Default gnqlTimeSeriesStats 200 response
+                  x-microcks-default: true
+                  value: &id002
+                    count: 1500
+                    min: 10
+                    max: 250
+                    data:
+                    - date: '2025-11-10 14:00:00.000'
+                      count: 125
+                    - date: '2025-11-10 15:00:00.000'
+                      count: 250
+                    - date: '2025-11-10 16:00:00.000'
+                      count: 180
+        '206':
+          description: 'Partial content - request partially successful.
+
+            Due to plan limitations, your request only returned a subset of
+
+            fields and/or data. Contact sales@greynoise.io to upgrade your
+
+            plan and unlock full results.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesStatsResponse'
+              examples:
+                GnqlTimeSeriesStats206Example:
+                  summary: Default gnqlTimeSeriesStats 206 response
+                  x-microcks-default: true
+                  value: *id002
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    TimeSeriesRecord:
+      type: object
+      description: A single IP record in a timeseries response
+      properties:
+        ip:
+          type: string
+          description: The IP address
+          example: 203.0.113.45
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/TimeSeriesIntelligence'
+    TimeSeriesSourceData:
+      type: object
+      description: Source traffic metadata
+      properties:
+        bytes:
+          type: integer
+          format: int64
+          description: 'The total amount of data transferred (in bytes) during the
+
+            observed session or connection.
+
+            '
+          example: 1024
+    TimeSeriesTCPData:
+      type: object
+      description: TCP-related data
+      properties:
+        ja4t:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4T TCP fingerprints observed in network traffic from the IP.
+
+            JA4T captures TCP connection characteristics such as window size,
+
+            options, and MSS, useful for OS fingerprinting and identifying
+
+            network stacks.
+
+            '
+          example:
+          - 64240_2-1-3-1-1-4_1460_8
+        ja4l:
+          type: string
+          description: 'JA4L light distance/latency fingerprint observed in network traffic
+
+            from the IP. Captures TCP TTL and window size characteristics, useful
+
+            for estimating client-server distance and identifying proxied
+
+            connections.
+
+            '
+          example: '1460_64'
+    TimeSeriesJA3Entry:
+      type: object
+      properties:
+        fingerprint:
+          type: string
+          example: c3a6cf0bf2e690ac8e1ecf6081f17a50
+          description: JA3 hash fingerprint string
+        port:
+          type: integer
+          example: 443
+          description: TCP port connection that the SSL/TLS communication occurred over
+    TimeSeriesSSHData:
+      type: object
+      description: SSH-related data
+      properties:
+        key:
+          type: array
+          items:
+            type: string
+          description: 'This is the SSH key used.
+
+            '
+          example:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
+        ja4ssh:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4SSH fingerprints observed in network traffic from the IP.
+
+            JA4SSH captures SSH traffic patterns including packet lengths and
+
+            directions, useful for identifying SSH client behavior and detecting
+
+            anomalous sessions.
+
+            '
+          example:
+          - c76s76_c71s59_c0s0
+    TimeSeriesResponse:
+      type: object
+      description: 'Response object for the timeseries endpoint. The response is a map
+
+        where keys are time intervals and values are arrays of IP records
+
+        observed in that interval.
+
+
+        Time interval keys are formatted as YYYY-MM-DD-HH (e.g., "2025-01-15-14")
+
+        '
+      additionalProperties:
+        description: 'Time interval key (format: YYYY-MM-DD-HH)
+
+          '
+        type: array
+        items:
+          $ref: '#/components/schemas/TimeSeriesRecord'
+      example:
+        2025-11-10-14:
+        - ip: 203.0.113.45
+          internet_scanner_intelligence:
+            first_seen: '2018-01-28'
+            last_seen: '2018-02-28'
+            found: true
+            tags:
+            - Mirai
+            - Telnet Worm
+            actor: Shodan.io
+            spoofable: true
+            classification: benign
+            cves:
+            - CVE-2020-1234
+            - CVE-2021-2345
+            vpn: true
+            vpn_service: IPVANISH_VPN
+            tor: false
+            last_seen_timestamp: '2025-01-15T12:30:45Z'
+            metadata:
+              asn: AS13335
+              source_country: United States
+              source_country_code: US
+              organization: Example Hosting
+            raw_data:
+              scan:
+              - port: 22
+                protocol: tcp
+    TimeSeriesStatsResponse:
+      type: object
+      description: 'Response object for the timeseries stats/aggregation endpoint.
+
+        This provides aggregated IP counts over time intervals matching
+
+        a GNQL query.
+
+        '
+      properties:
+        count:
+          type: integer
+          description: The sum of all IP counts across all time intervals
+          example: 1500
+        min:
+          type: integer
+          description: The minimum IP count observed in any single time interval
+          example: 10
+        max:
+          type: integer
+          description: The maximum IP count observed in any single time interval
+          example: 250
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesStatsRecord'
+          description: Array of aggregated data points, one per time interval
+          example: []
+      example:
+        count: 1500
+        min: 10
+        max: 250
+        data:
+        - date: '2025-11-10 14:00:00.000'
+          count: 125
+        - date: '2025-11-10 15:00:00.000'
+          count: 250
+        - date: '2025-11-10 16:00:00.000'
+          count: 180
+    MetadataV3:
+      properties:
+        mobile:
+          type: boolean
+          description: Defines if the IP is part of a known cellular network.
+          example: false
+        source_country:
+          type: string
+          description: Country where the IP address is registered or operates.
+          example: United States
+        source_country_code:
+          type: string
+          description: Country code of the IP address based on ISO 3166-1 alpha-2.
+          example: US
+        source_city:
+          type: string
+          description: The city where the device is geographically located.
+          example: Seattle
+        region:
+          type: string
+          description: The region where the device is geographically located.
+          example: Seattle
+        organization:
+          type: string
+          description: The name of organization that owns the IP address.
+          example: DigitalOcean, LLC
+        rdns:
+          type: string
+          description: The reverse DNS pointer.
+          example: crawl-66-249-79-17.googlebot.com
+        asn:
+          type: string
+          description: The autonomous system identification number.
+          example: AS521
+        category:
+          type: string
+          description: The subset of network types the IP address belongs to.
+          enum:
+          - isp
+          - business
+          - hosting
+          - mobile
+          - education
+          example: education
+        os:
+          type: string
+          description: An approximate guess of the operating system of the device, based on the TCP stack fingerprint.
+          example: Windows 7/8
+        destination_countries:
+          type: array
+          items:
+            type: string
+            description: 'The full name or country code where GreyNoise sensor
+
+              is physically located.
+
+              '
+            example: Germany
+          example:
+          - string
+        destination_country_codes:
+          type: array
+          items:
+            type: string
+            description: 'The country codes where GreyNoise sensor is
+
+              physically located.
+
+              '
+            example: Germany
+          example:
+          - US
+        destination_cities:
+          type: array
+          items:
+            type: string
+            description: 'The city where the GreyNoise sensor is geographically located.
+
+              '
+            example: Berlin
+          example:
+          - string
+        destination_asns:
+          type: array
+          items:
+            type: string
+            description: 'The ASN associated with the destination IP address.
+
+              '
+            example: AS1234
+          example:
+          - string
+        single_destination:
+          type: boolean
+          description: 'A Boolean parameter indicating whether the source IP address
+
+            has only been observed in a single destination country.
+
+            '
+          example: true
+        carrier:
+          type: string
+          description: 'The Internet Service Provider (ISP) or telecommunications
+
+            carrier associated with the source IP address.
+
+            '
+          example: AIS
+        datacenter:
+          type: string
+          description: 'The datacenter or hosting provider from which the activity originates.
+
+            This could indicate the use of cloud services,
+
+            managed hosting, or enterprise datacenter infrastructure.
+
+            '
+          example: us-west-1
+        domain:
+          type: string
+          description: 'The domain name associated with the source IP address.
+
+            '
+          example: example.com
+        rdns_parent:
+          type: string
+          description: 'The parent domain retrieved through reverse DNS (RDNS)
+
+            lookup of the source IP address.
+
+            '
+          example: example.com
+        rdns_validated:
+          type: boolean
+          description: 'A validation status that confirms whether the reverse DNS (RDNS)
+
+            record correctly maps to the source domain.
+
+            '
+          example: true
+        latitude:
+          type: number
+          description: 'The geographic latitude of the source IP address.
+
+            '
+          example: 37.7749
+        longitude:
+          type: number
+          description: 'The geographic longitude of the source IP address.
+
+            '
+          example: -122.4194
+        sensor_count:
+          type: integer
+          description: 'Number of sensors with events observed.
+
+            '
+          example: 10
+        sensor_hits:
+          type: integer
+          description: 'Number of scanning events observed.
+
+            '
+          example: 10
+    TimeSeriesTLSData:
+      type: object
+      description: TLS-related data
+      properties:
+        cipher:
+          type: array
+          items:
+            type: string
+          description: 'The encryption algorithms or cipher suites used during secure
+
+            communication. Identifying the ciphers helps assess the security
+
+            of the connection, particularly in TLS/SSL traffic.
+
+            '
+          example:
+          - TLS_AES_128_GCM_SHA256
+          - TLS_AES_256_GCM_SHA384
+        ja4:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4 TLS fingerprints observed in network traffic from the IP.
+
+            JA4 is a modern fingerprinting method that captures distinctive
+
+            characteristics of TLS client behavior,
+
+            useful for identifying and clustering malicious or anomalous clients.
+
+            '
+          example:
+          - t13d1516h2_8daaf6152771_02713d6af862
+    TimeSeriesHASSHEntry:
+      type: object
+      properties:
+        fingerprint:
+          type: string
+          example: 51cba57125523ce4b9db67714a90bf6e
+          description: HASSH hash fingerprint string
+        port:
+          type: integer
+          example: 2222
+          description: 'TCP port connection where the HASSH hash was identified
+
+            '
+    TimeSeriesIntelligence:
+      type: object
+      description: Intelligence data for an IP in the timeseries dataset
+      properties:
+        first_seen:
+          type: string
+          description: The earliest date GreyNoise observed any activity from this IP.
+          format: date
+          example: '2018-01-28'
+        last_seen:
+          type: string
+          description: The most recent date GreyNoise observed any activity from this IP.
+          format: date
+          example: '2018-02-28'
+        found:
+          type: boolean
+          description: Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as 'noise'.
+          example: true
+        tags:
+          type: array
+          items:
+            type: string
+          description: 'A list of activity/malware tags GreyNoise has applied to this
+
+            IP.
+
+            '
+          example:
+          - Mirai
+          - Telnet Worm
+        actor:
+          type: string
+          description: The overt actor this IP is associated with.
+          example: Shodan.io
+        spoofable:
+          type: boolean
+          description: This IP address has been opportunistically scanning the Internet, however has failed to complete a full TCP connection. Any reported activity could be spoofed.
+          example: true
+        classification:
+          type: string
+          description: The classification of the IP address, either "benign", "malicious", or "unknown", based on the activity observed by GreyNoise.
+          enum:
+          - benign
+          - malicious
+          - unknown
+          example: benign
+        cves:
+          type: array
+          items:
+            type: string
+          description: A list of CVEs associate with this IP.
+          example:
+          - CVE-2020-1234
+          - CVE-2021-2345
+        vpn:
+          type: boolean
+          description: This IP is associated with a VPN service. Activity, malicious or otherwise, should not be attributed to the VPN service provider.
+          example: true
+        vpn_service:
+          type: string
+          description: Name of associated VPN Service.
+          example: IPVANISH_VPN
+        tor:
+          type: boolean
+          description: Whether or not the device is a known Tor exit node.
+          example: false
+        last_seen_timestamp:
+          type: string
+          description: The timestamp of the last observed activity from this IP.
+          format: date-time
+          example: '2025-01-15T12:30:45Z'
+        metadata:
+          $ref: '#/components/schemas/MetadataV3'
+        raw_data:
+          $ref: '#/components/schemas/TimeSeriesRawData'
+    TimeSeriesScanEntry:
+      type: object
+      properties:
+        port:
+          type: integer
+          description: Port number
+          example: 80
+        protocol:
+          type: string
+          description: Protocol
+          example: TCP
+    TimeSeriesStatsRecord:
+      type: object
+      description: A single aggregated data point in a timeseries stats response
+      properties:
+        date:
+          type: string
+          description: 'The starting timestamp for this time interval in format
+
+            ''YYYY-MM-DD HH:mm:ss.SSS''.
+
+            For hourly intervals, the time component represents the hour.
+
+            For daily intervals, the time will be 00:00:00.000.
+
+            '
+          example: '2025-11-10 14:00:00.000'
+        count:
+          type: integer
+          description: 'The number of unique IPs matching the query in this time
+
+            interval
+
+            '
+          example: 125
+    TimeSeriesRawData:
+      type: object
+      description: Raw data collected about the IP's scanning activity
+      properties:
+        scan:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesScanEntry'
+          description: Observed scan activity
+          example: []
+        ja3:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesJA3Entry'
+          description: JA3 TLS fingerprints observed
+          example: []
+        hassh:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesHASSHEntry'
+          description: HASSH SSH fingerprints observed
+          example: []
+        http:
+          $ref: '#/components/schemas/TimeSeriesHTTPData'
+        source:
+          $ref: '#/components/schemas/TimeSeriesSourceData'
+        tls:
+          $ref: '#/components/schemas/TimeSeriesTLSData'
+        ssh:
+          $ref: '#/components/schemas/TimeSeriesSSHData'
+        tcp:
+          $ref: '#/components/schemas/TimeSeriesTCPData'
+    TimeSeriesHTTPData:
+      type: object
+      description: HTTP-related data observed
+      properties:
+        md5:
+          type: array
+          items:
+            type: string
+          description: 'MD5 hashes of the body content. These compact,
+
+            unique representations of the data allow for quick
+
+            comparisons and deduplication of payloads without
+
+            storing the raw content.
+
+            '
+          example:
+          - 9764955b67107eeb9edfae76f429e783
+        cookie_keys:
+          type: array
+          items:
+            type: string
+          description: 'The keys or names of cookies exchanged in the communication.
+
+            These can reveal session identifiers, tracking mechanisms,
+
+            or other metadata used in web interactions,
+
+            providing clues about application behavior or vulnerabilities.
+
+            '
+          example:
+          - expremotekey
+        request_authorization:
+          type: array
+          items:
+            type: string
+          description: 'The contents of the Authorization header in a request,
+
+            which can include credentials, tokens, or other authentication
+
+            information.
+
+            '
+          example:
+          - Bearer exampletoken
+          - Basic username:password
+        request_cookies:
+          type: array
+          items:
+            type: string
+          description: 'Key-value pairs stored in cookies sent with an HTTP request.
+
+            These cookies often contain session identifiers, user preferences,
+
+            or tracking data, which can be analyzed to detect unauthorized
+
+            access or manipulation.
+
+            '
+          example:
+          - session_id=1234567890
+        request_header:
+          type: array
+          items:
+            type: string
+          description: 'Request Headers are the keys (names) of HTTP headers
+
+            that a client sends to a server.
+
+            '
+          example:
+          - 'Content-Type: application/json'
+          - 'Accept: application/json'
+        method:
+          type: array
+          items:
+            type: string
+          description: 'The HTTP method used in the request, such as GET, POST, PUT, or DELETE.
+
+            Analyzing methods can reveal the intent of the request,
+
+            such as retrieving or modifying resources,
+
+            and identify unexpected or suspicious activity.
+
+            '
+          example:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        path:
+          type: array
+          items:
+            type: string
+          description: Observed scanning activity traversed this web path.
+          example:
+          - /robots.txt
+        request_origin:
+          type: array
+          items:
+            type: string
+          description: 'Indicates the origin of the request,
+
+            typically used in cross-origin resource sharing (CORS)
+
+            to specify where the request originated.
+
+            This helps identify unauthorized or potentially
+
+            malicious cross-origin requests.
+
+            '
+          example:
+          - 111.111.1.1
+        useragent:
+          type: array
+          items:
+            type: string
+          description: Observed scanning activity used these user agents.
+          example:
+          - 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+
+            '
+        ja4h:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4H HTTP client fingerprints observed in network traffic from the IP.
+
+            JA4H captures characteristics of HTTP client behavior including method,
+
+            headers, and cookie fields, useful for identifying and tracking HTTP clients.
+
+            '
+          example:
+          - ge11cn060000_4e59edc1297a_4da5efaf0cbd
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+  responses:
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+  parameters:
+    query:
+      name: query
+      in: query
+      description: GNQL query string
+      required: true
+      schema:
+        type: string
+      example: tags:Mirai
+  securitySchemes:
+    APIKeyHeaderAuth:
+      type: apiKey
+      in: header
+      name: key
+      description: GreyNoise API key passed via the 'key' HTTP header.

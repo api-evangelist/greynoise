@@ -1,0 +1,1195 @@
+openapi: 3.0.0
+info:
+  title: GreyNoise Callback Sessions API
+  version: 3.0.0
+  description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
+  contact:
+    email: hello@greynoise.io
+  license:
+    name: Proprietary
+    url: https://www.greynoise.io/terms
+servers:
+- url: https://api.greynoise.io
+  description: Production
+security:
+- APIKeyHeaderAuth: []
+tags:
+- name: Sessions
+  description: 'Endpoints for querying, analyzing, and exporting raw network session (PCAP)
+
+    data captured by GreyNoise sensors. Use the `scope` parameter to control
+
+    data access (workspace or demo). Required entitlements vary by scope.
+
+    '
+paths:
+  /v3/sessions:
+    get:
+      tags:
+      - Sessions
+      summary: Get Sessions
+      operationId: getSessions
+      description: 'Returns a paginated list of network sessions matching the query criteria.
+
+        Sessions represent individual network connections captured by GreyNoise sensors.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: query
+        name: start_time
+        description: Start time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end_time
+        description: End time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: query
+        description: Lucene query string to filter sessions.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: page
+        description: Page number for pagination.
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - in: query
+        name: page_size
+        description: Number of results per page.
+        required: false
+        schema:
+          type: integer
+          default: 25
+          minimum: 1
+          maximum: 100
+      - in: query
+        name: sort_by
+        description: Field to sort results by.
+        required: false
+        schema:
+          type: string
+          default: lastPacket
+      - in: query
+        name: sort_desc
+        description: Whether to sort in descending order.
+        required: false
+        schema:
+          type: string
+          default: 'true'
+          enum:
+          - 'true'
+          - 'false'
+      responses:
+        '200':
+          description: OK - request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionsResponse'
+              examples:
+                GetSessions200Example:
+                  summary: Default getSessions 200 response
+                  x-microcks-default: true
+                  value:
+                    sessions: []
+                    total: 150
+                    pagination:
+                      page: 1
+                      page_size: 25
+                      sort_by: lastPacket
+                      sort_desc: true
+                    request_metadata:
+                      start_time: '2025-01-01T00:00:00Z'
+                      end_time: '2025-01-07T23:59:59Z'
+                      query: tags:Mirai
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/connections:
+    get:
+      tags:
+      - Sessions
+      summary: Get Session Connections
+      operationId: getSessionConnections
+      description: 'Returns a graph of connections between source and destination fields.
+
+        Useful for visualizing network relationships and communication patterns.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: query
+        name: start_time
+        description: Start time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end_time
+        description: End time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: query
+        description: Lucene query string to filter sessions.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: src_field
+        description: Source field to aggregate on.
+        required: false
+        schema:
+          type: string
+          default: source.ip
+      - in: query
+        name: dest_field
+        description: Destination field to aggregate on.
+        required: false
+        schema:
+          type: string
+          default: destination.ip
+      - in: query
+        name: max_nodes
+        description: Maximum number of nodes to return.
+        required: false
+        schema:
+          type: integer
+          default: 100
+          minimum: 1
+          maximum: 10000
+      - in: query
+        name: min_connections
+        description: Minimum number of connections to include a node.
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      responses:
+        '200':
+          description: OK - request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionConnectionsResponse'
+              examples:
+                GetSessionConnections200Example:
+                  summary: Default getSessionConnections 200 response
+                  x-microcks-default: true
+                  value:
+                    nodes: []
+                    links: []
+                    total: 250
+                    request_metadata:
+                      start_time: string
+                      end_time: string
+                      query: tags:Mirai
+                      src_field: string
+                      dest_field: string
+                      max_nodes: 1
+                      min_connections: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/counts:
+    get:
+      tags:
+      - Sessions
+      summary: Get Session Counts
+      operationId: getSessionCounts
+      description: 'Returns aggregated counts of sessions grouped by the specified fields.
+
+        Useful for building dashboards and understanding traffic distribution.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: query
+        name: start_time
+        description: Start time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end_time
+        description: End time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: fields
+        description: Comma-separated list of fields to aggregate on.
+        required: true
+        schema:
+          type: string
+        example: source.ip,destination.port
+      - in: query
+        name: query
+        description: Lucene query string to filter sessions.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: size
+        description: Number of buckets per aggregation level.
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+      responses:
+        '200':
+          description: OK - request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionCountsResponse'
+              examples:
+                GetSessionCounts200Example:
+                  summary: Default getSessionCounts 200 response
+                  x-microcks-default: true
+                  value:
+                    items: []
+                    total: 5000
+                    request_metadata:
+                      start_time: string
+                      end_time: string
+                      query: tags:Mirai
+                      fields:
+                      - string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/export:
+    get:
+      tags:
+      - Sessions
+      summary: Export PCAP for Multiple Sessions
+      operationId: exportSessionsPcap
+      description: 'Returns a PCAP file containing packets from sessions matching the query criteria.
+
+        The response is a binary PCAP file suitable for analysis with tools like Wireshark.
+
+
+        Not available when `scope=demo` (returns 403).
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: query
+        name: start_time
+        description: Start time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end_time
+        description: End time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: query
+        description: Lucene query string to filter sessions.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: size
+        description: Maximum number of sessions to include in the export.
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - in: query
+        name: sort_by
+        description: Field to sort results by.
+        required: false
+        schema:
+          type: string
+          default: lastPacket
+      - in: query
+        name: sort_desc
+        description: Whether to sort in descending order.
+        required: false
+        schema:
+          type: string
+          default: 'true'
+          enum:
+          - 'true'
+          - 'false'
+      responses:
+        '200':
+          description: PCAP file containing matching session packets.
+          content:
+            application/vnd.tcpdump.pcap:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              example: attachment; filename="sessions.pcap"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/fields:
+    get:
+      tags:
+      - Sessions
+      summary: Get Session Fields
+      operationId: getSessionFields
+      description: 'Returns the list of available session fields for querying and display.
+
+        Use this to discover which fields can be used in queries, sorting, and aggregations.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      responses:
+        '200':
+          description: OK - request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFieldsResponse'
+              examples:
+                GetSessionFields200Example:
+                  summary: Default getSessionFields 200 response
+                  x-microcks-default: true
+                  value:
+                    fields: []
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/timeseries:
+    get:
+      tags:
+      - Sessions
+      summary: Get Session Timeseries
+      operationId: getSessionTimeseries
+      description: 'Returns timeseries data for sessions, optionally grouped by a field.
+
+        Useful for visualizing session volume over time and identifying trends.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: query
+        name: start_time
+        description: Start time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end_time
+        description: End time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: query
+        description: Lucene query string to filter sessions.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: field
+        description: Field to group timeseries by.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: size
+        description: Number of groups to return when field is provided.
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+      - in: query
+        name: interval
+        description: Time interval for bucketing.
+        required: false
+        schema:
+          type: string
+          default: auto
+          enum:
+          - auto
+          - 1s
+          - 1m
+          - 1h
+          - 1d
+      responses:
+        '200':
+          description: OK - request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionTimeseriesResponse'
+              examples:
+                GetSessionTimeseries200Example:
+                  summary: Default getSessionTimeseries 200 response
+                  x-microcks-default: true
+                  value:
+                    timeseries: []
+                    items: []
+                    total: 1000
+                    request_metadata:
+                      start_time: string
+                      end_time: string
+                      query: tags:Mirai
+                      field: string
+                      interval: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/unique:
+    get:
+      tags:
+      - Sessions
+      summary: Get Unique Field Values
+      operationId: getSessionUniqueValues
+      description: 'Returns unique values for a session field as a CSV download, optionally with counts.
+
+        Useful for extracting distinct IPs, ports, or other field values matching a query.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: query
+        name: start_time
+        description: Start time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-01T00:00:00Z'
+      - in: query
+        name: end_time
+        description: End time for the query range (ISO 8601 format).
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2025-01-07T23:59:59Z'
+      - in: query
+        name: field
+        description: Field to get unique values for.
+        required: true
+        schema:
+          type: string
+        example: source.ip
+      - in: query
+        name: query
+        description: Lucene query string to filter sessions.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: include_counts
+        description: Whether to include counts in the output.
+        required: false
+        schema:
+          type: string
+          default: 'false'
+          enum:
+          - 'true'
+          - 'false'
+      responses:
+        '200':
+          description: CSV file with unique values.
+          content:
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/{session_id}:
+    get:
+      tags:
+      - Sessions
+      summary: Get Session by ID
+      operationId: getSessionById
+      description: 'Returns a single session by its ID, including full session metadata
+
+        and connection details.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: path
+        name: session_id
+        description: The unique session identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK - request successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+              examples:
+                GetSessionById200Example:
+                  summary: Default getSessionById 200 response
+                  x-microcks-default: true
+                  value:
+                    _id: 2505-abcdef123456
+                    firstPacket: '2025-01-15T10:30:00Z'
+                    lastPacket: '2025-01-15T10:30:05Z'
+                    source.ip: 203.0.113.45
+                    source.port: 54321
+                    destination.ip: 198.51.100.10
+                    destination.port: 443
+                    source.bytes: 1024
+                    source.packets: 10
+                    destination.bytes: 2048
+                    destination.packets: 8
+                    classification: malicious
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/{session_id}/export:
+    get:
+      tags:
+      - Sessions
+      summary: Export Session Data
+      operationId: exportSessionData
+      description: 'Downloads session data as PCAP or raw payload for a single session.
+
+        Use the `type` parameter to select the export format.
+
+
+        Not available when `scope=demo` (returns 403).
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: path
+        name: session_id
+        description: The unique session identifier.
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: type
+        description: Export format type.
+        required: false
+        schema:
+          type: string
+          default: pcap
+          enum:
+          - pcap
+          - rawSource
+          - rawDestination
+      responses:
+        '200':
+          description: Session data file in the requested format.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v3/sessions/{session_id}/frames:
+    get:
+      tags:
+      - Sessions
+      summary: Get Session PCAP
+      operationId: getSessionPcap
+      description: 'Returns raw PCAP bytes for a single session. The response is a binary
+
+        PCAP file suitable for analysis with tools like Wireshark.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/scope'
+      - in: path
+        name: session_id
+        description: The unique session identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: PCAP file for the requested session.
+          content:
+            application/vnd.tcpdump.pcap:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              example: attachment; filename="session-{session_id}.pcap"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/ExceededLimit'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+  schemas:
+    Session:
+      type: object
+      description: 'A network session captured by GreyNoise sensors. Sessions contain network
+
+        flow data, protocol details, and enrichment metadata. The full set of fields
+
+        is dynamic and can be discovered via the `/v3/sessions/fields` endpoint.
+
+        '
+      additionalProperties: true
+      properties:
+        _id:
+          type: string
+          description: Unique session identifier.
+          example: 2505-abcdef123456
+        firstPacket:
+          type: string
+          format: date-time
+          description: Timestamp of the first packet in the session.
+          example: '2025-01-15T10:30:00Z'
+        lastPacket:
+          type: string
+          format: date-time
+          description: Timestamp of the last packet in the session.
+          example: '2025-01-15T10:30:05Z'
+        source.ip:
+          type: string
+          description: Source IP address.
+          example: 203.0.113.45
+        source.port:
+          type: integer
+          description: Source port number.
+          example: 54321
+        destination.ip:
+          type: string
+          description: Destination IP address.
+          example: 198.51.100.10
+        destination.port:
+          type: integer
+          description: Destination port number.
+          example: 443
+        source.bytes:
+          type: integer
+          description: Total bytes sent from source.
+          example: 1024
+        source.packets:
+          type: integer
+          description: Total packets sent from source.
+          example: 10
+        destination.bytes:
+          type: integer
+          description: Total bytes sent from destination.
+          example: 2048
+        destination.packets:
+          type: integer
+          description: Total packets sent from destination.
+          example: 8
+        classification:
+          type: string
+          description: GreyNoise classification of the source IP.
+          example: malicious
+    SessionCountsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          description: Aggregated count items.
+          items:
+            $ref: '#/components/schemas/SessionCountItem'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions matching the query.
+          example: 5000
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            fields:
+              type: array
+              items:
+                type: string
+              example:
+              - string
+    SessionRequestMetadata:
+      type: object
+      properties:
+        start_time:
+          type: string
+          description: Start time of the query range.
+          example: '2025-01-01T00:00:00Z'
+        end_time:
+          type: string
+          description: End time of the query range.
+          example: '2025-01-07T23:59:59Z'
+        query:
+          type: string
+          description: The Lucene query string used.
+          example: tags:Mirai
+    SessionConnectionNode:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Node identifier (field value).
+          example: 192.168.1.1
+        type:
+          type: string
+          description: Whether this is a source or destination node.
+          example: source
+    SessionField:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The field identifier used in queries.
+          example: source.ip
+        label:
+          type: string
+          description: Human-readable label for the field.
+          example: Source IP
+        description:
+          type: string
+          description: Description of the field.
+          example: The source IP address of the session.
+        type:
+          type: string
+          description: Data type of the field.
+          example: ip
+        group:
+          type: string
+          description: Logical grouping of the field.
+          example: source
+        sortable:
+          type: boolean
+          description: Whether the field can be used for sorting.
+          example: true
+    SessionTimeseriesResponse:
+      type: object
+      properties:
+        timeseries:
+          type: array
+          description: Timeseries data points (when no field grouping is used).
+          items:
+            $ref: '#/components/schemas/SessionTimeseriesPoint'
+          example: []
+        items:
+          type: array
+          description: Grouped timeseries data (when field grouping is used).
+          items:
+            $ref: '#/components/schemas/SessionTimeseriesItem'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions in the time range.
+          example: 1000
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            field:
+              type: string
+              example: string
+            interval:
+              type: string
+              example: string
+    SessionFieldsResponse:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: List of available session fields.
+          items:
+            $ref: '#/components/schemas/SessionField'
+          example: []
+    SessionTimeseriesPoint:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: Timestamp for this data point.
+          example: '2025-01-01T00:00:00Z'
+        count:
+          type: integer
+          description: Number of sessions in this time bucket.
+          example: 42
+    SessionPagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Current page number.
+          example: 1
+        page_size:
+          type: integer
+          description: Number of results per page.
+          example: 25
+        sort_by:
+          type: string
+          description: Field used for sorting.
+          example: lastPacket
+        sort_desc:
+          type: boolean
+          description: Whether results are sorted in descending order.
+          example: true
+    SessionsResponse:
+      type: object
+      properties:
+        sessions:
+          type: array
+          description: Array of session objects matching the query.
+          items:
+            $ref: '#/components/schemas/Session'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions matching the query.
+          example: 150
+        pagination:
+          $ref: '#/components/schemas/SessionPagination'
+        request_metadata:
+          $ref: '#/components/schemas/SessionRequestMetadata'
+    SessionConnectionsResponse:
+      type: object
+      properties:
+        nodes:
+          type: array
+          description: Network nodes in the connection graph.
+          items:
+            $ref: '#/components/schemas/SessionConnectionNode'
+          example: []
+        links:
+          type: array
+          description: Connections between nodes.
+          items:
+            $ref: '#/components/schemas/SessionConnectionLink'
+          example: []
+        total:
+          type: integer
+          description: Total number of connections.
+          example: 250
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            src_field:
+              type: string
+              example: string
+            dest_field:
+              type: string
+              example: string
+            max_nodes:
+              type: integer
+              example: 1
+            min_connections:
+              type: integer
+              example: 1
+    SessionTimeseriesItem:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The field value for this group.
+          example: 192.168.1.1
+        count:
+          type: integer
+          description: Total sessions for this group.
+          example: 150
+        timeseries:
+          type: array
+          description: Timeseries data for this group.
+          items:
+            $ref: '#/components/schemas/SessionTimeseriesPoint'
+          example: []
+    SessionConnectionLink:
+      type: object
+      properties:
+        source:
+          type: string
+          description: Source node identifier.
+          example: 192.168.1.1
+        target:
+          type: string
+          description: Target node identifier.
+          example: 10.0.0.1
+        value:
+          type: integer
+          description: Number of connections between source and target.
+          example: 15
+    SessionCountItem:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The value of the aggregated field.
+          example: 192.168.1.1
+        count:
+          type: integer
+          description: Number of sessions for this value.
+          example: 42
+        children:
+          type: array
+          description: Nested aggregation results for multi-field queries.
+          items:
+            $ref: '#/components/schemas/SessionCountItem'
+          example: []
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+  parameters:
+    scope:
+      name: scope
+      in: query
+      description: 'Controls the data scope for the query.
+
+        - `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.
+
+        - `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.
+
+        '
+      required: false
+      schema:
+        type: string
+        default: workspace
+        enum:
+        - workspace
+        - demo
+      example: workspace
+  securitySchemes:
+    APIKeyHeaderAuth:
+      type: apiKey
+      in: header
+      name: key
+      description: GreyNoise API key passed via the 'key' HTTP header.

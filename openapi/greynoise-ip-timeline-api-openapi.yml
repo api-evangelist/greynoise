@@ -1,0 +1,257 @@
+openapi: 3.0.0
+info:
+  title: GreyNoise Callback IP Timeline API
+  version: 3.0.0
+  description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
+  contact:
+    email: hello@greynoise.io
+  license:
+    name: Proprietary
+    url: https://www.greynoise.io/terms
+servers:
+- url: https://api.greynoise.io
+  description: Production
+security:
+- APIKeyHeaderAuth: []
+tags:
+- name: IP Timeline
+  description: 'Noise data captures internet scanning activity against GreyNoise sensors
+
+    deployed globally.
+
+    The IP Timeline APIs allow temporal analysis and presents the user with a
+
+    view of how this data has changed over the time.
+
+    '
+paths:
+  /v3/noise/ips/{ip}/timeline:
+    parameters:
+    - in: path
+      name: ip
+      description: 'IPv4 address to look up Noise time series activity timeline for
+
+        '
+      schema:
+        type: string
+        example: 36.32.2.102
+      required: true
+    - in: query
+      name: days
+      description: Number of days to show data for
+      schema:
+        type: string
+        example: '7'
+        default: '1'
+      required: false
+    - in: query
+      name: field
+      description: Field over which to show activity breakdown
+      schema:
+        type: string
+        enum:
+        - destination_port
+        - http_path
+        - http_user_agent
+        - source_asn
+        - source_org
+        - source_rdns
+        - tag_ids
+        - classification
+        example: classification
+        default: classification
+      required: true
+    - in: query
+      name: granularity
+      description: 'Granularity of activity date ranges. This can be in hours (e.g. Xh)
+
+        or days (Xd).
+
+        Valid hours are between 1 and 24. Valid days are between 1 and 90.
+
+        '
+      schema:
+        type: string
+        example: 8h
+        default: 1d
+      required: false
+    - $ref: '#/components/parameters/workspaceLabels'
+    get:
+      operationId: getIPTimelineFieldSummary
+      tags:
+      - IP Timeline
+      summary: IP Timeline Field Summary
+      description: 'Retrieve an IP address'' summary of noise activity for a specific field.
+
+
+        _License: This endpoint requires an additional subscription
+
+        license to use._
+
+        '
+      responses:
+        '200':
+          description: Success - returns activity data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IPTimelineResponse'
+              examples:
+                GetIPTimelineFieldSummary200Example:
+                  summary: Default getIPTimelineFieldSummary 200 response
+                  x-microcks-default: true
+                  value:
+                    results:
+                    - data: 1
+                      label: unknown
+                      timestamp: '2023-01-23T00:00:00Z'
+                    metadata:
+                      ip: 36.32.2.102
+                      field: classification
+                      first_seen: '2022-06-15'
+                      start: '2023-01-18T00:00:00Z'
+                      end: '2023-01-25T21:55:18.486036894Z'
+                      granularity: 1d
+                      metric: count
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  parameters:
+    workspaceLabels:
+      name: workspace_labels
+      in: query
+      description: "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+      required: false
+      schema:
+        type: string
+        example: greynoise,community
+      example: string
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+  schemas:
+    IPTimelineResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              data:
+                type: integer
+                description: Hourly activity count for the field value in this time bucket
+                example: 1
+              label:
+                type: string
+                description: 'A label that corresponds to a distinct value for the
+
+                  given field
+
+                  '
+                example: unknown
+              timestamp:
+                type: string
+                description: 'Time range bucket based on granularity - the timestamp
+
+                  represents the start of the bucket
+
+                  '
+                format: date-time
+                example: '2023-01-23T00:00:00Z'
+        metadata:
+          type: object
+          properties:
+            ip:
+              type: string
+              description: IP queried
+              example: 36.32.2.102
+            field:
+              type: string
+              description: Field over which to show change
+              example: classification
+            first_seen:
+              type: string
+              description: 'The earliest date GreyNoise observed any activity from this IP.
+
+                '
+              example: '2022-06-15'
+            start:
+              type: string
+              format: date-time
+              description: Start of time range for data
+              example: '2023-01-18T00:00:00Z'
+            end:
+              type: string
+              format: date-time
+              description: End of time range for data
+              example: '2023-01-25T21:55:18.486036894Z'
+            granularity:
+              type: string
+              description: Granularity at which to show data
+              example: 1d
+            metric:
+              type: string
+              description: The metric used within the data field
+              example: count
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+  securitySchemes:
+    APIKeyHeaderAuth:
+      type: apiKey
+      in: header
+      name: key
+      description: GreyNoise API key passed via the 'key' HTTP header.

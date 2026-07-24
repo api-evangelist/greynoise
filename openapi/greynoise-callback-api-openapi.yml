@@ -1,0 +1,696 @@
+openapi: 3.0.0
+info:
+  title: GreyNoise Callback API
+  version: 3.0.0
+  description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
+  contact:
+    email: hello@greynoise.io
+  license:
+    name: Proprietary
+    url: https://www.greynoise.io/terms
+servers:
+- url: https://api.greynoise.io
+  description: Production
+security:
+- APIKeyHeaderAuth: []
+tags:
+- name: Callback
+paths:
+  /v1/callback/export-ips:
+    post:
+      tags:
+      - Callback
+      summary: Export Callback IPs
+      operationId: CallbackExportIPs
+      description: 'Export callback IPs matching the given filters as a newline-delimited
+
+        plain text list. Supports the same filter parameters as the List
+
+        Callback IPs endpoint.
+
+        '
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackFilterFields'
+            examples:
+              CallbackExportIPsRequestExample:
+                summary: Default CallbackExportIPs request
+                x-microcks-default: true
+                value:
+                  is_stage_1: false
+                  is_stage_2: false
+                  first_seen_after: '2026-05-01'
+                  first_seen_before: '2026-05-01'
+                  last_seen_after: '2026-05-01'
+                  last_seen_before: '2026-05-01'
+                  has_files: false
+                  file_type: string
+                  file_name: Google Public DNS
+                  file_hash: 795bc7ce13f60d61e9ac03611dd36d90
+                  scanner_ips:
+                  - string
+                  ips:
+                  - string
+      responses:
+        '200':
+          description: OK - newline-delimited list of callback IPs.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '198.51.100.42
+
+                  203.0.113.7
+
+                  192.0.2.99
+
+                  '
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/callback/ip/{ip}:
+    get:
+      tags:
+      - Callback
+      summary: Callback IP Lookup
+      operationId: CallbackGetIP
+      description: 'Retrieve detailed information about a specific callback IP, including
+
+        attack stage, scanner associations, and downloaded malware files.
+
+        '
+      parameters:
+      - name: ip
+        in: path
+        description: The callback IP address to look up.
+        required: true
+        schema:
+          type: string
+          example: 198.51.100.42
+      responses:
+        '200':
+          description: OK - callback IP details returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallbackIPDetailResponse'
+              examples:
+                CallbackGetIP200Example:
+                  summary: Default CallbackGetIP 200 response
+                  x-microcks-default: true
+                  value:
+                    ip: 198.51.100.42
+                    source_workspaces:
+                    - GreyNoise
+                    - UserWorkspace
+                    is_stage_1: false
+                    is_stage_2: false
+                    first_seen: '2025-03-01T00:00:00Z'
+                    last_seen: '2025-03-15T12:30:00Z'
+                    scanner_ips:
+                    - 203.0.113.7
+                    - 192.0.2.99
+                    scanner_count: 5
+                    file_count: 3
+                    active_files: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/callback/ips:
+    post:
+      tags:
+      - Callback
+      summary: List Callback IPs
+      operationId: CallbackListIPs
+      description: 'Retrieve a paginated list of callback IPs with filtering by attack
+
+        stage, date ranges, file attributes, and scanner associations.
+
+        '
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackListIPsRequest'
+            examples:
+              CallbackListIPsRequestExample:
+                summary: Default CallbackListIPs request
+                x-microcks-default: true
+                value:
+                  is_stage_1: false
+                  is_stage_2: false
+                  first_seen_after: '2026-05-01'
+                  first_seen_before: '2026-05-01'
+                  last_seen_after: '2026-05-01'
+                  last_seen_before: '2026-05-01'
+                  has_files: false
+                  file_type: string
+                  file_name: Google Public DNS
+                  file_hash: 795bc7ce13f60d61e9ac03611dd36d90
+                  scanner_ips:
+                  - string
+                  ips:
+                  - string
+                  page: 100
+                  page_size: 100
+      responses:
+        '200':
+          description: OK - paginated list of callback IPs returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallbackListIPsResponse'
+              examples:
+                CallbackListIPs200Example:
+                  summary: Default CallbackListIPs 200 response
+                  x-microcks-default: true
+                  value:
+                    items: []
+                    total: 142
+                    page: 0
+                    page_size: 20
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/callback/overview:
+    post:
+      tags:
+      - Callback
+      summary: Callback Overview Statistics
+      operationId: CallbackOverview
+      description: 'Retrieve aggregate statistics for callback IPs including counts by
+
+        attack stage, file analysis status, scanner associations, and top
+
+        threat names.
+
+        '
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackFilterFields'
+            examples:
+              CallbackOverviewRequestExample:
+                summary: Default CallbackOverview request
+                x-microcks-default: true
+                value:
+                  is_stage_1: false
+                  is_stage_2: false
+                  first_seen_after: '2026-05-01'
+                  first_seen_before: '2026-05-01'
+                  last_seen_after: '2026-05-01'
+                  last_seen_before: '2026-05-01'
+                  has_files: false
+                  file_type: string
+                  file_name: Google Public DNS
+                  file_hash: 795bc7ce13f60d61e9ac03611dd36d90
+                  scanner_ips:
+                  - string
+                  ips:
+                  - string
+      responses:
+        '200':
+          description: OK - overview statistics returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallbackOverviewResponse'
+              examples:
+                CallbackOverview200Example:
+                  summary: Default CallbackOverview 200 response
+                  x-microcks-default: true
+                  value:
+                    total_ips: 142
+                    stage_1_ips: 98
+                    stage_2_ips: 44
+                    total_files: 230
+                    files_with_vt: 180
+                    files_without_vt: 50
+                    total_cross_refs: 312
+                    total_scanner_links: 456
+                    ips_with_files: 110
+                    ips_without_files: 32
+                    ips_with_scanners: 130
+                    ips_without_scanners: 12
+                    distinct_scanners: 89
+                    top_threat_names: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    CallbackFileSummary:
+      type: object
+      description: Lightweight file reference returned with IP list results.
+      properties:
+        sha256:
+          type: string
+          description: SHA-256 hash of the file.
+          example: string
+        file_name:
+          type: string
+          description: Original file name.
+          example: Google Public DNS
+        type:
+          type: string
+          description: File MIME type.
+          example: string
+        vt_threat_name:
+          type: string
+          description: VirusTotal threat name.
+          example: Google Public DNS
+        vt_detection_count:
+          type: integer
+          description: Number of VirusTotal engines that flagged the file.
+          example: 42
+    CallbackOverviewResponse:
+      type: object
+      description: Aggregate statistics for callback IPs matching the given filters.
+      properties:
+        total_ips:
+          type: integer
+          description: Total number of callback IPs.
+          example: 142
+        stage_1_ips:
+          type: integer
+          description: Number of stage 1 (initial payload delivery) IPs.
+          example: 98
+        stage_2_ips:
+          type: integer
+          description: Number of stage 2 (post-exploitation callback) IPs.
+          example: 44
+        total_files:
+          type: integer
+          description: Total number of associated malware files.
+          example: 230
+        files_with_vt:
+          type: integer
+          description: Files that have been analyzed by VirusTotal.
+          example: 180
+        files_without_vt:
+          type: integer
+          description: Files pending VirusTotal analysis.
+          example: 50
+        total_cross_refs:
+          type: integer
+          description: Total IP-to-file associations.
+          example: 312
+        total_scanner_links:
+          type: integer
+          description: Total scanner-to-callback-IP associations.
+          example: 456
+        ips_with_files:
+          type: integer
+          description: Number of IPs that have associated files.
+          example: 110
+        ips_without_files:
+          type: integer
+          description: Number of IPs with no associated files.
+          example: 32
+        ips_with_scanners:
+          type: integer
+          description: Number of IPs with known scanner associations.
+          example: 130
+        ips_without_scanners:
+          type: integer
+          description: Number of IPs with no known scanner associations.
+          example: 12
+        distinct_scanners:
+          type: integer
+          description: Total number of unique scanner IPs.
+          example: 89
+        top_threat_names:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackThreatNameStat'
+          description: Top VirusTotal threat names by file count.
+          example: []
+    CallbackListIPsRequest:
+      allOf:
+      - $ref: '#/components/schemas/CallbackFilterFields'
+      - type: object
+        properties:
+          page:
+            type: integer
+            minimum: 0
+            default: 0
+            description: Zero-indexed page number.
+            example: 100
+          page_size:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+            description: Number of results per page (1-100).
+            example: 100
+    CallbackIPSummary:
+      type: object
+      description: Summary representation of a callback IP in list results.
+      properties:
+        ip:
+          type: string
+          example: 198.51.100.42
+        source_workspaces:
+          type: array
+          items:
+            type: string
+          example:
+          - GreyNoise
+        is_stage_1:
+          type: boolean
+          example: false
+        is_stage_2:
+          type: boolean
+          example: false
+        first_seen:
+          type: string
+          nullable: true
+          example: '2025-12-01'
+        last_seen:
+          type: string
+          nullable: true
+          example: '2026-05-01'
+        scanner_ips:
+          type: array
+          items:
+            type: string
+          example:
+          - string
+        scanner_count:
+          type: integer
+          example: 42
+        file_count:
+          type: integer
+          example: 42
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackFileSummary'
+          description: Lightweight file references for this IP.
+          example: []
+    CallbackFilterFields:
+      type: object
+      description: Common filter fields for callback IP queries.
+      properties:
+        is_stage_1:
+          type: boolean
+          description: 'Filter by stage 1 status. true = file downloaded from this IP.
+
+            '
+          example: false
+        is_stage_2:
+          type: boolean
+          description: 'Filter by stage 2 status. true = suspected C2 based on VT/sandbox analysis.
+
+            '
+          example: false
+        first_seen_after:
+          type: string
+          format: date
+          description: Only include IPs first seen after this date (YYYY-MM-DD).
+          example: '2026-05-01'
+        first_seen_before:
+          type: string
+          format: date
+          description: Only include IPs first seen before this date (YYYY-MM-DD).
+          example: '2026-05-01'
+        last_seen_after:
+          type: string
+          format: date
+          description: Only include IPs last seen after this date (YYYY-MM-DD).
+          example: '2026-05-01'
+        last_seen_before:
+          type: string
+          format: date
+          description: Only include IPs last seen before this date (YYYY-MM-DD).
+          example: '2026-05-01'
+        has_files:
+          type: boolean
+          description: If true, only include IPs with associated malware files. If false, only IPs without files.
+          example: false
+        file_type:
+          type: string
+          description: Filter by file MIME type (e.g. "application/x-executable").
+          example: string
+        file_name:
+          type: string
+          description: Filter by file name substring match.
+          example: Google Public DNS
+        file_hash:
+          type: string
+          description: Filter by file SHA256 hash.
+          example: 795bc7ce13f60d61e9ac03611dd36d90
+        scanner_ips:
+          type: array
+          items:
+            type: string
+          description: Filter to IPs associated with these scanner IPs.
+          example:
+          - string
+        ips:
+          type: array
+          items:
+            type: string
+          description: Filter to this specific set of callback IPs.
+          example:
+          - string
+    CallbackFileResponse:
+      type: object
+      description: Malware file associated with a callback IP.
+      properties:
+        sha256:
+          type: string
+          description: SHA-256 hash of the file.
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 hash of the file.
+          example: 795bc7ce13f60d61e9ac03611dd36d90
+        sha1:
+          type: string
+          description: SHA-1 hash of the file.
+          example: string
+        threat_name:
+          type: string
+          description: VirusTotal threat name, if available.
+          example: Trojan.GenericKD.46542
+        vt_detection_count:
+          type: integer
+          description: Number of VirusTotal engines that flagged the file as malicious.
+          example: 42
+        vt_engine_count:
+          type: integer
+          description: Total number of VirusTotal engines that scanned the file.
+          example: 71
+        file_name:
+          type: string
+          description: Original file name, if known.
+          example: payload.bin
+        size:
+          type: integer
+          format: int64
+          description: File size in bytes.
+          example: 24576
+        type:
+          type: string
+          description: File MIME type.
+          example: application/x-executable
+    CallbackThreatNameStat:
+      type: object
+      properties:
+        threat_name:
+          type: string
+          description: VirusTotal threat name.
+          example: Trojan.GenericKD.46542
+        file_count:
+          type: integer
+          description: Number of files with this threat name.
+          example: 12
+        ip_count:
+          type: integer
+          description: Number of IPs associated with files of this threat name.
+          example: 8
+    CallbackIPDetailResponse:
+      type: object
+      description: Detailed information about a single callback IP.
+      properties:
+        ip:
+          type: string
+          description: The callback IP address.
+          example: 198.51.100.42
+        source_workspaces:
+          type: array
+          items:
+            type: string
+          description: 'Labeled workspace sources where this IP was observed.
+
+            Values are "GreyNoise", "UserWorkspace", or "Community".
+
+            '
+          example:
+          - GreyNoise
+          - UserWorkspace
+        is_stage_1:
+          type: boolean
+          description: Whether a file was successfully downloaded from this IP (stage 1).
+          example: false
+        is_stage_2:
+          type: boolean
+          description: Whether this IP is suspected C2 based on VT/sandbox analysis (stage 2).
+          example: false
+        first_seen:
+          type: string
+          nullable: true
+          description: ISO 8601 timestamp of when this IP was first observed.
+          example: '2025-03-01T00:00:00Z'
+        last_seen:
+          type: string
+          nullable: true
+          description: ISO 8601 timestamp of when this IP was most recently observed.
+          example: '2025-03-15T12:30:00Z'
+        scanner_ips:
+          type: array
+          items:
+            type: string
+          description: Scanner IPs that delivered payloads referencing this callback IP.
+          example:
+          - 203.0.113.7
+          - 192.0.2.99
+        scanner_count:
+          type: integer
+          description: Number of distinct scanners associated with this IP.
+          example: 5
+        file_count:
+          type: integer
+          description: Number of malware files associated with this IP.
+          example: 3
+        active_files:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackFileResponse'
+          description: Malware files associated with this callback IP.
+          example: []
+    CallbackListIPsResponse:
+      type: object
+      description: Paginated list of callback IPs.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackIPSummary'
+          example: []
+        total:
+          type: integer
+          description: Total number of matching callback IPs.
+          example: 142
+        page:
+          type: integer
+          description: Current page number (zero-indexed).
+          example: 0
+        page_size:
+          type: integer
+          description: Number of results per page.
+          example: 20
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+  securitySchemes:
+    APIKeyHeaderAuth:
+      type: apiKey
+      in: header
+      name: key
+      description: GreyNoise API key passed via the 'key' HTTP header.
