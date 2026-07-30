@@ -9,6 +9,19 @@ description: >-
 url: https://www.greynoise.io
 humanURL: https://docs.greynoise.io
 baseURL: https://api.greynoise.io
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://www.greynoise.io/hubfs/Greynoise%20Logo.svg
 specificationVersion: '0.20'
 created: '2026-05-28'
@@ -28,32 +41,246 @@ tags:
 - SOC Automation
 - Public APIs
 apis:
-- name: GreyNoise API
-  description: >-
-    Unified GreyNoise API surface spanning the free Community endpoint and the paid Enterprise endpoints. Covers IP
-    intelligence, GNQL query language, sessions / packet telemetry, CVE exploitation telemetry, callback IP
-    intelligence, tag taxonomy, IP timelines, and recall time-series queries.
+- aid: greynoise:greynoise-callback-api
+  name: GreyNoise Intelligence Callback API
+  description: The Callback API from GreyNoise Intelligence — 4 operation(s) for callback.
   humanURL: https://docs.greynoise.io
   baseURL: https://api.greynoise.io
   tags:
-  - Security
-  - Threat Intelligence
-  - IP Reputation
+  - Callback
   properties:
+  - type: OpenAPI
+    url: openapi/greynoise-callback-api-openapi.yml
   - type: Documentation
     url: https://docs.greynoise.io
   - type: APIReference
     url: https://docs.greynoise.io/reference/getcommunityip
-  - type: OpenAPI
-    url: openapi/greynoise-openapi.yml
   - type: Authentication
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - url: graphql/greynoise-graphql.md
-    type: GraphQL
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-community-api
+  name: GreyNoise Intelligence Community API
+  description: Endpoints for the community level users
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - Community
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-community-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-cve-api
+  name: GreyNoise Intelligence CVE API
+  description: >-
+    Endpoints that are used for retrieving information about Common Vulnerabilities and Exposures (CVEs).
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - CVE
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-cve-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-gnql-api
+  name: GreyNoise Intelligence GNQL API
+  description: Calls to interface with GNQL (GreyNoise Query Language).
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - GNQL
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-gnql-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-ip-lookup-api
+  name: GreyNoise Intelligence IP Lookup API
+  description: >-
+    Calls to identify whether or not an IP address is noise, or get more information about a given IP
+    address.
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - IP Lookup
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-ip-lookup-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-ip-timeline-api
+  name: GreyNoise Intelligence IP Timeline API
+  description: >-
+    Noise data captures internet scanning activity against GreyNoise sensors
+
+    deployed globally.
+
+    The IP Timeline APIs allow temporal analysis and presents the user with a
+
+    view of how this data has changed over the time.
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - IP Timeline
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-ip-timeline-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-recall-api
+  name: GreyNoise Intelligence Recall API
+  description: >-
+    Endpoint that are used for retrieving GNQL data over time. Allows users
+
+    to view hourly snapshots of IP activity for IPs that return for any
+
+    GNQL query.
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - Recall
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-recall-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-sessions-api
+  name: GreyNoise Intelligence Sessions API
+  description: >-
+    Endpoints for querying, analyzing, and exporting raw network session (PCAP)
+
+    data captured by GreyNoise sensors. Use the `scope` parameter to control
+
+    data access (workspace or demo). Required entitlements vary by scope.
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-tags-api
+  name: GreyNoise Intelligence Tags API
+  description: Endpoints for retrieving tag information, metadata, and associated activity data.
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-tags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
+- aid: greynoise:greynoise-utility-api
+  name: GreyNoise Intelligence Utility API
+  description: Endpoints that are used for checking status or retrieving basic metadata
+  humanURL: https://docs.greynoise.io
+  baseURL: https://api.greynoise.io
+  tags:
+  - Utility
+  properties:
+  - type: OpenAPI
+    url: openapi/greynoise-utility-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greynoise.io
+  - type: APIReference
+    url: https://docs.greynoise.io/reference/getcommunityip
+  - type: Authentication
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/getting-started
+  - type: GettingStarted
+    url: https://docs.greynoise.io/docs/using-the-greynoise-api
+  - type: GraphQL
+    url: graphql/greynoise-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/greynoise-agentic-access.yml
