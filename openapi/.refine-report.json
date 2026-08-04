@@ -1,0 +1,34 @@
+{
+  "provider": "greynoise",
+  "sources": [
+    "greynoise-callback-api-openapi.yml",
+    "greynoise-community-api-openapi.yml",
+    "greynoise-cve-api-openapi.yml",
+    "greynoise-gnql-api-openapi.yml",
+    "greynoise-ip-lookup-api-openapi.yml",
+    "greynoise-ip-timeline-api-openapi.yml",
+    "greynoise-recall-api-openapi.yml",
+    "greynoise-sessions-api-openapi.yml",
+    "greynoise-tags-api-openapi.yml",
+    "greynoise-utility-api-openapi.yml"
+  ],
+  "outputs": [
+    "greynoise-callback-api-openapi.yml",
+    "greynoise-community-api-openapi.yml",
+    "greynoise-cve-api-openapi.yml",
+    "greynoise-gnql-api-openapi.yml",
+    "greynoise-ip-lookup-api-openapi.yml",
+    "greynoise-ip-timeline-api-openapi.yml",
+    "greynoise-recall-api-openapi.yml",
+    "greynoise-sessions-api-openapi.yml",
+    "greynoise-tags-api-openapi.yml",
+    "greynoise-utility-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [
+    "greynoise-ip-lookup-api-openapi.yml: dangling $ref: #/components/requestBodies/MultiIpRequest"
+  ],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
