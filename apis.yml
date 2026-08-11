@@ -282,6 +282,8 @@ apis:
   - type: GraphQL
     url: graphql/greynoise-graphql.md
 common:
+- type: IssueTracker
+  url: https://github.com/GreyNoise-Intelligence/api.greynoise.io/issues
 - type: AgenticAccess
   url: agentic-access/greynoise-agentic-access.yml
 - type: DomainSecurity
