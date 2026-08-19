@@ -1,0 +1,275 @@
+{
+  "item": [
+    {
+      "id": "68e74a60-f963-4ac5-9e95-889b57979c74",
+      "name": "Tags",
+      "description": {
+        "content": "Endpoints for retrieving tag information, metadata, and associated activity data.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "28e818da-d6da-4761-934b-391b6de81f12",
+          "name": "List Tags",
+          "request": {
+            "name": "List Tags",
+            "description": {
+              "content": "Retrieve a list of tags with their metadata. Supports filtering by name, slug, and CVE.\n\nThis endpoint returns tag information including ID, name, slug, category, intention,\ndescription, references, CVEs, and related tags.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter tags by name (partial match)"
+                },
+                {
+                  "disabled": false,
+                  "key": "slug",
+                  "value": "<string>",
+                  "description": "Filter tags by slug (exact match)"
+                },
+                {
+                  "disabled": false,
+                  "key": "cve",
+                  "value": "<string>",
+                  "description": "Filter tags by associated CVE"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b536e975-2c04-4804-838b-041d58335b88",
+              "name": "OK - request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "Mirai"
+                    },
+                    {
+                      "key": "slug",
+                      "value": "mirai"
+                    },
+                    {
+                      "key": "cve",
+                      "value": "CVE-2020-1234"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tags\": [\n    {\n      \"id\": \"ef0cc90d-d80c-436f-92c5-3d8f8665c9ac\",\n      \"label\": \"MIRAI\",\n      \"slug\": \"mirai\",\n      \"name\": \"Mirai\",\n      \"category\": \"worm\",\n      \"intention\": \"malicious\",\n      \"description\": \"This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.\",\n      \"references\": [\n        \"string\"\n      ],\n      \"recommend_block\": false,\n      \"cves\": [\n        \"CVE-2021-44228\"\n      ],\n      \"created_at\": \"2020-04-07\",\n      \"related_tags\": [\n        {\n          \"id\": \"da78f2eb-fe6b-4e84-913c-cdab4ff067c2\",\n          \"name\": \"Oracle WebLogic RCE CVE-2020-14882\",\n          \"intention\": \"malicious\",\n          \"category\": \"activity\",\n          \"slug\": \"oracle-weblogic-rce-cve-2020-14882\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c67953a6-5593-46dc-acc3-f4801c629c57",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "Mirai"
+                    },
+                    {
+                      "key": "slug",
+                      "value": "mirai"
+                    },
+                    {
+                      "key": "cve",
+                      "value": "CVE-2020-1234"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ab394cf-5ba9-4e7e-a467-2732de2baa36",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "Mirai"
+                    },
+                    {
+                      "key": "slug",
+                      "value": "mirai"
+                    },
+                    {
+                      "key": "cve",
+                      "value": "CVE-2020-1234"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Encountered error while performing request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greynoise.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "808754a6-480e-4f86-9ca6-75cea22b86ef",
+    "name": "GreyNoise Callback Tags API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.\n\nContact Support:\n Email: hello@greynoise.io",
+      "type": "text/plain"
+    }
+  }
+}

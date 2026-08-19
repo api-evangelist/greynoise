@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback IP Timeline API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "IP Timeline",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IP Timeline Field Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/noise/ips/:ip/timeline",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "path",
+                "description": "IPv4 address to look up Noise time series activity timeline for\n"
+              },
+              {
+                "name": "days",
+                "value": "",
+                "type": "query",
+                "description": "Number of days to show data for"
+              },
+              {
+                "name": "field",
+                "value": "",
+                "type": "query",
+                "description": "Field over which to show activity breakdown"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Granularity of activity date ranges. This can be in hours (e.g. Xh)\nor days (Xd).\nValid hours are between 1 and 24. Valid days are between 1 and 90.\n"
+              },
+              {
+                "name": "workspace_labels",
+                "value": "string",
+                "type": "query",
+                "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve an IP address' summary of noise activity for a specific field.\n\n_License: This endpoint requires an additional subscription\nlicense to use._\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback Community API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Community",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Community API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/community/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "8.8.8.8",
+                "type": "path",
+                "description": "IP address to query"
+              }
+            ]
+          },
+          "docs": "The Community API provides community users with a free tool to\nquery IPs in the GreyNoise dataset and retrieve a subset of the full\nIP context data returned by the IP Lookup API.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

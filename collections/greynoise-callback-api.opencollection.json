@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Callback",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Callback IPs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v1/callback/export-ips",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export callback IPs matching the given filters as a newline-delimited\nplain text list. Supports the same filter parameters as the List\nCallback IPs endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "Callback IP Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v1/callback/ip/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "path",
+                "description": "The callback IP address to look up."
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information about a specific callback IP, including\nattack stage, scanner associations, and downloaded malware files.\n"
+        },
+        {
+          "info": {
+            "name": "List Callback IPs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v1/callback/ips",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve a paginated list of callback IPs with filtering by attack\nstage, date ranges, file attributes, and scanner associations.\n"
+        },
+        {
+          "info": {
+            "name": "Callback Overview Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v1/callback/overview",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve aggregate statistics for callback IPs including counts by\nattack stage, file analysis status, scanner associations, and top\nthreat names.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

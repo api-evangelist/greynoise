@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback Tags API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/tags",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter tags by name (partial match)"
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query",
+                "description": "Filter tags by slug (exact match)"
+              },
+              {
+                "name": "cve",
+                "value": "",
+                "type": "query",
+                "description": "Filter tags by associated CVE"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of tags with their metadata. Supports filtering by name, slug, and CVE.\n\nThis endpoint returns tag information including ID, name, slug, category, intention,\ndescription, references, CVEs, and related tags.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

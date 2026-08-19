@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback Recall API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Recall",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GNQL V3 Recall",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql/timeseries",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "start",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start date for the desired time range"
+              },
+              {
+                "name": "end",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End date for the desired time range"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the desired format of the results. Must be either csv or json."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the number of records desired from the backend query. For example, if you specify a limit of 100, you will get the first 100 records for your query, divided up by hour."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the offset at which to apply the limit. With limit, can be used to paginate through a large response. For example, if you specify a limit of 100 and and an offset of 200, you will get the next 100 records starting at the 200th record."
+              }
+            ]
+          },
+          "docs": "Get hourly GNQL records for a given time range.\n"
+        },
+        {
+          "info": {
+            "name": "GNQL V3 Recall Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/gnql/timeseries/stats",
+            "params": [
+              {
+                "name": "query",
+                "value": "tags:Mirai",
+                "type": "query",
+                "description": "GNQL query string"
+              },
+              {
+                "name": "start",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start date for the desired time range"
+              },
+              {
+                "name": "end",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End date for the desired time range"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the desired format of the results. Must be either csv or json."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the time interval over which to aggregate unique IPs that return the given GNQL query."
+              }
+            ]
+          },
+          "docs": "Get the number of unique IPs that match a GNQL query\nper hour/day over a given time range.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

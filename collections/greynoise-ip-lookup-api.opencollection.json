@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback IP Lookup API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "IP Lookup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IP Lookup - Multi",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greynoise.io/v3/ip",
+            "params": [
+              {
+                "name": "quick",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will only include the IP address and the classification or trust level."
+              },
+              {
+                "name": "workspace_labels",
+                "value": "string",
+                "type": "query",
+                "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves information about the submitted set of IP addresses\nfrom the Internet Scanner and Business Service intelligence datasets\n(consolidated response based on subscription entitlements).\nReturns time ranges, IP metadata (network owner, ASN, reverse DNS pointer, country),\nassociated actors, tags, raw port scan data, web request information,\nclassification and/or trust level, and provider information.\n\nUse the `quick` parameter to return a subset of the response fields, for a faster response t"
+        },
+        {
+          "info": {
+            "name": "IP Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/ip/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "8.8.8.8",
+                "type": "path",
+                "description": "IP address to query"
+              },
+              {
+                "name": "quick",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will only include the IP address and the classification or trust level."
+              },
+              {
+                "name": "workspace_labels",
+                "value": "string",
+                "type": "query",
+                "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+              }
+            ]
+          },
+          "docs": "Get more information about a given IP address. Returns time ranges,\nIP metadata (network owner, ASN, reverse DNS pointer, country),\nassociated actors, activity tags, and raw port scan and web\nrequest information.\n\nUse the `quick` parameter to return a subset of the response fields, for a faster response time.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

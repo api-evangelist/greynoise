@@ -1,0 +1,847 @@
+{
+  "item": [
+    {
+      "id": "3e678f84-3157-4f1a-837e-060ecdd11fbe",
+      "name": "IP Lookup",
+      "description": {
+        "content": "Calls to identify whether or not an IP address is noise, or get more information about a given IP address.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "745a96f9-7ff7-4634-83c1-d39fad4b04f1",
+          "name": "IP Lookup - Multi",
+          "request": {
+            "name": "IP Lookup - Multi",
+            "description": {
+              "content": "Retrieves information about the submitted set of IP addresses\nfrom the Internet Scanner and Business Service intelligence datasets\n(consolidated response based on subscription entitlements).\nReturns time ranges, IP metadata (network owner, ASN, reverse DNS pointer, country),\nassociated actors, tags, raw port scan data, web request information,\nclassification and/or trust level, and provider information.\n\nUse the `quick` parameter to return a subset of the response fields, for a faster response time.\n\nCan process up to 10,000 IPs per request.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "ip"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "quick",
+                  "value": "false",
+                  "description": "If true, the response will only include the IP address and the classification or trust level."
+                },
+                {
+                  "disabled": false,
+                  "key": "workspace_labels",
+                  "value": "<string>",
+                  "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "93a8a8d3-9564-4b19-b5eb-0aeb38d29a6a",
+              "name": "OK - request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"ip\": \"8.8.8.8\",\n      \"business_service_intelligence\": {\n        \"found\": true,\n        \"category\": \"hosting\",\n        \"name\": \"example.com\",\n        \"description\": \"example.com\",\n        \"explanation\": \"string\",\n        \"last_updated\": \"2025-01-15T12:30:45Z\",\n        \"reference\": \"https://example.com\",\n        \"trust_level\": \"1\"\n      },\n      \"internet_scanner_intelligence\": {\n        \"ip\": \"71.6.135.131\",\n        \"seen\": true,\n        \"classification\": \"benign\",\n        \"first_seen\": \"2018-01-28\",\n        \"last_seen\": \"2018-02-28\",\n        \"last_seen_timestamp\": \"2025-01-15T12:30:45Z\",\n        \"found\": true,\n        \"actor\": \"Shodan.io\",\n        \"spoofable\": true,\n        \"cves\": [\n          \"CVE-2020-1234\",\n          \"CVE-2021-2345\"\n        ],\n        \"tor\": false,\n        \"vpn\": true,\n        \"vpn_service\": \"IPVANISH_VPN\",\n        \"metadata\": {\n          \"mobile\": false,\n          \"source_country\": \"United States\",\n          \"source_country_code\": \"US\",\n          \"source_city\": \"Seattle\",\n          \"region\": \"Seattle\",\n          \"organization\": \"DigitalOcean, LLC\",\n          \"rdns\": \"crawl-66-249-79-17.googlebot.com\",\n          \"asn\": \"AS521\",\n          \"category\": \"education\",\n          \"os\": \"Windows 7/8\",\n          \"destination_countries\": [\n            \"string\"\n          ],\n          \"destination_country_codes\": [\n            \"US\"\n          ],\n          \"destination_cities\": [\n            \"string\"\n          ],\n          \"destination_asns\": [\n            \"string\"\n          ],\n          \"single_destination\": true,\n          \"carrier\": \"AIS\",\n          \"datacenter\": \"us-west-1\",\n          \"domain\": \"example.com\",\n          \"rdns_parent\": \"example.com\",\n          \"rdns_validated\": true,\n          \"latitude\": 37.7749,\n          \"longitude\": -122.4194,\n          \"sensor_count\": 10,\n          \"sensor_hits\": 10\n        },\n        \"tags\": {\n          \"id\": \"ef0cc90d-d80c-436f-92c5-3d8f8665c9ac\",\n          \"slug\": \"mirai\",\n          \"name\": \"Mirai\",\n          \"category\": \"worm\",\n          \"intention\": \"malicious\",\n          \"description\": \"This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.\",\n          \"references\": [\n            \"string\"\n          ],\n          \"recommend_block\": false,\n          \"cves\": [\n            \"CVE-2021-44228\"\n          ],\n          \"created_at\": \"2020-04-07\",\n          \"updated_at\": \"2020-04-07\"\n        },\n        \"raw_data\": {\n          \"scan\": [\n            {\n              \"port\": 80,\n              \"protocol\": \"TCP\"\n            }\n          ],\n          \"ja3\": [\n            {\n              \"fingerprint\": \"c3a6cf0bf2e690ac8e1ecf6081f17a50\",\n              \"port\": 443\n            }\n          ],\n          \"hassh\": [\n            {\n              \"fingerprint\": \"51cba57125523ce4b9db67714a90bf6e\",\n              \"port\": 2222\n            }\n          ],\n          \"http\": {\n            \"md5\": \"9764955b67107eeb9edfae76f429e783\",\n            \"cookie_keys\": [\n              \"expremotekey\"\n            ],\n            \"request_authorization\": [\n              \"Bearer exampletoken\",\n              \"Basic username:password\"\n            ],\n            \"request_cookies\": [\n              \"session_id=1234567890\"\n            ],\n            \"request_header\": [\n              \"Content-Type: application/json\",\n              \"Accept: application/json\"\n            ],\n            \"method\": [\n              \"GET\",\n              \"POST\",\n              \"PUT\",\n              \"DELETE\"\n            ],\n            \"request_origin\": [\n              \"111.111.1.1\"\n            ],\n            \"host\": [\n              \"example.com\",\n              \"example.com:8080\"\n            ],\n            \"uri\": [\n              \"string\"\n            ],\n            \"path\": [\n              \"/HNAP1/\"\n            ],\n            \"useragent\": [\n              \"Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)\"\n            ],\n            \"ja4h\": [\n              \"ge11cn060000_4e59edc1297a_4da5efaf0cbd\"\n            ]\n          },\n          \"tls\": {\n            \"cipher\": \"TLS_AES_128_GCM_SHA256\",\n            \"ja4\": [\n              \"t13d1516h2_8daaf6152771_02713d6af862\"\n            ]\n          },\n          \"ssh\": {\n            \"key\": [\n              \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890\"\n            ],\n            \"ja4ssh\": [\n              \"c76s76_c71s59_c0s0\"\n            ]\n          },\n          \"tcp\": {\n            \"ja4t\": [\n              \"64240_2-1-3-1-1-4_1460_8\"\n            ],\n            \"ja4l\": \"1460_64\"\n          },\n          \"source\": \"string\"\n        }\n      }\n    }\n  ],\n  \"request_metadata\": {\n    \"restricted_fields\": [\n      \"ip\",\n      \"cve\",\n      \"destination_cities\"\n    ],\n    \"message\": \"ok\",\n    \"ips_not_found\": [\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31344336-8adc-4008-a801-96f9804bf8d4",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. Contact sales@greynoise.io to upgrade your\nplan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"ip\": \"8.8.8.8\",\n      \"business_service_intelligence\": {\n        \"found\": true,\n        \"category\": \"hosting\",\n        \"name\": \"example.com\",\n        \"description\": \"example.com\",\n        \"explanation\": \"string\",\n        \"last_updated\": \"2025-01-15T12:30:45Z\",\n        \"reference\": \"https://example.com\",\n        \"trust_level\": \"1\"\n      },\n      \"internet_scanner_intelligence\": {\n        \"ip\": \"71.6.135.131\",\n        \"seen\": true,\n        \"classification\": \"benign\",\n        \"first_seen\": \"2018-01-28\",\n        \"last_seen\": \"2018-02-28\",\n        \"last_seen_timestamp\": \"2025-01-15T12:30:45Z\",\n        \"found\": true,\n        \"actor\": \"Shodan.io\",\n        \"spoofable\": true,\n        \"cves\": [\n          \"CVE-2020-1234\",\n          \"CVE-2021-2345\"\n        ],\n        \"tor\": false,\n        \"vpn\": true,\n        \"vpn_service\": \"IPVANISH_VPN\",\n        \"metadata\": {\n          \"mobile\": false,\n          \"source_country\": \"United States\",\n          \"source_country_code\": \"US\",\n          \"source_city\": \"Seattle\",\n          \"region\": \"Seattle\",\n          \"organization\": \"DigitalOcean, LLC\",\n          \"rdns\": \"crawl-66-249-79-17.googlebot.com\",\n          \"asn\": \"AS521\",\n          \"category\": \"education\",\n          \"os\": \"Windows 7/8\",\n          \"destination_countries\": [\n            \"string\"\n          ],\n          \"destination_country_codes\": [\n            \"US\"\n          ],\n          \"destination_cities\": [\n            \"string\"\n          ],\n          \"destination_asns\": [\n            \"string\"\n          ],\n          \"single_destination\": true,\n          \"carrier\": \"AIS\",\n          \"datacenter\": \"us-west-1\",\n          \"domain\": \"example.com\",\n          \"rdns_parent\": \"example.com\",\n          \"rdns_validated\": true,\n          \"latitude\": 37.7749,\n          \"longitude\": -122.4194,\n          \"sensor_count\": 10,\n          \"sensor_hits\": 10\n        },\n        \"tags\": {\n          \"id\": \"ef0cc90d-d80c-436f-92c5-3d8f8665c9ac\",\n          \"slug\": \"mirai\",\n          \"name\": \"Mirai\",\n          \"category\": \"worm\",\n          \"intention\": \"malicious\",\n          \"description\": \"This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.\",\n          \"references\": [\n            \"string\"\n          ],\n          \"recommend_block\": false,\n          \"cves\": [\n            \"CVE-2021-44228\"\n          ],\n          \"created_at\": \"2020-04-07\",\n          \"updated_at\": \"2020-04-07\"\n        },\n        \"raw_data\": {\n          \"scan\": [\n            {\n              \"port\": 80,\n              \"protocol\": \"TCP\"\n            }\n          ],\n          \"ja3\": [\n            {\n              \"fingerprint\": \"c3a6cf0bf2e690ac8e1ecf6081f17a50\",\n              \"port\": 443\n            }\n          ],\n          \"hassh\": [\n            {\n              \"fingerprint\": \"51cba57125523ce4b9db67714a90bf6e\",\n              \"port\": 2222\n            }\n          ],\n          \"http\": {\n            \"md5\": \"9764955b67107eeb9edfae76f429e783\",\n            \"cookie_keys\": [\n              \"expremotekey\"\n            ],\n            \"request_authorization\": [\n              \"Bearer exampletoken\",\n              \"Basic username:password\"\n            ],\n            \"request_cookies\": [\n              \"session_id=1234567890\"\n            ],\n            \"request_header\": [\n              \"Content-Type: application/json\",\n              \"Accept: application/json\"\n            ],\n            \"method\": [\n              \"GET\",\n              \"POST\",\n              \"PUT\",\n              \"DELETE\"\n            ],\n            \"request_origin\": [\n              \"111.111.1.1\"\n            ],\n            \"host\": [\n              \"example.com\",\n              \"example.com:8080\"\n            ],\n            \"uri\": [\n              \"string\"\n            ],\n            \"path\": [\n              \"/HNAP1/\"\n            ],\n            \"useragent\": [\n              \"Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)\"\n            ],\n            \"ja4h\": [\n              \"ge11cn060000_4e59edc1297a_4da5efaf0cbd\"\n            ]\n          },\n          \"tls\": {\n            \"cipher\": \"TLS_AES_128_GCM_SHA256\",\n            \"ja4\": [\n              \"t13d1516h2_8daaf6152771_02713d6af862\"\n            ]\n          },\n          \"ssh\": {\n            \"key\": [\n              \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890\"\n            ],\n            \"ja4ssh\": [\n              \"c76s76_c71s59_c0s0\"\n            ]\n          },\n          \"tcp\": {\n            \"ja4t\": [\n              \"64240_2-1-3-1-1-4_1460_8\"\n            ],\n            \"ja4l\": \"1460_64\"\n          },\n          \"source\": \"string\"\n        }\n      }\n    }\n  ],\n  \"request_metadata\": {\n    \"restricted_fields\": [\n      \"ip\",\n      \"cve\",\n      \"destination_cities\"\n    ],\n    \"message\": \"ok\",\n    \"ips_not_found\": [\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "711a1f46-4fce-4715-88fd-5ef155cf1314",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e85f045-d9c7-4756-bb3f-9f0e9255ed18",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cea9b160-09d7-4030-8489-de227db99e75",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea238b24-932b-4d3e-89d1-30a675ab4436",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dbbcba91-8276-4f31-957f-c7dcb0ca8bd1",
+          "name": "IP Lookup",
+          "request": {
+            "name": "IP Lookup",
+            "description": {
+              "content": "Get more information about a given IP address. Returns time ranges,\nIP metadata (network owner, ASN, reverse DNS pointer, country),\nassociated actors, activity tags, and raw port scan and web\nrequest information.\n\nUse the `quick` parameter to return a subset of the response fields, for a faster response time.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "ip",
+                ":ip"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "quick",
+                  "value": "false",
+                  "description": "If true, the response will only include the IP address and the classification or trust level."
+                },
+                {
+                  "disabled": false,
+                  "key": "workspace_labels",
+                  "value": "<string>",
+                  "description": "Comma-separated list of dataset scopes to include in the query.\nWhen omitted, only the default GreyNoise global dataset is queried.\n\nAllowed values:\n- `greynoise`: GreyNoise's global dataset.\n- `community`: Aggregated community-contributed data.\n- `personal`: The authenticated caller's own workspace data.\n  Requires an authenticated workspace.\n\nEnforcement varies by endpoint; see each operation's response codes:\n- `GET /v3/ip/{ip}` and `POST /v3/ip` return `403 Forbidden` when any\n  value is supplied without the Community Dataset entitlement. Values\n  are not validated server-side; unrecognized values yield empty\n  results rather than an error.\n- `GET /v3/noise/ips/{ip}/timeline` returns `400 Bad Request` for\n  unrecognized values and for `personal` without an authenticated\n  workspace. The Community Dataset entitlement is not enforced on\n  this endpoint.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ip",
+                  "description": "(Required) IP address to query"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "270c3951-db33-4809-8763-f4f835743bfe",
+              "name": "OK - request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) IP address to query"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ip\": \"8.8.8.8\",\n  \"business_service_intelligence\": {\n    \"found\": true,\n    \"category\": \"hosting\",\n    \"name\": \"example.com\",\n    \"description\": \"example.com\",\n    \"explanation\": \"string\",\n    \"last_updated\": \"2025-01-15T12:30:45Z\",\n    \"reference\": \"https://example.com\",\n    \"trust_level\": \"1\"\n  },\n  \"internet_scanner_intelligence\": {\n    \"ip\": \"71.6.135.131\",\n    \"seen\": true,\n    \"classification\": \"benign\",\n    \"first_seen\": \"2018-01-28\",\n    \"last_seen\": \"2018-02-28\",\n    \"last_seen_timestamp\": \"2025-01-15T12:30:45Z\",\n    \"found\": true,\n    \"actor\": \"Shodan.io\",\n    \"spoofable\": true,\n    \"cves\": [\n      \"CVE-2020-1234\",\n      \"CVE-2021-2345\"\n    ],\n    \"tor\": false,\n    \"vpn\": true,\n    \"vpn_service\": \"IPVANISH_VPN\",\n    \"metadata\": {\n      \"mobile\": false,\n      \"source_country\": \"United States\",\n      \"source_country_code\": \"US\",\n      \"source_city\": \"Seattle\",\n      \"region\": \"Seattle\",\n      \"organization\": \"DigitalOcean, LLC\",\n      \"rdns\": \"crawl-66-249-79-17.googlebot.com\",\n      \"asn\": \"AS521\",\n      \"category\": \"education\",\n      \"os\": \"Windows 7/8\",\n      \"destination_countries\": [\n        \"string\"\n      ],\n      \"destination_country_codes\": [\n        \"US\"\n      ],\n      \"destination_cities\": [\n        \"string\"\n      ],\n      \"destination_asns\": [\n        \"string\"\n      ],\n      \"single_destination\": true,\n      \"carrier\": \"AIS\",\n      \"datacenter\": \"us-west-1\",\n      \"domain\": \"example.com\",\n      \"rdns_parent\": \"example.com\",\n      \"rdns_validated\": true,\n      \"latitude\": 37.7749,\n      \"longitude\": -122.4194,\n      \"sensor_count\": 10,\n      \"sensor_hits\": 10\n    },\n    \"tags\": {\n      \"id\": \"ef0cc90d-d80c-436f-92c5-3d8f8665c9ac\",\n      \"slug\": \"mirai\",\n      \"name\": \"Mirai\",\n      \"category\": \"worm\",\n      \"intention\": \"malicious\",\n      \"description\": \"This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.\",\n      \"references\": [\n        \"string\"\n      ],\n      \"recommend_block\": false,\n      \"cves\": [\n        \"CVE-2021-44228\"\n      ],\n      \"created_at\": \"2020-04-07\",\n      \"updated_at\": \"2020-04-07\"\n    },\n    \"raw_data\": {\n      \"scan\": [\n        {\n          \"port\": 80,\n          \"protocol\": \"TCP\"\n        }\n      ],\n      \"ja3\": [\n        {\n          \"fingerprint\": \"c3a6cf0bf2e690ac8e1ecf6081f17a50\",\n          \"port\": 443\n        }\n      ],\n      \"hassh\": [\n        {\n          \"fingerprint\": \"51cba57125523ce4b9db67714a90bf6e\",\n          \"port\": 2222\n        }\n      ],\n      \"http\": {\n        \"md5\": \"9764955b67107eeb9edfae76f429e783\",\n        \"cookie_keys\": [\n          \"expremotekey\"\n        ],\n        \"request_authorization\": [\n          \"Bearer exampletoken\",\n          \"Basic username:password\"\n        ],\n        \"request_cookies\": [\n          \"session_id=1234567890\"\n        ],\n        \"request_header\": [\n          \"Content-Type: application/json\",\n          \"Accept: application/json\"\n        ],\n        \"method\": [\n          \"GET\",\n          \"POST\",\n          \"PUT\",\n          \"DELETE\"\n        ],\n        \"request_origin\": [\n          \"111.111.1.1\"\n        ],\n        \"host\": [\n          \"example.com\",\n          \"example.com:8080\"\n        ],\n        \"uri\": [\n          \"string\"\n        ],\n        \"path\": [\n          \"/HNAP1/\"\n        ],\n        \"useragent\": [\n          \"Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)\"\n        ],\n        \"ja4h\": [\n          \"ge11cn060000_4e59edc1297a_4da5efaf0cbd\"\n        ]\n      },\n      \"tls\": {\n        \"cipher\": \"TLS_AES_128_GCM_SHA256\",\n        \"ja4\": [\n          \"t13d1516h2_8daaf6152771_02713d6af862\"\n        ]\n      },\n      \"ssh\": {\n        \"key\": [\n          \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890\"\n        ],\n        \"ja4ssh\": [\n          \"c76s76_c71s59_c0s0\"\n        ]\n      },\n      \"tcp\": {\n        \"ja4t\": [\n          \"64240_2-1-3-1-1-4_1460_8\"\n        ],\n        \"ja4l\": \"1460_64\"\n      },\n      \"source\": \"string\"\n    }\n  },\n  \"request_metadata\": {\n    \"restricted_fields\": [\n      \"ip\",\n      \"cve\",\n      \"destination_cities\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14a732e0-6dd0-4149-b8d6-88e616201092",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. Contact sales@greynoise.io to upgrade your\nplan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) IP address to query"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ip\": \"8.8.8.8\",\n  \"business_service_intelligence\": {\n    \"found\": true,\n    \"category\": \"hosting\",\n    \"name\": \"example.com\",\n    \"description\": \"example.com\",\n    \"explanation\": \"string\",\n    \"last_updated\": \"2025-01-15T12:30:45Z\",\n    \"reference\": \"https://example.com\",\n    \"trust_level\": \"1\"\n  },\n  \"internet_scanner_intelligence\": {\n    \"ip\": \"71.6.135.131\",\n    \"seen\": true,\n    \"classification\": \"benign\",\n    \"first_seen\": \"2018-01-28\",\n    \"last_seen\": \"2018-02-28\",\n    \"last_seen_timestamp\": \"2025-01-15T12:30:45Z\",\n    \"found\": true,\n    \"actor\": \"Shodan.io\",\n    \"spoofable\": true,\n    \"cves\": [\n      \"CVE-2020-1234\",\n      \"CVE-2021-2345\"\n    ],\n    \"tor\": false,\n    \"vpn\": true,\n    \"vpn_service\": \"IPVANISH_VPN\",\n    \"metadata\": {\n      \"mobile\": false,\n      \"source_country\": \"United States\",\n      \"source_country_code\": \"US\",\n      \"source_city\": \"Seattle\",\n      \"region\": \"Seattle\",\n      \"organization\": \"DigitalOcean, LLC\",\n      \"rdns\": \"crawl-66-249-79-17.googlebot.com\",\n      \"asn\": \"AS521\",\n      \"category\": \"education\",\n      \"os\": \"Windows 7/8\",\n      \"destination_countries\": [\n        \"string\"\n      ],\n      \"destination_country_codes\": [\n        \"US\"\n      ],\n      \"destination_cities\": [\n        \"string\"\n      ],\n      \"destination_asns\": [\n        \"string\"\n      ],\n      \"single_destination\": true,\n      \"carrier\": \"AIS\",\n      \"datacenter\": \"us-west-1\",\n      \"domain\": \"example.com\",\n      \"rdns_parent\": \"example.com\",\n      \"rdns_validated\": true,\n      \"latitude\": 37.7749,\n      \"longitude\": -122.4194,\n      \"sensor_count\": 10,\n      \"sensor_hits\": 10\n    },\n    \"tags\": {\n      \"id\": \"ef0cc90d-d80c-436f-92c5-3d8f8665c9ac\",\n      \"slug\": \"mirai\",\n      \"name\": \"Mirai\",\n      \"category\": \"worm\",\n      \"intention\": \"malicious\",\n      \"description\": \"This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.\",\n      \"references\": [\n        \"string\"\n      ],\n      \"recommend_block\": false,\n      \"cves\": [\n        \"CVE-2021-44228\"\n      ],\n      \"created_at\": \"2020-04-07\",\n      \"updated_at\": \"2020-04-07\"\n    },\n    \"raw_data\": {\n      \"scan\": [\n        {\n          \"port\": 80,\n          \"protocol\": \"TCP\"\n        }\n      ],\n      \"ja3\": [\n        {\n          \"fingerprint\": \"c3a6cf0bf2e690ac8e1ecf6081f17a50\",\n          \"port\": 443\n        }\n      ],\n      \"hassh\": [\n        {\n          \"fingerprint\": \"51cba57125523ce4b9db67714a90bf6e\",\n          \"port\": 2222\n        }\n      ],\n      \"http\": {\n        \"md5\": \"9764955b67107eeb9edfae76f429e783\",\n        \"cookie_keys\": [\n          \"expremotekey\"\n        ],\n        \"request_authorization\": [\n          \"Bearer exampletoken\",\n          \"Basic username:password\"\n        ],\n        \"request_cookies\": [\n          \"session_id=1234567890\"\n        ],\n        \"request_header\": [\n          \"Content-Type: application/json\",\n          \"Accept: application/json\"\n        ],\n        \"method\": [\n          \"GET\",\n          \"POST\",\n          \"PUT\",\n          \"DELETE\"\n        ],\n        \"request_origin\": [\n          \"111.111.1.1\"\n        ],\n        \"host\": [\n          \"example.com\",\n          \"example.com:8080\"\n        ],\n        \"uri\": [\n          \"string\"\n        ],\n        \"path\": [\n          \"/HNAP1/\"\n        ],\n        \"useragent\": [\n          \"Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)\"\n        ],\n        \"ja4h\": [\n          \"ge11cn060000_4e59edc1297a_4da5efaf0cbd\"\n        ]\n      },\n      \"tls\": {\n        \"cipher\": \"TLS_AES_128_GCM_SHA256\",\n        \"ja4\": [\n          \"t13d1516h2_8daaf6152771_02713d6af862\"\n        ]\n      },\n      \"ssh\": {\n        \"key\": [\n          \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890\"\n        ],\n        \"ja4ssh\": [\n          \"c76s76_c71s59_c0s0\"\n        ]\n      },\n      \"tcp\": {\n        \"ja4t\": [\n          \"64240_2-1-3-1-1-4_1460_8\"\n        ],\n        \"ja4l\": \"1460_64\"\n      },\n      \"source\": \"string\"\n    }\n  },\n  \"request_metadata\": {\n    \"restricted_fields\": [\n      \"ip\",\n      \"cve\",\n      \"destination_cities\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f443cea8-93eb-48fb-98f7-d741aef2ea4c",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) IP address to query"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "349d00bf-5d2c-4e43-886a-6c5474632c29",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) IP address to query"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2eeac202-0907-406e-8704-4b279306c8c4",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) IP address to query"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b94f4bf0-9a69-4c67-9cac-87bf23da7792",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "workspace_labels",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) IP address to query"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greynoise.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "000e0753-8361-4e4d-a2a8-00e757442f35",
+    "name": "GreyNoise Callback IP Lookup API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.\n\nContact Support:\n Email: hello@greynoise.io",
+      "type": "text/plain"
+    }
+  }
+}

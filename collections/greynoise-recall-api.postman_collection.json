@@ -1,0 +1,877 @@
+{
+  "item": [
+    {
+      "id": "bc4b4b17-9685-4795-835b-05cc3f0123fd",
+      "name": "Recall",
+      "description": {
+        "content": "Endpoint that are used for retrieving GNQL data over time. Allows users\nto view hourly snapshots of IP activity for IPs that return for any\nGNQL query.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a894b52c-72ec-4df6-9e23-ff793515e05b",
+          "name": "GNQL V3 Recall",
+          "request": {
+            "name": "GNQL V3 Recall",
+            "description": {
+              "content": "Get hourly GNQL records for a given time range.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "gnql",
+                "timeseries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) GNQL query string"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<dateTime>",
+                  "description": "Start date for the desired time range"
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": "<dateTime>",
+                  "description": "End date for the desired time range"
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Specifies the desired format of the results. Must be either csv or json."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Specifies the number of records desired from the backend query. For example, if you specify a limit of 100, you will get the first 100 records for your query, divided up by hour."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Specifies the offset at which to apply the limit. With limit, can be used to paginate through a large response. For example, if you specify a limit of 100 and and an offset of 200, you will get the next 100 records starting at the 200th record."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0fc4f994-eaa2-4bfa-9dde-bd9dceace135",
+              "name": "Query successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"2025-11-10-14\": [\n    {\n      \"ip\": \"203.0.113.45\",\n      \"internet_scanner_intelligence\": {\n        \"first_seen\": \"2018-01-28\",\n        \"last_seen\": \"2018-02-28\",\n        \"found\": true,\n        \"tags\": [\n          \"Mirai\",\n          \"Telnet Worm\"\n        ],\n        \"actor\": \"Shodan.io\",\n        \"spoofable\": true,\n        \"classification\": \"benign\",\n        \"cves\": [\n          \"CVE-2020-1234\",\n          \"CVE-2021-2345\"\n        ],\n        \"vpn\": true,\n        \"vpn_service\": \"IPVANISH_VPN\",\n        \"tor\": false,\n        \"last_seen_timestamp\": \"2025-01-15T12:30:45Z\",\n        \"metadata\": {\n          \"asn\": \"AS13335\",\n          \"source_country\": \"United States\",\n          \"source_country_code\": \"US\",\n          \"organization\": \"Example Hosting\"\n        },\n        \"raw_data\": {\n          \"scan\": [\n            {\n              \"port\": 22,\n              \"protocol\": \"tcp\"\n            }\n          ]\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dff075da-55ed-417e-9e84-fabf2d7139a5",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. Contact sales@greynoise.io to upgrade your\nplan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"2025-11-10-14\": [\n    {\n      \"ip\": \"203.0.113.45\",\n      \"internet_scanner_intelligence\": {\n        \"first_seen\": \"2018-01-28\",\n        \"last_seen\": \"2018-02-28\",\n        \"found\": true,\n        \"tags\": [\n          \"Mirai\",\n          \"Telnet Worm\"\n        ],\n        \"actor\": \"Shodan.io\",\n        \"spoofable\": true,\n        \"classification\": \"benign\",\n        \"cves\": [\n          \"CVE-2020-1234\",\n          \"CVE-2021-2345\"\n        ],\n        \"vpn\": true,\n        \"vpn_service\": \"IPVANISH_VPN\",\n        \"tor\": false,\n        \"last_seen_timestamp\": \"2025-01-15T12:30:45Z\",\n        \"metadata\": {\n          \"asn\": \"AS13335\",\n          \"source_country\": \"United States\",\n          \"source_country_code\": \"US\",\n          \"organization\": \"Example Hosting\"\n        },\n        \"raw_data\": {\n          \"scan\": [\n            {\n              \"port\": 22,\n              \"protocol\": \"tcp\"\n            }\n          ]\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94390ea7-60f4-49c9-aec9-cbd122f5b113",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "109ff3e0-1851-428a-af31-dc29b2a40e94",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "56299980-078b-4f13-8bc2-20629222314d",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c23a70e8-abab-4465-8621-565ffc9261e9",
+          "name": "GNQL V3 Recall Stats",
+          "request": {
+            "name": "GNQL V3 Recall Stats",
+            "description": {
+              "content": "Get the number of unique IPs that match a GNQL query\nper hour/day over a given time range.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "gnql",
+                "timeseries",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) GNQL query string"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<dateTime>",
+                  "description": "Start date for the desired time range"
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": "<dateTime>",
+                  "description": "End date for the desired time range"
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Specifies the desired format of the results. Must be either csv or json."
+                },
+                {
+                  "disabled": false,
+                  "key": "interval",
+                  "value": "<string>",
+                  "description": "(Required) Specifies the time interval over which to aggregate unique IPs that return the given GNQL query."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5217363a-9347-4ef9-ac42-1fc75750e405",
+              "name": "Query successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 1500,\n  \"min\": 10,\n  \"max\": 250,\n  \"data\": [\n    {\n      \"date\": \"2025-11-10 14:00:00.000\",\n      \"count\": 125\n    },\n    {\n      \"date\": \"2025-11-10 15:00:00.000\",\n      \"count\": 250\n    },\n    {\n      \"date\": \"2025-11-10 16:00:00.000\",\n      \"count\": 180\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfa6cb33-b77a-4a22-a0c3-83e5afb342df",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. Contact sales@greynoise.io to upgrade your\nplan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 1500,\n  \"min\": 10,\n  \"max\": 250,\n  \"data\": [\n    {\n      \"date\": \"2025-11-10 14:00:00.000\",\n      \"count\": 125\n    },\n    {\n      \"date\": \"2025-11-10 15:00:00.000\",\n      \"count\": 250\n    },\n    {\n      \"date\": \"2025-11-10 16:00:00.000\",\n      \"count\": 180\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42ea281a-1604-4967-9edd-7fc367ac25d0",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e455096-88a7-486c-b075-dc0889d12876",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5173ede-8ee2-4163-9398-555deeac47b8",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "timeseries",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2025-01-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2025-01-07T23:59:59Z"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greynoise.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6497bd80-e6fe-4240-8648-fa36f8251edc",
+    "name": "GreyNoise Callback Recall API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.\n\nContact Support:\n Email: hello@greynoise.io",
+      "type": "text/plain"
+    }
+  }
+}

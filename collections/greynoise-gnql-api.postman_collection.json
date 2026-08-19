@@ -1,0 +1,1374 @@
+{
+  "item": [
+    {
+      "id": "8afd9411-d157-4bea-9525-87e65dbeaf28",
+      "name": "GNQL",
+      "description": {
+        "content": "Calls to interface with GNQL (GreyNoise Query Language).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6d6dcf10-ad73-4828-a6c9-7c3774acec9d",
+          "name": "GNQL V3 Query",
+          "request": {
+            "name": "GNQL V3 Query",
+            "description": {
+              "content": "GreyNoise Query Language\nGNQL (GreyNoise Query Language) is a domain-specific query language\nthat uses Lucene deep under the hood. GNQL aims to enable GreyNoise\nEnterprise and Research users to make complex and one-off queries\nagainst the GreyNoise dataset as new business cases arise. GNQL is\nbuilt with self-defeat and fully featured product lines in mind. If\nwe do our job correctly, each individual GNQL query that brings our\nusers and customers sufficient value will eventually be transitioned\ninto it's own individual offering.\n_License: The `business_service_intelligence` response field\nrequires the BSI Module. Without it, every result returns an empty\n`business_service_intelligence` object; all other fields are\nreturned normally._\nFacets:\n* `ip` - The IP address of the scanning device IP\n* `classification` - Whether the device has been categorized as\nunknown, benign, or malicious\n* `first_seen` - The date the device was first observed by GreyNoise\n* `last_seen` - The date the device was most recently observed\nby GreyNoise\n* `actor` - The benign actor the device has been associated with,\nsuch as Shodan, Censys, GoogleBot, etc\n* `tags` - A list of the tags the device has been assigned over the\npast 90 days\n* `spoofable` - This IP address has been opportunistically scanning the\nInternet, however has failed to complete a full TCP connection. Any\nreported activity could be spoofed.\n* `vpn` - This IP is associated with a VPN service. Activity, malicious\nor otherwise, should not be attributed to the VPN service provider.\n* `vpn_service` - The VPN service the IP is associated with\n* `tor` - Whether or not the device is a known Tor exit node\n* `cve` - A list of CVEs that the device has been associated with\n* `single_destination` - A boolean parameter that filters source country\nIPs that have only been observed in a single destination country\n* `metadata.category` - Whether the device belongs to a business, isp,\nhosting, education, or mobile network\n* `metadata.carrier` - The Internet Service Provider (ISP) or telecommunications carrier\nassociated with the source IP address\n* `metadata.country` - The full name of the country the device is\ngeographically located in (This is the same data as\n`metadata.source_country`. `metadata.source_country` is preferred)\n* `metadata.country_code` - The two-character country code of the\ncountry the device is geographically located in (This is the same data\nas `metadata.source_country_code`. `metadata.source_country_code`\nis preferred)\n* `metadata.datacenter` - The datacenter or hosting provider from which the activity originates.\nThis could indicate the use of cloud services, managed hosting,\nor enterprise datacenter infrastructure.\n* `metadata.domain` - The domain name associated with the source IP address\n* `metadata.sensor_hits` - The amount of unique data that has been recorded by the sensor\n* `metadata.sensor_count` - The number of sensors the IP Address has been observed on\n* `metadata.city` - The city the device is geographically located in\n* `metadata.region` - The region the device is geographically located in\n* `metadata.organization` - The organization that owns the network that\nthe IP address belongs to\n* `metadata.rdns` - The reverse DNS pointer of the IP\n* `metadata.asn` - The autonomous system the IP address belongs to\n* `metadata.destination_cities` - The city where the GreyNoise sensor is geographically located\n* `metadata.destination_asns` - The ASN associated with the destination IP address\n* `metadata.destination_countries` - The full country name where the GreyNoise\nsensors are physically located\n* `metadata.destination_country_codes` - The country code where the GreyNoise\nsensors are physically located\n* `metadata.destination_country` - The full country name where the GreyNoise\nsensors are physically located\n* `metadata.destination_country_code` - The country code where the GreyNoise\nsensors are physically located\n* `metadata.latitude` - The geographic latitude of the source IP address\n* `metadata.longitude` - The geographic longitude of the source IP address\n* `metadata.rdns_parent` - The parent domain retrieved through reverse DNS (RDNS)\nlookup of the source IP address\n* `metadata.rdns_validated` - A validation status that confirms whether the\nreverse DNS (RDNS) record correctly maps to the source domain\n* `metadata.source_country_code` - The two-character country code of the\ncountry the device is geographically located in\n* `metadata.source_country` - The full name of the country the device is\ngeographically located in\n* `raw_data.scan.port` - The port being targeted on a GreyNoise sensor\n* `raw_data.scan.protocol` - The protocol of the port the device has\nbeen observed scanning\n* `raw_data.web.paths` - Any HTTP paths the device has been observed\ncrawling the Internet for\n* `raw_data.web.useragents` - Any HTTP user-agents the device has been\nobserved using while crawling the Internet\n* `raw_data.ja3.fingerprint` - The JA3 TLS/SSL fingerprint\n* `raw_data.ja3.port` - The corresponding TCP port for the given JA3\nfingerprint\n* `raw_data.hassh.fingerprint` - The HASSH fingerprint\n* `raw_data.hassh.port` - The corresponding TCP port for the given HASSH\nfingerprint\n* `raw_data.http.md5` - An MD5 hash of the body content. This compact,\nunique representation of the data allows for quick comparisons and\ndeduplication of payloads without storing the raw content.\n* `raw_data.http.cookie_keys` - The keys or names of cookies exchanged in the\ncommunication. These can reveal session identifiers, tracking mechanisms,\nor other metadata used in web interactions,\nproviding clues about application behavior or vulnerabilities.\n* `raw_data.http.request_authorization` - The contents of the Authorization header in a request,\ntypically containing authentication credentials or tokens (e.g., Basic Auth, Bearer tokens).\nAnalyzing this helps verify authorization mechanisms and detect credential misuse or token abuse.\n* `raw_data.http.request_cookie` - Key-value pairs stored in cookies sent with an HTTP request.\nThese cookies often contain session identifiers, user preferences, or tracking data,\nwhich can be analyzed to detect unauthorized access or manipulation.\n* `raw_data.http.request_header` - Request Headers are the keys (names) of HTTP headers that a\nclient sends to a server.\n* `raw_data.http.request_method` - The HTTP method used in the request, such as GET, POST, PUT, or DELETE.\nAnalyzing methods can reveal the intent of the request, such as retrieving or modifying resources,\nand identify unexpected or suspicious activity.\n* `raw_data.http.request_origin` - Indicates the origin of the request, typically used in\ncross-origin resource sharing (CORS) to specify where the request originated.\nThis helps identify unauthorized or potentially malicious cross-origin requests.\n* `raw_data.tls.cipher` - The encryption algorithm or cipher suite used during\nthe secure communication. Identifying the cipher helps assess the\nsecurity of the connection, particularly in TLS/SSL traffic.\n* `raw_data.tls.ja4` - JA4 TLS fingerprint. JA4 captures distinctive\ncharacteristics of TLS client behavior, useful for identifying and\nclustering malicious or anomalous clients.\n* `raw_data.http.ja4h` - JA4H HTTP client fingerprint. Captures\ncharacteristics of HTTP client behavior including method, headers,\nand cookie fields, useful for identifying and tracking HTTP clients.\n* `raw_data.ssh.ja4ssh` - JA4SSH fingerprint. Captures SSH traffic\npatterns including packet lengths and directions, useful for\nidentifying SSH client behavior and detecting anomalous sessions.\n* `raw_data.tcp.ja4t` - JA4T TCP fingerprint. Captures TCP\nconnection characteristics such as window size, options, and MSS,\nuseful for OS fingerprinting and identifying network stacks.\n* `raw_data.tcp.ja4l` - JA4L light distance/latency fingerprint.\nCaptures TCP TTL and window size characteristics, useful for\nestimating client-server distance and identifying proxied connections.\nBehavior:\n* `raw_data.ssh.key` - This is the SSH key used.\n* You can subtract facets by prefacing the query with a minus character\n* The data that this endpoint queries refreshes once per hour\nShortcuts:\n* You can find interesting hosts by using the GNQL query term\n`interesting`\n* You can use the keyword `today` in the `first_seen` and\n`last_seen` parameters: `last_seen:today` or `first_seen:today`\nExamples:\n* `last_seen:today` - Returns all IPs scanning/crawling the\nInternet today\n* `tags:Mirai` - Returns all devices with the \"Mirai\" tag\n* `tags:\"RDP Scanner\"` - Returns all devices with the \"RDP\nScanner\" tag\n* `classification:malicious metadata.country:Belgium`\n- Returns all compromised devices located in Belgium\n* `classification:malicious metadata.rdns:*.gov*` - Returns\nall compromised devices that include .gov in their reverse DNS records\n* `metadata.organization:Microsoft classification:malicious`\n- Returns all compromised devices that belong to Microsoft\n* `(raw_data.scan.port:445 and raw_data.scan.protocol:TCP)\nmetadata.os:Windows*` - Return all devices scanning the Internet\nfor port 445/TCP running Windows operating systems\n(Conficker/EternalBlue/WannaCry)\n* `raw_data.scan.port:554` - Returns all devices scanning the\nInternet for port 554\n* `-metadata.organization:Google raw_data.web.useragents:GoogleBot`\n- Returns all devices crawling the Internet with \"GoogleBot\" in\ntheir useragent from a network that does NOT belong to Google\n* `tags:\"Siemens PLC Scanner\" -classification:benign` - Returns\nall devices scanning the Internet for SCADA devices who ARE\nNOT tagged by GreyNoise as \"benign\"\n(Shodan/Project Sonar/Censys/Google/Bing/etc)\n* `classification:benign` - Returns all \"good guys\" scanning\nthe Internet\n* `raw_data.ja3.fingerprint:795bc7ce13f60d61e9ac03611dd36d90`\n- Returns all devices crawling the Internet with a matching\nclient JA3 TLS/SSL fingerprint\n* `raw_data.hassh.fingerprint:51cba57125523ce4b9db67714a90bf6e`\n- Returns all devices crawling the Internet with a matching\nclient HASSH fingerprint\n* `raw_data.tls.ja4:t13d1516h2_8daaf6152771_02713d6af862`\n- Returns all devices with a matching JA4 TLS fingerprint\n* `raw_data.http.ja4h:ge11cn060000_4e59edc1297a_4da5efaf0cbd`\n- Returns all devices with a matching JA4H HTTP fingerprint\n* `raw_data.ssh.ja4ssh:c76s76_c71s59_c0s0`\n- Returns all devices with a matching JA4SSH fingerprint\n* `raw_data.tcp.ja4t:64240_2-1-3-1-1-4_1460_8`\n- Returns all devices with a matching JA4T TCP fingerprint\n* `raw_data.tcp.ja4l:1460_64`\n- Returns all devices with a matching JA4L light\ndistance/latency fingerprint\n* `raw_data.web.paths:\"/HNAP1/\"` -Returns all devices crawling\nthe Internet for the HTTP path \"/HNAP1/\"\n* `8.0.0.0/8` - Returns all devices scanning the Internet from\nthe CIDR block 8.0.0.0/8\n* `cve:CVE-2021-30461` - Returns all devices associated with the\nsupplied CVE\n* `source_country:Iran` - Returns all results originating from Iran\n* `destination_country:Ukraine single_destination:true`\n- Returns all results scanning in only Ukraine\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "gnql"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) GNQL query string"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10000",
+                  "description": "The number of results provided per page for paginating through all results of a query"
+                },
+                {
+                  "disabled": false,
+                  "key": "scroll",
+                  "value": "<string>",
+                  "description": "Scroll token to paginate through results. Incompatible with `format=csv`."
+                },
+                {
+                  "disabled": false,
+                  "key": "quick",
+                  "value": "false",
+                  "description": "If true, the response will only include the IP address and the classification or trust level."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Specifies the desired format of the results. Must be either csv or json."
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields to exclude from the response.\nRecognized top-level response fields (e.g. `tags`, `cves`, `vpn`, `tor`, `raw_data`, `metadata`),\n`metadata.<subfield>` paths (e.g. `metadata.organization`, `metadata.source_country`,\n`metadata.destination_countries`), and `raw_data.<subfield>` paths (e.g. `raw_data.ja3`,\n`raw_data.http.useragent`) are accepted. The special value `tags.details` preserves tag\nidentity (id, slug) and strips only the enriched details. Unknown field names return 400.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "75b920dd-ba0e-4547-aa4b-1f6748b4bbc0",
+              "name": "OK - request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,raw_data.ja3"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_metadata\": {\n    \"complete\": false,\n    \"scroll\": \"DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn\\n\",\n    \"query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"adjusted_query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"count\": 1,\n    \"message\": \"ok\",\n    \"restricted_fields\": [\n      \"ip\",\n      \"asn\",\n      \"organization\",\n      \"country\",\n      \"city\",\n      \"region\"\n    ]\n  },\n  \"data\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "819847c5-0133-47d5-b407-4c06e17399b1",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. Contact sales@greynoise.io to upgrade your\nplan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,raw_data.ja3"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_metadata\": {\n    \"complete\": false,\n    \"scroll\": \"DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn\\n\",\n    \"query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"adjusted_query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"count\": 1,\n    \"message\": \"ok\",\n    \"restricted_fields\": [\n      \"ip\",\n      \"asn\",\n      \"organization\",\n      \"country\",\n      \"city\",\n      \"region\"\n    ]\n  },\n  \"data\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7c7e546-2227-4502-8acf-43ddb045db71",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,raw_data.ja3"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3cc1125-791e-4370-a355-a24e0d54af17",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,raw_data.ja3"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa661a1b-11b4-493a-8c34-6be0f78b304e",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,raw_data.ja3"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74359490-4432-49dc-9b4e-2e8e5fd0b807",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,raw_data.ja3"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40c5f085-0d57-49cb-97a9-56c89dcecd8c",
+          "name": "GNQL V3 Metadata Query",
+          "request": {
+            "name": "GNQL V3 Metadata Query",
+            "description": {
+              "content": "GreyNoise Query Language Metadata Endpoint\nThis endpoint provides the same functionality as the main GNQL endpoint\nbut with additional field filtering capabilities. It automatically excludes\nraw data from responses and allows you to specify additional fields to exclude.\n\nThe metadata endpoint is designed for use cases where you need to retrieve\nIP intelligence data without the raw scan data, making it more efficient\nfor metadata-focused queries.\n\n_License: The `business_service_intelligence` response field\nrequires the BSI Module. Without it, every result returns an empty\n`business_service_intelligence` object; all other fields are\nreturned normally._\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "gnql",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) GNQL query string"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10000",
+                  "description": "The number of results provided per page for paginating through all results of a query"
+                },
+                {
+                  "disabled": false,
+                  "key": "scroll",
+                  "value": "<string>",
+                  "description": "Scroll token to paginate through results"
+                },
+                {
+                  "disabled": false,
+                  "key": "quick",
+                  "value": "false",
+                  "description": "If true, the response will only include the IP address and the classification or trust level."
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude",
+                  "value": "<string>",
+                  "description": "Comma-separated list of additional fields to exclude from the response.\n`raw_data` is always excluded by this endpoint; specifying it is redundant.\nRecognized top-level response fields (e.g. `tags`, `cves`, `vpn`, `tor`, `metadata`)\nand `metadata.<subfield>` paths (e.g. `metadata.organization`, `metadata.source_country`,\n`metadata.destination_countries`) are accepted. The special value `tags.details`\npreserves tag identity (id, slug) and strips only the enriched details. Unknown\nfield names return 400.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "67fc9f17-c310-44e7-9659-74d74962bc45",
+              "name": "OK - request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,metadata.rdns"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_metadata\": {\n    \"complete\": false,\n    \"scroll\": \"DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn\\n\",\n    \"query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"adjusted_query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"count\": 1,\n    \"message\": \"ok\",\n    \"restricted_fields\": [\n      \"ip\",\n      \"asn\",\n      \"organization\",\n      \"country\",\n      \"city\",\n      \"region\"\n    ]\n  },\n  \"data\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5318146b-7afe-4d00-b792-8f8709b78e6d",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. Contact sales@greynoise.io to upgrade your\nplan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,metadata.rdns"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_metadata\": {\n    \"complete\": false,\n    \"scroll\": \"DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn\\n\",\n    \"query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"adjusted_query\": \"last_seen:2019-07-28 classification:malicious\",\n    \"count\": 1,\n    \"message\": \"ok\",\n    \"restricted_fields\": [\n      \"ip\",\n      \"asn\",\n      \"organization\",\n      \"country\",\n      \"city\",\n      \"region\"\n    ]\n  },\n  \"data\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29e97fc4-af70-4fb3-a4e4-65b644a63eea",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,metadata.rdns"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a1f2364-3d0f-44ad-b735-e055061cde86",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,metadata.rdns"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9525d4b7-0a53-4ea3-8b27-cc3d7042e324",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,metadata.rdns"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1988427-a159-4da4-945e-bdabe51db297",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "scroll",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "quick",
+                      "value": "false"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "metadata.organization,metadata.city,metadata.rdns"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23d29778-f7ca-4627-b1e9-d14b08f1142e",
+          "name": "GNQL V3 Stats",
+          "request": {
+            "name": "GNQL V3 Stats",
+            "description": {
+              "content": "Get aggregate statistics for the top organizations, actors, tags,\nASNs, countries, classifications, and operating systems of all the\nresults of a given GNQL query.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "gnql",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) GNQL query string"
+                },
+                {
+                  "disabled": false,
+                  "key": "count",
+                  "value": "1000",
+                  "description": "Number of top aggregates to grab"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "774000e9-1c46-49cd-8f38-1ac0cf00c8e2",
+              "name": "Query successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "count",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query\": \"last_seen:2019-07-28 classification:malicious\",\n  \"count\": 50000,\n  \"adjusted_query\": \"last_seen:2019-07-28 classification:malicious last_seen:7d\",\n  \"stats\": {\n    \"classifications\": [\n      {\n        \"classification\": \"malicious\",\n        \"count\": 5000\n      }\n    ],\n    \"spoofable\": [\n      {\n        \"spoofable\": false,\n        \"count\": 5000\n      }\n    ],\n    \"organizations\": [\n      {\n        \"organization\": \"DigitalOcean, LLC\",\n        \"count\": 5000\n      }\n    ],\n    \"actors\": [\n      {\n        \"actor\": \"Shodan.io\",\n        \"count\": 5000\n      }\n    ],\n    \"countries\": [\n      {\n        \"country\": \"United States\",\n        \"count\": 5000\n      }\n    ],\n    \"source_countries\": [\n      {\n        \"country\": \"United States\",\n        \"count\": 5000\n      }\n    ],\n    \"destination_countries\": [\n      {\n        \"country\": \"United States\",\n        \"count\": 5000\n      }\n    ],\n    \"tags\": [\n      {\n        \"tag\": \"SSH Bruteforcer\",\n        \"id\": \"4c076d9c-be48-4bd1-bec4-6005e06c0f89\",\n        \"count\": 5000\n      }\n    ],\n    \"operating_systems\": [\n      {\n        \"operating_system\": \"Windows 7/8\",\n        \"count\": 5000\n      }\n    ],\n    \"categories\": [\n      {\n        \"category\": \"education\",\n        \"count\": 5000\n      }\n    ],\n    \"asns\": [\n      {\n        \"asn\": \"AS4134\",\n        \"count\": 5000\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dbe4ec57-5a29-4254-95d4-da4a2e520e08",
+              "name": "Partial content - request partially successful.\nDue to plan limitations, your request only returned a subset of\nfields and/or data. The `adjusted_query` field in the response\nindicates how the original query was modified. Contact\nsales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "count",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query\": \"last_seen:2019-07-28 classification:malicious\",\n  \"count\": 50000,\n  \"adjusted_query\": \"last_seen:2019-07-28 classification:malicious last_seen:7d\",\n  \"stats\": {\n    \"classifications\": [\n      {\n        \"classification\": \"malicious\",\n        \"count\": 5000\n      }\n    ],\n    \"spoofable\": [\n      {\n        \"spoofable\": false,\n        \"count\": 5000\n      }\n    ],\n    \"organizations\": [\n      {\n        \"organization\": \"DigitalOcean, LLC\",\n        \"count\": 5000\n      }\n    ],\n    \"actors\": [\n      {\n        \"actor\": \"Shodan.io\",\n        \"count\": 5000\n      }\n    ],\n    \"countries\": [\n      {\n        \"country\": \"United States\",\n        \"count\": 5000\n      }\n    ],\n    \"source_countries\": [\n      {\n        \"country\": \"United States\",\n        \"count\": 5000\n      }\n    ],\n    \"destination_countries\": [\n      {\n        \"country\": \"United States\",\n        \"count\": 5000\n      }\n    ],\n    \"tags\": [\n      {\n        \"tag\": \"SSH Bruteforcer\",\n        \"id\": \"4c076d9c-be48-4bd1-bec4-6005e06c0f89\",\n        \"count\": 5000\n      }\n    ],\n    \"operating_systems\": [\n      {\n        \"operating_system\": \"Windows 7/8\",\n        \"count\": 5000\n      }\n    ],\n    \"categories\": [\n      {\n        \"category\": \"education\",\n        \"count\": 5000\n      }\n    ],\n    \"asns\": [\n      {\n        \"asn\": \"AS4134\",\n        \"count\": 5000\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a45caadd-ada0-4edb-84d4-f76b714e585e",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "count",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "532eb43f-2f78-4303-87f1-a51fc51b11c3",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "count",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73ee1d4c-8e8b-4e46-a76b-e240a18fc3b5",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "count",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adcf8df7-106a-4b9d-92ff-fca548ef5691",
+              "name": "Too many requests. You've hit the rate-limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "gnql",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "tags:Mirai"
+                    },
+                    {
+                      "key": "count",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You've hit the rate limit for this endpoint.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greynoise.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "26d27329-9d64-48cd-a795-177518055ee3",
+    "name": "GreyNoise Callback GNQL API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.\n\nContact Support:\n Email: hello@greynoise.io",
+      "type": "text/plain"
+    }
+  }
+}

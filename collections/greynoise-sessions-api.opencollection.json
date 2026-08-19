@@ -1,0 +1,456 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GreyNoise Callback Sessions API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page."
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "sort_desc",
+                "value": "",
+                "type": "query",
+                "description": "Whether to sort in descending order."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of network sessions matching the query criteria.\nSessions represent individual network connections captured by GreyNoise sensors.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/connections",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "src_field",
+                "value": "",
+                "type": "query",
+                "description": "Source field to aggregate on."
+              },
+              {
+                "name": "dest_field",
+                "value": "",
+                "type": "query",
+                "description": "Destination field to aggregate on."
+              },
+              {
+                "name": "max_nodes",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of nodes to return."
+              },
+              {
+                "name": "min_connections",
+                "value": "",
+                "type": "query",
+                "description": "Minimum number of connections to include a node."
+              }
+            ]
+          },
+          "docs": "Returns a graph of connections between source and destination fields.\nUseful for visualizing network relationships and communication patterns.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/counts",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "fields",
+                "value": "source.ip,destination.port",
+                "type": "query",
+                "description": "Comma-separated list of fields to aggregate on."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of buckets per aggregation level."
+              }
+            ]
+          },
+          "docs": "Returns aggregated counts of sessions grouped by the specified fields.\nUseful for building dashboards and understanding traffic distribution.\n"
+        },
+        {
+          "info": {
+            "name": "Export PCAP for Multiple Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/export",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of sessions to include in the export."
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "sort_desc",
+                "value": "",
+                "type": "query",
+                "description": "Whether to sort in descending order."
+              }
+            ]
+          },
+          "docs": "Returns a PCAP file containing packets from sessions matching the query criteria.\nThe response is a binary PCAP file suitable for analysis with tools like Wireshark.\n\nNot available when `scope=demo` (returns 403).\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/fields",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              }
+            ]
+          },
+          "docs": "Returns the list of available session fields for querying and display.\nUse this to discover which fields can be used in queries, sorting, and aggregations.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session Timeseries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/timeseries",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "field",
+                "value": "",
+                "type": "query",
+                "description": "Field to group timeseries by."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of groups to return when field is provided."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "Time interval for bucketing."
+              }
+            ]
+          },
+          "docs": "Returns timeseries data for sessions, optionally grouped by a field.\nUseful for visualizing session volume over time and identifying trends.\n"
+        },
+        {
+          "info": {
+            "name": "Get Unique Field Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/unique",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "start_time",
+                "value": "2025-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "end_time",
+                "value": "2025-01-07T23:59:59Z",
+                "type": "query",
+                "description": "End time for the query range (ISO 8601 format)."
+              },
+              {
+                "name": "field",
+                "value": "source.ip",
+                "type": "query",
+                "description": "Field to get unique values for."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Lucene query string to filter sessions."
+              },
+              {
+                "name": "include_counts",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include counts in the output."
+              }
+            ]
+          },
+          "docs": "Returns unique values for a session field as a CSV download, optionally with counts.\nUseful for extracting distinct IPs, ports, or other field values matching a query.\n"
+        },
+        {
+          "info": {
+            "name": "Get Session by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/:session_id",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique session identifier."
+              }
+            ]
+          },
+          "docs": "Returns a single session by its ID, including full session metadata\nand connection details.\n"
+        },
+        {
+          "info": {
+            "name": "Export Session Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/:session_id/export",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique session identifier."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Export format type."
+              }
+            ]
+          },
+          "docs": "Downloads session data as PCAP or raw payload for a single session.\nUse the `type` parameter to select the export format.\n\nNot available when `scope=demo` (returns 403).\n"
+        },
+        {
+          "info": {
+            "name": "Get Session PCAP",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greynoise.io/v3/sessions/:session_id/frames",
+            "params": [
+              {
+                "name": "scope",
+                "value": "workspace",
+                "type": "query",
+                "description": "Controls the data scope for the query.\n- `workspace`: Query data from the current workspace (default). Requires the Sensors entitlement.\n- `demo`: Query demo/sample data. Requires the Swarm entitlement. Not available on export endpoints.\n"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique session identifier."
+              }
+            ]
+          },
+          "docs": "Returns raw PCAP bytes for a single session. The response is a binary\nPCAP file suitable for analysis with tools like Wireshark.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

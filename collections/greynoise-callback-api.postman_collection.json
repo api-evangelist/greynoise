@@ -1,0 +1,1364 @@
+{
+  "item": [
+    {
+      "id": "fa993e80-b9fd-4fa0-8127-2a1b3175da12",
+      "name": "Callback",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8d98bfbe-a223-47ac-9d4a-f8d1044e6273",
+          "name": "Export Callback IPs",
+          "request": {
+            "name": "Export Callback IPs",
+            "description": {
+              "content": "Export callback IPs matching the given filters as a newline-delimited\nplain text list. Supports the same filter parameters as the List\nCallback IPs endpoint.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "callback",
+                "export-ips"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_stage_1\": \"<boolean>\",\n  \"is_stage_2\": \"<boolean>\",\n  \"first_seen_after\": \"<date>\",\n  \"first_seen_before\": \"<date>\",\n  \"last_seen_after\": \"<date>\",\n  \"last_seen_before\": \"<date>\",\n  \"has_files\": \"<boolean>\",\n  \"file_type\": \"<string>\",\n  \"file_name\": \"<string>\",\n  \"file_hash\": \"<string>\",\n  \"scanner_ips\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ips\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74999473-053c-4763-9ed7-2c0836f737ff",
+              "name": "OK - newline-delimited list of callback IPs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "export-ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "198.51.100.42\n203.0.113.7\n192.0.2.99\n",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e7664fad-9a6c-418a-a95c-8c766a380ae8",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "export-ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1dc32155-9d29-4264-a520-7b9e2c3f7180",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "export-ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "754501fb-050c-4db5-be4e-e3f3c1f39109",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "export-ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1371eb9-a31f-42a6-a3e4-d7a9cfca7478",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "export-ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Encountered error while performing request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01e1cf7d-dbbc-4774-81b9-26eb0aac9143",
+          "name": "Callback IP Lookup",
+          "request": {
+            "name": "Callback IP Lookup",
+            "description": {
+              "content": "Retrieve detailed information about a specific callback IP, including\nattack stage, scanner associations, and downloaded malware files.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "callback",
+                "ip",
+                ":ip"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ip",
+                  "description": "(Required) The callback IP address to look up."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b39f32b-57cf-43e4-8771-73a86553ad17",
+              "name": "OK - callback IP details returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) The callback IP address to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ip\": \"198.51.100.42\",\n  \"source_workspaces\": [\n    \"GreyNoise\",\n    \"UserWorkspace\"\n  ],\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen\": \"2025-03-01T00:00:00Z\",\n  \"last_seen\": \"2025-03-15T12:30:00Z\",\n  \"scanner_ips\": [\n    \"203.0.113.7\",\n    \"192.0.2.99\"\n  ],\n  \"scanner_count\": 5,\n  \"file_count\": 3,\n  \"active_files\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad329f1d-a0f5-44ea-a829-2ffb19da972f",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) The callback IP address to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2da99b0-3901-4846-a278-5b4f88cc1e6d",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) The callback IP address to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc1077cd-b683-4b88-a873-436609b288fc",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) The callback IP address to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ae54da9-03a8-4e2e-a318-529c5ac52dd5",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) The callback IP address to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"IP not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6af02ba9-a603-4380-a3be-a2cee3a30fce",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ip",
+                    ":ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ip",
+                      "description": "(Required) The callback IP address to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Encountered error while performing request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a42a770a-7004-482c-9809-48f0c379e8f1",
+          "name": "List Callback IPs",
+          "request": {
+            "name": "List Callback IPs",
+            "description": {
+              "content": "Retrieve a paginated list of callback IPs with filtering by attack\nstage, date ranges, file attributes, and scanner associations.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "callback",
+                "ips"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_stage_1\": \"<boolean>\",\n  \"is_stage_2\": \"<boolean>\",\n  \"first_seen_after\": \"<date>\",\n  \"first_seen_before\": \"<date>\",\n  \"last_seen_after\": \"<date>\",\n  \"last_seen_before\": \"<date>\",\n  \"has_files\": \"<boolean>\",\n  \"file_type\": \"<string>\",\n  \"file_name\": \"<string>\",\n  \"file_hash\": \"<string>\",\n  \"scanner_ips\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ips\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"page\": 0,\n  \"page_size\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "82196163-b9af-46c9-9c01-24ee543f3242",
+              "name": "OK - paginated list of callback IPs returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ],\n  \"page\": 100,\n  \"page_size\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [],\n  \"total\": 142,\n  \"page\": 0,\n  \"page_size\": 20\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "374be817-a1b0-4861-9a47-62b2c8d8804c",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ],\n  \"page\": 100,\n  \"page_size\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f13956d5-12a7-468a-b289-8562bf512996",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ],\n  \"page\": 100,\n  \"page_size\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2f385b7-0e53-4854-8b93-b060cdf08b80",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ],\n  \"page\": 100,\n  \"page_size\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec86e403-6892-4799-8410-b6cda6e03b58",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "ips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ],\n  \"page\": 100,\n  \"page_size\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Encountered error while performing request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3996579a-0ea7-4891-9605-55262d50e3fe",
+          "name": "Callback Overview Statistics",
+          "request": {
+            "name": "Callback Overview Statistics",
+            "description": {
+              "content": "Retrieve aggregate statistics for callback IPs including counts by\nattack stage, file analysis status, scanner associations, and top\nthreat names.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "callback",
+                "overview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_stage_1\": \"<boolean>\",\n  \"is_stage_2\": \"<boolean>\",\n  \"first_seen_after\": \"<date>\",\n  \"first_seen_before\": \"<date>\",\n  \"last_seen_after\": \"<date>\",\n  \"last_seen_before\": \"<date>\",\n  \"has_files\": \"<boolean>\",\n  \"file_type\": \"<string>\",\n  \"file_name\": \"<string>\",\n  \"file_hash\": \"<string>\",\n  \"scanner_ips\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ips\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a2907ed8-976a-484b-97d5-4939a1ccaa67",
+              "name": "OK - overview statistics returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_ips\": 142,\n  \"stage_1_ips\": 98,\n  \"stage_2_ips\": 44,\n  \"total_files\": 230,\n  \"files_with_vt\": 180,\n  \"files_without_vt\": 50,\n  \"total_cross_refs\": 312,\n  \"total_scanner_links\": 456,\n  \"ips_with_files\": 110,\n  \"ips_without_files\": 32,\n  \"ips_with_scanners\": 130,\n  \"ips_without_scanners\": 12,\n  \"distinct_scanners\": 89,\n  \"top_threat_names\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a745b48-fc8b-4940-8e36-ccc7ead0e946",
+              "name": "Bad request - request syntax is invalid for the specified endpoint.\nVerify request syntax and try again.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "101fcda7-7626-4602-b89d-c984951e32d5",
+              "name": "Unauthorized. Please check your API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bb493cb-1a81-42bb-a15e-8e3869992044",
+              "name": "Forbidden - request is not authorized due to an invalid API key or plan limitations.\nIf due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "926cda7e-46bb-46e5-91ef-76aa7105625b",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "callback",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_stage_1\": false,\n  \"is_stage_2\": false,\n  \"first_seen_after\": \"2026-05-01\",\n  \"first_seen_before\": \"2026-05-01\",\n  \"last_seen_after\": \"2026-05-01\",\n  \"last_seen_before\": \"2026-05-01\",\n  \"has_files\": false,\n  \"file_type\": \"string\",\n  \"file_name\": \"Google Public DNS\",\n  \"file_hash\": \"795bc7ce13f60d61e9ac03611dd36d90\",\n  \"scanner_ips\": [\n    \"string\"\n  ],\n  \"ips\": [\n    \"string\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Encountered error while performing request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greynoise.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6cb8922a-62ac-4683-ac43-93a0540c0cde",
+    "name": "GreyNoise Callback API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.\n\nContact Support:\n Email: hello@greynoise.io",
+      "type": "text/plain"
+    }
+  }
+}
