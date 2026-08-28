@@ -11,8 +11,14 @@ info:
     without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: greynoiseApi
-  url: ../openapi/greynoise-openapi.yml
+- name: gnqlApi
+  url: ../openapi/greynoise-gnql-api-openapi.yml
+  type: openapi
+- name: ipLookupApi
+  url: ../openapi/greynoise-ip-lookup-api-openapi.yml
+  type: openapi
+- name: tagsApi
+  url: ../openapi/greynoise-tags-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: tag-hunt-to-context

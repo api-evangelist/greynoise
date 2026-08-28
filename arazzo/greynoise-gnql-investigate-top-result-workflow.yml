@@ -11,8 +11,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: greynoiseApi
-  url: ../openapi/greynoise-openapi.yml
+- name: gnqlApi
+  url: ../openapi/greynoise-gnql-api-openapi.yml
+  type: openapi
+- name: ipLookupApi
+  url: ../openapi/greynoise-ip-lookup-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: gnql-investigate-top-result
