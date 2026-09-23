@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: GreyNoise Callback GNQL API
+  title: GreyNoise GNQL API
   version: 3.0.0
   description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
   contact:
@@ -27,385 +27,7 @@ paths:
 
         GNQL (GreyNoise Query Language) is a domain-specific query language
 
-        that uses Lucene deep under the hood. GNQL aims to enable GreyNoise
-
-        Enterprise and Research users to make complex and one-off queries
-
-        against the GreyNoise dataset as new business cases arise. GNQL is
-
-        built with self-defeat and fully featured product lines in mind. If
-
-        we do our job correctly, each individual GNQL query that brings our
-
-        users and customers sufficient value will eventually be transitioned
-
-        into it''s own individual offering.
-
-        _License: The `business_service_intelligence` response field
-
-        requires the BSI Module. Without it, every result returns an empty
-
-        `business_service_intelligence` object; all other fields are
-
-        returned normally._
-
-        Facets:
-
-        * `ip` - The IP address of the scanning device IP
-
-        * `classification` - Whether the device has been categorized as
-
-        unknown, benign, or malicious
-
-        * `first_seen` - The date the device was first observed by GreyNoise
-
-        * `last_seen` - The date the device was most recently observed
-
-        by GreyNoise
-
-        * `actor` - The benign actor the device has been associated with,
-
-        such as Shodan, Censys, GoogleBot, etc
-
-        * `tags` - A list of the tags the device has been assigned over the
-
-        past 90 days
-
-        * `spoofable` - This IP address has been opportunistically scanning the
-
-        Internet, however has failed to complete a full TCP connection. Any
-
-        reported activity could be spoofed.
-
-        * `vpn` - This IP is associated with a VPN service. Activity, malicious
-
-        or otherwise, should not be attributed to the VPN service provider.
-
-        * `vpn_service` - The VPN service the IP is associated with
-
-        * `tor` - Whether or not the device is a known Tor exit node
-
-        * `cve` - A list of CVEs that the device has been associated with
-
-        * `single_destination` - A boolean parameter that filters source country
-
-        IPs that have only been observed in a single destination country
-
-        * `metadata.category` - Whether the device belongs to a business, isp,
-
-        hosting, education, or mobile network
-
-        * `metadata.carrier` - The Internet Service Provider (ISP) or telecommunications carrier
-
-        associated with the source IP address
-
-        * `metadata.country` - The full name of the country the device is
-
-        geographically located in (This is the same data as
-
-        `metadata.source_country`. `metadata.source_country` is preferred)
-
-        * `metadata.country_code` - The two-character country code of the
-
-        country the device is geographically located in (This is the same data
-
-        as `metadata.source_country_code`. `metadata.source_country_code`
-
-        is preferred)
-
-        * `metadata.datacenter` - The datacenter or hosting provider from which the activity originates.
-
-        This could indicate the use of cloud services, managed hosting,
-
-        or enterprise datacenter infrastructure.
-
-        * `metadata.domain` - The domain name associated with the source IP address
-
-        * `metadata.sensor_hits` - The amount of unique data that has been recorded by the sensor
-
-        * `metadata.sensor_count` - The number of sensors the IP Address has been observed on
-
-        * `metadata.city` - The city the device is geographically located in
-
-        * `metadata.region` - The region the device is geographically located in
-
-        * `metadata.organization` - The organization that owns the network that
-
-        the IP address belongs to
-
-        * `metadata.rdns` - The reverse DNS pointer of the IP
-
-        * `metadata.asn` - The autonomous system the IP address belongs to
-
-        * `metadata.destination_cities` - The city where the GreyNoise sensor is geographically located
-
-        * `metadata.destination_asns` - The ASN associated with the destination IP address
-
-        * `metadata.destination_countries` - The full country name where the GreyNoise
-
-        sensors are physically located
-
-        * `metadata.destination_country_codes` - The country code where the GreyNoise
-
-        sensors are physically located
-
-        * `metadata.destination_country` - The full country name where the GreyNoise
-
-        sensors are physically located
-
-        * `metadata.destination_country_code` - The country code where the GreyNoise
-
-        sensors are physically located
-
-        * `metadata.latitude` - The geographic latitude of the source IP address
-
-        * `metadata.longitude` - The geographic longitude of the source IP address
-
-        * `metadata.rdns_parent` - The parent domain retrieved through reverse DNS (RDNS)
-
-        lookup of the source IP address
-
-        * `metadata.rdns_validated` - A validation status that confirms whether the
-
-        reverse DNS (RDNS) record correctly maps to the source domain
-
-        * `metadata.source_country_code` - The two-character country code of the
-
-        country the device is geographically located in
-
-        * `metadata.source_country` - The full name of the country the device is
-
-        geographically located in
-
-        * `raw_data.scan.port` - The port being targeted on a GreyNoise sensor
-
-        * `raw_data.scan.protocol` - The protocol of the port the device has
-
-        been observed scanning
-
-        * `raw_data.web.paths` - Any HTTP paths the device has been observed
-
-        crawling the Internet for
-
-        * `raw_data.web.useragents` - Any HTTP user-agents the device has been
-
-        observed using while crawling the Internet
-
-        * `raw_data.ja3.fingerprint` - The JA3 TLS/SSL fingerprint
-
-        * `raw_data.ja3.port` - The corresponding TCP port for the given JA3
-
-        fingerprint
-
-        * `raw_data.hassh.fingerprint` - The HASSH fingerprint
-
-        * `raw_data.hassh.port` - The corresponding TCP port for the given HASSH
-
-        fingerprint
-
-        * `raw_data.http.md5` - An MD5 hash of the body content. This compact,
-
-        unique representation of the data allows for quick comparisons and
-
-        deduplication of payloads without storing the raw content.
-
-        * `raw_data.http.cookie_keys` - The keys or names of cookies exchanged in the
-
-        communication. These can reveal session identifiers, tracking mechanisms,
-
-        or other metadata used in web interactions,
-
-        providing clues about application behavior or vulnerabilities.
-
-        * `raw_data.http.request_authorization` - The contents of the Authorization header in a request,
-
-        typically containing authentication credentials or tokens (e.g., Basic Auth, Bearer tokens).
-
-        Analyzing this helps verify authorization mechanisms and detect credential misuse or token abuse.
-
-        * `raw_data.http.request_cookie` - Key-value pairs stored in cookies sent with an HTTP request.
-
-        These cookies often contain session identifiers, user preferences, or tracking data,
-
-        which can be analyzed to detect unauthorized access or manipulation.
-
-        * `raw_data.http.request_header` - Request Headers are the keys (names) of HTTP headers that a
-
-        client sends to a server.
-
-        * `raw_data.http.request_method` - The HTTP method used in the request, such as GET, POST, PUT, or DELETE.
-
-        Analyzing methods can reveal the intent of the request, such as retrieving or modifying resources,
-
-        and identify unexpected or suspicious activity.
-
-        * `raw_data.http.request_origin` - Indicates the origin of the request, typically used in
-
-        cross-origin resource sharing (CORS) to specify where the request originated.
-
-        This helps identify unauthorized or potentially malicious cross-origin requests.
-
-        * `raw_data.tls.cipher` - The encryption algorithm or cipher suite used during
-
-        the secure communication. Identifying the cipher helps assess the
-
-        security of the connection, particularly in TLS/SSL traffic.
-
-        * `raw_data.tls.ja4` - JA4 TLS fingerprint. JA4 captures distinctive
-
-        characteristics of TLS client behavior, useful for identifying and
-
-        clustering malicious or anomalous clients.
-
-        * `raw_data.http.ja4h` - JA4H HTTP client fingerprint. Captures
-
-        characteristics of HTTP client behavior including method, headers,
-
-        and cookie fields, useful for identifying and tracking HTTP clients.
-
-        * `raw_data.ssh.ja4ssh` - JA4SSH fingerprint. Captures SSH traffic
-
-        patterns including packet lengths and directions, useful for
-
-        identifying SSH client behavior and detecting anomalous sessions.
-
-        * `raw_data.tcp.ja4t` - JA4T TCP fingerprint. Captures TCP
-
-        connection characteristics such as window size, options, and MSS,
-
-        useful for OS fingerprinting and identifying network stacks.
-
-        * `raw_data.tcp.ja4l` - JA4L light distance/latency fingerprint.
-
-        Captures TCP TTL and window size characteristics, useful for
-
-        estimating client-server distance and identifying proxied connections.
-
-        Behavior:
-
-        * `raw_data.ssh.key` - This is the SSH key used.
-
-        * You can subtract facets by prefacing the query with a minus character
-
-        * The data that this endpoint queries refreshes once per hour
-
-        Shortcuts:
-
-        * You can find interesting hosts by using the GNQL query term
-
-        `interesting`
-
-        * You can use the keyword `today` in the `first_seen` and
-
-        `last_seen` parameters: `last_seen:today` or `first_seen:today`
-
-        Examples:
-
-        * `last_seen:today` - Returns all IPs scanning/crawling the
-
-        Internet today
-
-        * `tags:Mirai` - Returns all devices with the "Mirai" tag
-
-        * `tags:"RDP Scanner"` - Returns all devices with the "RDP
-
-        Scanner" tag
-
-        * `classification:malicious metadata.country:Belgium`
-
-        - Returns all compromised devices located in Belgium
-
-        * `classification:malicious metadata.rdns:*.gov*` - Returns
-
-        all compromised devices that include .gov in their reverse DNS records
-
-        * `metadata.organization:Microsoft classification:malicious`
-
-        - Returns all compromised devices that belong to Microsoft
-
-        * `(raw_data.scan.port:445 and raw_data.scan.protocol:TCP)
-
-        metadata.os:Windows*` - Return all devices scanning the Internet
-
-        for port 445/TCP running Windows operating systems
-
-        (Conficker/EternalBlue/WannaCry)
-
-        * `raw_data.scan.port:554` - Returns all devices scanning the
-
-        Internet for port 554
-
-        * `-metadata.organization:Google raw_data.web.useragents:GoogleBot`
-
-        - Returns all devices crawling the Internet with "GoogleBot" in
-
-        their useragent from a network that does NOT belong to Google
-
-        * `tags:"Siemens PLC Scanner" -classification:benign` - Returns
-
-        all devices scanning the Internet for SCADA devices who ARE
-
-        NOT tagged by GreyNoise as "benign"
-
-        (Shodan/Project Sonar/Censys/Google/Bing/etc)
-
-        * `classification:benign` - Returns all "good guys" scanning
-
-        the Internet
-
-        * `raw_data.ja3.fingerprint:795bc7ce13f60d61e9ac03611dd36d90`
-
-        - Returns all devices crawling the Internet with a matching
-
-        client JA3 TLS/SSL fingerprint
-
-        * `raw_data.hassh.fingerprint:51cba57125523ce4b9db67714a90bf6e`
-
-        - Returns all devices crawling the Internet with a matching
-
-        client HASSH fingerprint
-
-        * `raw_data.tls.ja4:t13d1516h2_8daaf6152771_02713d6af862`
-
-        - Returns all devices with a matching JA4 TLS fingerprint
-
-        * `raw_data.http.ja4h:ge11cn060000_4e59edc1297a_4da5efaf0cbd`
-
-        - Returns all devices with a matching JA4H HTTP fingerprint
-
-        * `raw_data.ssh.ja4ssh:c76s76_c71s59_c0s0`
-
-        - Returns all devices with a matching JA4SSH fingerprint
-
-        * `raw_data.tcp.ja4t:64240_2-1-3-1-1-4_1460_8`
-
-        - Returns all devices with a matching JA4T TCP fingerprint
-
-        * `raw_data.tcp.ja4l:1460_64`
-
-        - Returns all devices with a matching JA4L light
-
-        distance/latency fingerprint
-
-        * `raw_data.web.paths:"/HNAP1/"` -Returns all devices crawling
-
-        the Internet for the HTTP path "/HNAP1/"
-
-        * `8.0.0.0/8` - Returns all devices scanning the Internet from
-
-        the CIDR block 8.0.0.0/8
-
-        * `cve:CVE-2021-30461` - Returns all devices associated with the
-
-        supplied CVE
-
-        * `source_country:Iran` - Returns all results originating from Iran
-
-        * `destination_country:Ukraine single_destination:true`
-
-        - Returns all results scanning in only Ukraine
-
-        '
+        that uses Lucene deep under the hood.'
       parameters:
       - $ref: '#/components/parameters/query'
       - in: query
@@ -482,14 +104,14 @@ paths:
                       adjusted_query: last_seen:2019-07-28 classification:malicious
                       count: 1
                       message: ok
-                      restricted_fields: &id001
+                      restricted_fields:
                       - ip
                       - asn
                       - organization
                       - country
                       - city
                       - region
-                    data: &id002 []
+                    data: []
         '206':
           description: 'Partial content - request partially successful.
 
@@ -518,8 +140,14 @@ paths:
                       adjusted_query: last_seen:2019-07-28 classification:malicious
                       count: 1
                       message: ok
-                      restricted_fields: *id001
-                    data: *id002
+                      restricted_fields:
+                      - ip
+                      - asn
+                      - organization
+                      - country
+                      - city
+                      - region
+                    data: []
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -559,9 +187,7 @@ paths:
 
         `business_service_intelligence` object; all other fields are
 
-        returned normally._
-
-        '
+        returned normally._'
       parameters:
       - $ref: '#/components/parameters/query'
       - in: query
@@ -630,14 +256,14 @@ paths:
                       adjusted_query: last_seen:2019-07-28 classification:malicious
                       count: 1
                       message: ok
-                      restricted_fields: &id003
+                      restricted_fields:
                       - ip
                       - asn
                       - organization
                       - country
                       - city
                       - region
-                    data: &id004 []
+                    data: []
         '206':
           description: 'Partial content - request partially successful.
 
@@ -666,8 +292,14 @@ paths:
                       adjusted_query: last_seen:2019-07-28 classification:malicious
                       count: 1
                       message: ok
-                      restricted_fields: *id003
-                    data: *id004
+                      restricted_fields:
+                      - ip
+                      - asn
+                      - organization
+                      - country
+                      - city
+                      - region
+                    data: []
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -689,9 +321,7 @@ paths:
 
         ASNs, countries, classifications, and operating systems of all the
 
-        results of a given GNQL query.
-
-        '
+        results of a given GNQL query.'
       parameters:
       - $ref: '#/components/parameters/query'
       - in: query
@@ -825,180 +455,19 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    IPResponseV3Tags:
+    QuickBusinessServiceIntelligence:
       type: object
-      properties:
-        id:
-          type: string
-          example: ef0cc90d-d80c-436f-92c5-3d8f8665c9ac
-          description: 'The unique identifier for the tag.
-
-            '
-        slug:
-          type: string
-          example: mirai
-          description: 'The slugified version of the tag name.
-
-            '
-        name:
-          type: string
-          example: Mirai
-          description: 'The human-readable name for the tag.
-
-            '
-        category:
-          type: string
-          example: worm
-          description: 'Category of the IP address such as hosting or ISP.
-
-            '
-        intention:
-          type: string
-          example: malicious
-          description: 'The intent of the tag, either suspicious, malicious, benign, or unknown.
-
-            '
-        description:
-          type: string
-          example: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-          description: 'A detailed description of the tag, including the observed activity
-
-            and any relevant context or details.
-
-            '
-        references:
-          type: array
-          items:
-            type: string
-            example: https://en.wikipedia.org/wiki/Mirai_(malware)
-            description: 'A list of URLs or references that provide additional information
-
-              about the tag and its associated activity.
-
-              '
-          example:
-          - string
-        recommend_block:
-          type: boolean
-          example: false
-          description: 'A boolean value indicating whether the tag should be recommended
-
-            for blocking or filtering purposes.
-
-            '
-        cves:
-          type: array
-          items:
-            type: string
-            example: CVE-2020-1234
-            description: 'A list of CVEs associated with the tag.
-
-              '
-          example:
-          - CVE-2021-44228
-        created_at:
-          type: string
-          example: '2020-04-07'
-          description: 'The date and time when the tag was created.
-
-            '
-        updated_at:
-          type: string
-          example: '2020-04-07'
-          description: 'The date and time when the tag was last updated.
-
-            '
-    BusinessServiceIntelligence:
       properties:
         found:
           type: boolean
           description: 'Indicates if an IP is part of the RIOT dataset or not.
 
             '
-          example: true
-        category:
-          type: string
-          description: 'RIOT category the provider belongs to, identifying the type of service provided.
-
-            '
-          example: hosting
-        name:
-          type: string
-          description: 'The name of the provider and/or service.
-
-            '
-          example: example.com
-        description:
-          type: string
-          description: 'A description of the provider and what they do.
-
-            '
-          example: example.com
-        explanation:
-          type: string
-          description: 'An explanation of the category type and what may be expected from this provider and category.
-
-            '
-          example: string
-        last_updated:
-          type: string
-          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
-
-            '
-          example: '2025-01-15T12:30:45Z'
-        reference:
-          type: string
-          description: 'Reference URL for information about this provider and/or service.
-
-            '
-          example: https://example.com
+          example: false
         trust_level:
           type: string
           description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
           example: '1'
-    QuickInternetScannerIntelligence:
-      type: object
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
-
-            '
-          example: false
-        classification:
-          type: string
-          description: 'The classification of the IP address, either "benign", "malicious",
-
-            or "unknown", based on the activity observed by GreyNoise.
-
-            '
-          enum:
-          - benign
-          - malicious
-          - unknown
-          example: benign
-    QuickGNQLV3Response:
-      type: object
-      properties:
-        request_metadata:
-          $ref: '#/components/schemas/GNQLV3ResponseMetadata'
-        data:
-          type: array
-          description: The relevant IP records requested by the user
-          items:
-            $ref: '#/components/schemas/QuickIpProfile'
-          example: []
-    GNQLV3Response:
-      type: object
-      properties:
-        request_metadata:
-          $ref: '#/components/schemas/GNQLV3ResponseMetadata'
-        data:
-          type: array
-          description: The relevant IP records requested by the user
-          items:
-            $ref: '#/components/schemas/GNQLIPContextV3'
-          example: []
     InternetScannerIntelligence:
       properties:
         ip:
@@ -1369,181 +838,148 @@ components:
                     '
                   example: 1024
               example: string
-    QuickIpProfile:
+    GNQLV3Response:
       type: object
       properties:
-        ip:
-          type: string
-          example: 8.8.8.8
-          description: IP address that the information is about.
-        business_service_intelligence:
-          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
-    MetadataV3:
+        request_metadata:
+          $ref: '#/components/schemas/GNQLV3ResponseMetadata'
+        data:
+          type: array
+          description: The relevant IP records requested by the user
+          items:
+            $ref: '#/components/schemas/GNQLIPContextV3'
+          example: []
+    IPResponseV3Tags:
+      type: object
       properties:
-        mobile:
-          type: boolean
-          description: Defines if the IP is part of a known cellular network.
-          example: false
-        source_country:
+        id:
           type: string
-          description: Country where the IP address is registered or operates.
-          example: United States
-        source_country_code:
+          example: ef0cc90d-d80c-436f-92c5-3d8f8665c9ac
+          description: 'The unique identifier for the tag.
+
+            '
+        slug:
           type: string
-          description: Country code of the IP address based on ISO 3166-1 alpha-2.
-          example: US
-        source_city:
+          example: mirai
+          description: 'The slugified version of the tag name.
+
+            '
+        name:
           type: string
-          description: The city where the device is geographically located.
-          example: Seattle
-        region:
-          type: string
-          description: The region where the device is geographically located.
-          example: Seattle
-        organization:
-          type: string
-          description: The name of organization that owns the IP address.
-          example: DigitalOcean, LLC
-        rdns:
-          type: string
-          description: The reverse DNS pointer.
-          example: crawl-66-249-79-17.googlebot.com
-        asn:
-          type: string
-          description: The autonomous system identification number.
-          example: AS521
+          example: Mirai
+          description: 'The human-readable name for the tag.
+
+            '
         category:
           type: string
-          description: The subset of network types the IP address belongs to.
-          enum:
-          - isp
-          - business
-          - hosting
-          - mobile
-          - education
-          example: education
-        os:
+          example: worm
+          description: 'Category of the IP address such as hosting or ISP.
+
+            '
+        intention:
           type: string
-          description: An approximate guess of the operating system of the device, based on the TCP stack fingerprint.
-          example: Windows 7/8
-        destination_countries:
+          example: malicious
+          description: 'The intent of the tag, either suspicious, malicious, benign, or unknown.
+
+            '
+        description:
+          type: string
+          example: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
+          description: 'A detailed description of the tag, including the observed activity
+
+            and any relevant context or details.
+
+            '
+        references:
           type: array
           items:
             type: string
-            description: 'The full name or country code where GreyNoise sensor
+            example: https://en.wikipedia.org/wiki/Mirai_(malware)
+            description: 'A list of URLs or references that provide additional information
 
-              is physically located.
+              about the tag and its associated activity.
 
               '
-            example: Germany
           example:
           - string
-        destination_country_codes:
-          type: array
-          items:
-            type: string
-            description: 'The country codes where GreyNoise sensor is
-
-              physically located.
-
-              '
-            example: Germany
-          example:
-          - US
-        destination_cities:
-          type: array
-          items:
-            type: string
-            description: 'The city where the GreyNoise sensor is geographically located.
-
-              '
-            example: Berlin
-          example:
-          - string
-        destination_asns:
-          type: array
-          items:
-            type: string
-            description: 'The ASN associated with the destination IP address.
-
-              '
-            example: AS1234
-          example:
-          - string
-        single_destination:
+        recommend_block:
           type: boolean
-          description: 'A Boolean parameter indicating whether the source IP address
+          example: false
+          description: 'A boolean value indicating whether the tag should be recommended
 
-            has only been observed in a single destination country.
+            for blocking or filtering purposes.
+
+            '
+        cves:
+          type: array
+          items:
+            type: string
+            example: CVE-2020-1234
+            description: 'A list of CVEs associated with the tag.
+
+              '
+          example:
+          - CVE-2021-44228
+        created_at:
+          type: string
+          example: '2020-04-07'
+          description: 'The date and time when the tag was created.
+
+            '
+        updated_at:
+          type: string
+          example: '2020-04-07'
+          description: 'The date and time when the tag was last updated.
+
+            '
+    BusinessServiceIntelligence:
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if an IP is part of the RIOT dataset or not.
 
             '
           example: true
-        carrier:
+        category:
           type: string
-          description: 'The Internet Service Provider (ISP) or telecommunications
-
-            carrier associated with the source IP address.
+          description: 'RIOT category the provider belongs to, identifying the type of service provided.
 
             '
-          example: AIS
-        datacenter:
+          example: hosting
+        name:
           type: string
-          description: 'The datacenter or hosting provider from which the activity originates.
-
-            This could indicate the use of cloud services,
-
-            managed hosting, or enterprise datacenter infrastructure.
-
-            '
-          example: us-west-1
-        domain:
-          type: string
-          description: 'The domain name associated with the source IP address.
+          description: 'The name of the provider and/or service.
 
             '
           example: example.com
-        rdns_parent:
+        description:
           type: string
-          description: 'The parent domain retrieved through reverse DNS (RDNS)
-
-            lookup of the source IP address.
+          description: 'A description of the provider and what they do.
 
             '
           example: example.com
-        rdns_validated:
-          type: boolean
-          description: 'A validation status that confirms whether the reverse DNS (RDNS)
-
-            record correctly maps to the source domain.
+        explanation:
+          type: string
+          description: 'An explanation of the category type and what may be expected from this provider and category.
 
             '
-          example: true
-        latitude:
-          type: number
-          description: 'The geographic latitude of the source IP address.
+          example: string
+        last_updated:
+          type: string
+          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
 
             '
-          example: 37.7749
-        longitude:
-          type: number
-          description: 'The geographic longitude of the source IP address.
+          example: '2025-01-15T12:30:45Z'
+        reference:
+          type: string
+          description: 'Reference URL for information about this provider and/or service.
 
             '
-          example: -122.4194
-        sensor_count:
-          type: integer
-          description: 'Number of sensors with events observed.
-
-            '
-          example: 10
-        sensor_hits:
-          type: integer
-          description: 'Number of scanning events observed.
-
-            '
-          example: 10
+          example: https://example.com
+        trust_level:
+          type: string
+          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
+          example: '1'
     GNQLStats:
       type: object
       properties:
@@ -1711,29 +1147,38 @@ components:
                   count:
                     type: integer
                     example: 5000
-    GNQLIPContextV3:
+    QuickIpProfile:
+      type: object
       properties:
         ip:
           type: string
+          example: 8.8.8.8
           description: IP address that the information is about.
-          example: 71.6.135.131
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/InternetScannerIntelligence'
         business_service_intelligence:
-          $ref: '#/components/schemas/BusinessServiceIntelligence'
-    QuickBusinessServiceIntelligence:
+          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
+    QuickInternetScannerIntelligence:
       type: object
       properties:
         found:
           type: boolean
-          description: 'Indicates if an IP is part of the RIOT dataset or not.
+          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
 
             '
           example: false
-        trust_level:
+        classification:
           type: string
-          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
-          example: '1'
+          description: 'The classification of the IP address, either "benign", "malicious",
+
+            or "unknown", based on the activity observed by GreyNoise.
+
+            '
+          enum:
+          - benign
+          - malicious
+          - unknown
+          example: benign
     GNQLV3ResponseMetadata:
       type: object
       properties:
@@ -1789,7 +1234,217 @@ components:
           example: Success
       required:
       - message
+    GNQLIPContextV3:
+      properties:
+        ip:
+          type: string
+          description: IP address that the information is about.
+          example: 71.6.135.131
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/InternetScannerIntelligence'
+        business_service_intelligence:
+          $ref: '#/components/schemas/BusinessServiceIntelligence'
+    MetadataV3:
+      properties:
+        mobile:
+          type: boolean
+          description: Defines if the IP is part of a known cellular network.
+          example: false
+        source_country:
+          type: string
+          description: Country where the IP address is registered or operates.
+          example: United States
+        source_country_code:
+          type: string
+          description: Country code of the IP address based on ISO 3166-1 alpha-2.
+          example: US
+        source_city:
+          type: string
+          description: The city where the device is geographically located.
+          example: Seattle
+        region:
+          type: string
+          description: The region where the device is geographically located.
+          example: Seattle
+        organization:
+          type: string
+          description: The name of organization that owns the IP address.
+          example: DigitalOcean, LLC
+        rdns:
+          type: string
+          description: The reverse DNS pointer.
+          example: crawl-66-249-79-17.googlebot.com
+        asn:
+          type: string
+          description: The autonomous system identification number.
+          example: AS521
+        category:
+          type: string
+          description: The subset of network types the IP address belongs to.
+          enum:
+          - isp
+          - business
+          - hosting
+          - mobile
+          - education
+          example: education
+        os:
+          type: string
+          description: An approximate guess of the operating system of the device, based on the TCP stack fingerprint.
+          example: Windows 7/8
+        destination_countries:
+          type: array
+          items:
+            type: string
+            description: 'The full name or country code where GreyNoise sensor
+
+              is physically located.
+
+              '
+            example: Germany
+          example:
+          - string
+        destination_country_codes:
+          type: array
+          items:
+            type: string
+            description: 'The country codes where GreyNoise sensor is
+
+              physically located.
+
+              '
+            example: Germany
+          example:
+          - US
+        destination_cities:
+          type: array
+          items:
+            type: string
+            description: 'The city where the GreyNoise sensor is geographically located.
+
+              '
+            example: Berlin
+          example:
+          - string
+        destination_asns:
+          type: array
+          items:
+            type: string
+            description: 'The ASN associated with the destination IP address.
+
+              '
+            example: AS1234
+          example:
+          - string
+        single_destination:
+          type: boolean
+          description: 'A Boolean parameter indicating whether the source IP address
+
+            has only been observed in a single destination country.
+
+            '
+          example: true
+        carrier:
+          type: string
+          description: 'The Internet Service Provider (ISP) or telecommunications
+
+            carrier associated with the source IP address.
+
+            '
+          example: AIS
+        datacenter:
+          type: string
+          description: 'The datacenter or hosting provider from which the activity originates.
+
+            This could indicate the use of cloud services,
+
+            managed hosting, or enterprise datacenter infrastructure.
+
+            '
+          example: us-west-1
+        domain:
+          type: string
+          description: 'The domain name associated with the source IP address.
+
+            '
+          example: example.com
+        rdns_parent:
+          type: string
+          description: 'The parent domain retrieved through reverse DNS (RDNS)
+
+            lookup of the source IP address.
+
+            '
+          example: example.com
+        rdns_validated:
+          type: boolean
+          description: 'A validation status that confirms whether the reverse DNS (RDNS)
+
+            record correctly maps to the source domain.
+
+            '
+          example: true
+        latitude:
+          type: number
+          description: 'The geographic latitude of the source IP address.
+
+            '
+          example: 37.7749
+        longitude:
+          type: number
+          description: 'The geographic longitude of the source IP address.
+
+            '
+          example: -122.4194
+        sensor_count:
+          type: integer
+          description: 'Number of sensors with events observed.
+
+            '
+          example: 10
+        sensor_hits:
+          type: integer
+          description: 'Number of scanning events observed.
+
+            '
+          example: 10
+    QuickGNQLV3Response:
+      type: object
+      properties:
+        request_metadata:
+          $ref: '#/components/schemas/GNQLV3ResponseMetadata'
+        data:
+          type: array
+          description: The relevant IP records requested by the user
+          items:
+            $ref: '#/components/schemas/QuickIpProfile'
+          example: []
+  parameters:
+    query:
+      name: query
+      in: query
+      description: GNQL query string
+      required: true
+      schema:
+        type: string
+      example: tags:Mirai
   responses:
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
     Forbidden:
       description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
 
@@ -1802,22 +1457,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Forbidden
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
     BadRequest:
       description: 'Bad request - request syntax is invalid for the specified endpoint.
 
@@ -1830,15 +1469,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Invalid parameter
-  parameters:
-    query:
-      name: query
-      in: query
-      description: GNQL query string
-      required: true
-      schema:
-        type: string
-      example: tags:Mirai
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: GreyNoise Callback Sessions API
+  title: GreyNoise Sessions API
   version: 3.0.0
   description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
   contact:
@@ -19,9 +19,7 @@ tags:
 
     data captured by GreyNoise sensors. Use the `scope` parameter to control
 
-    data access (workspace or demo). Required entitlements vary by scope.
-
-    '
+    data access (workspace or demo). Required entitlements vary by scope.'
 paths:
   /v3/sessions:
     get:
@@ -31,9 +29,7 @@ paths:
       operationId: getSessions
       description: 'Returns a paginated list of network sessions matching the query criteria.
 
-        Sessions represent individual network connections captured by GreyNoise sensors.
-
-        '
+        Sessions represent individual network connections captured by GreyNoise sensors.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: query
@@ -136,9 +132,7 @@ paths:
       operationId: getSessionConnections
       description: 'Returns a graph of connections between source and destination fields.
 
-        Useful for visualizing network relationships and communication patterns.
-
-        '
+        Useful for visualizing network relationships and communication patterns.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: query
@@ -238,9 +232,7 @@ paths:
       operationId: getSessionCounts
       description: 'Returns aggregated counts of sessions grouped by the specified fields.
 
-        Useful for building dashboards and understanding traffic distribution.
-
-        '
+        Useful for building dashboards and understanding traffic distribution.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: query
@@ -325,9 +317,7 @@ paths:
         The response is a binary PCAP file suitable for analysis with tools like Wireshark.
 
 
-        Not available when `scope=demo` (returns 403).
-
-        '
+        Not available when `scope=demo` (returns 403).'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: query
@@ -412,9 +402,7 @@ paths:
       operationId: getSessionFields
       description: 'Returns the list of available session fields for querying and display.
 
-        Use this to discover which fields can be used in queries, sorting, and aggregations.
-
-        '
+        Use this to discover which fields can be used in queries, sorting, and aggregations.'
       parameters:
       - $ref: '#/components/parameters/scope'
       responses:
@@ -449,9 +437,7 @@ paths:
       operationId: getSessionTimeseries
       description: 'Returns timeseries data for sessions, optionally grouped by a field.
 
-        Useful for visualizing session volume over time and identifying trends.
-
-        '
+        Useful for visualizing session volume over time and identifying trends.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: query
@@ -546,9 +532,7 @@ paths:
       operationId: getSessionUniqueValues
       description: 'Returns unique values for a session field as a CSV download, optionally with counts.
 
-        Useful for extracting distinct IPs, ports, or other field values matching a query.
-
-        '
+        Useful for extracting distinct IPs, ports, or other field values matching a query.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: query
@@ -618,9 +602,7 @@ paths:
       operationId: getSessionById
       description: 'Returns a single session by its ID, including full session metadata
 
-        and connection details.
-
-        '
+        and connection details.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: path
@@ -679,9 +661,7 @@ paths:
         Use the `type` parameter to select the export format.
 
 
-        Not available when `scope=demo` (returns 403).
-
-        '
+        Not available when `scope=demo` (returns 403).'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: path
@@ -732,9 +712,7 @@ paths:
       operationId: getSessionPcap
       description: 'Returns raw PCAP bytes for a single session. The response is a binary
 
-        PCAP file suitable for analysis with tools like Wireshark.
-
-        '
+        PCAP file suitable for analysis with tools like Wireshark.'
       parameters:
       - $ref: '#/components/parameters/scope'
       - in: path
@@ -773,34 +751,6 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    Forbidden:
-      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
-
-        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Forbidden
     Unauthorized:
       description: Unauthorized. Please check your API key.
       content:
@@ -817,6 +767,34 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: IP not found
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
     BadRequest:
       description: 'Bad request - request syntax is invalid for the specified endpoint.
 
@@ -830,6 +808,272 @@ components:
           example:
             message: Invalid parameter
   schemas:
+    SessionCountsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          description: Aggregated count items.
+          items:
+            $ref: '#/components/schemas/SessionCountItem'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions matching the query.
+          example: 5000
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            fields:
+              type: array
+              items:
+                type: string
+              example:
+              - string
+    SessionTimeseriesResponse:
+      type: object
+      properties:
+        timeseries:
+          type: array
+          description: Timeseries data points (when no field grouping is used).
+          items:
+            $ref: '#/components/schemas/SessionTimeseriesPoint'
+          example: []
+        items:
+          type: array
+          description: Grouped timeseries data (when field grouping is used).
+          items:
+            $ref: '#/components/schemas/SessionTimeseriesItem'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions in the time range.
+          example: 1000
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            field:
+              type: string
+              example: string
+            interval:
+              type: string
+              example: string
+    SessionConnectionsResponse:
+      type: object
+      properties:
+        nodes:
+          type: array
+          description: Network nodes in the connection graph.
+          items:
+            $ref: '#/components/schemas/SessionConnectionNode'
+          example: []
+        links:
+          type: array
+          description: Connections between nodes.
+          items:
+            $ref: '#/components/schemas/SessionConnectionLink'
+          example: []
+        total:
+          type: integer
+          description: Total number of connections.
+          example: 250
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            src_field:
+              type: string
+              example: string
+            dest_field:
+              type: string
+              example: string
+            max_nodes:
+              type: integer
+              example: 1
+            min_connections:
+              type: integer
+              example: 1
+    SessionTimeseriesPoint:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: Timestamp for this data point.
+          example: '2025-01-01T00:00:00Z'
+        count:
+          type: integer
+          description: Number of sessions in this time bucket.
+          example: 42
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    SessionCountItem:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The value of the aggregated field.
+          example: 192.168.1.1
+        count:
+          type: integer
+          description: Number of sessions for this value.
+          example: 42
+        children:
+          type: array
+          description: Nested aggregation results for multi-field queries.
+          items:
+            $ref: '#/components/schemas/SessionCountItem'
+          example: []
+    SessionFieldsResponse:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: List of available session fields.
+          items:
+            $ref: '#/components/schemas/SessionField'
+          example: []
+    SessionField:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The field identifier used in queries.
+          example: source.ip
+        label:
+          type: string
+          description: Human-readable label for the field.
+          example: Source IP
+        description:
+          type: string
+          description: Description of the field.
+          example: The source IP address of the session.
+        type:
+          type: string
+          description: Data type of the field.
+          example: ip
+        group:
+          type: string
+          description: Logical grouping of the field.
+          example: source
+        sortable:
+          type: boolean
+          description: Whether the field can be used for sorting.
+          example: true
+    SessionTimeseriesItem:
+      type: object
+      properties:
+        label:
+          type: string
+          description: The field value for this group.
+          example: 192.168.1.1
+        count:
+          type: integer
+          description: Total sessions for this group.
+          example: 150
+        timeseries:
+          type: array
+          description: Timeseries data for this group.
+          items:
+            $ref: '#/components/schemas/SessionTimeseriesPoint'
+          example: []
+    SessionPagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Current page number.
+          example: 1
+        page_size:
+          type: integer
+          description: Number of results per page.
+          example: 25
+        sort_by:
+          type: string
+          description: Field used for sorting.
+          example: lastPacket
+        sort_desc:
+          type: boolean
+          description: Whether results are sorted in descending order.
+          example: true
+    SessionRequestMetadata:
+      type: object
+      properties:
+        start_time:
+          type: string
+          description: Start time of the query range.
+          example: '2025-01-01T00:00:00Z'
+        end_time:
+          type: string
+          description: End time of the query range.
+          example: '2025-01-07T23:59:59Z'
+        query:
+          type: string
+          description: The Lucene query string used.
+          example: tags:Mirai
+    SessionConnectionLink:
+      type: object
+      properties:
+        source:
+          type: string
+          description: Source node identifier.
+          example: 192.168.1.1
+        target:
+          type: string
+          description: Target node identifier.
+          example: 10.0.0.1
+        value:
+          type: integer
+          description: Number of connections between source and target.
+          example: 15
+    SessionsResponse:
+      type: object
+      properties:
+        sessions:
+          type: array
+          description: Array of session objects matching the query.
+          items:
+            $ref: '#/components/schemas/Session'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions matching the query.
+          example: 150
+        pagination:
+          $ref: '#/components/schemas/SessionPagination'
+        request_metadata:
+          $ref: '#/components/schemas/SessionRequestMetadata'
     Session:
       type: object
       description: 'A network session captured by GreyNoise sensors. Sessions contain network
@@ -891,52 +1135,6 @@ components:
           type: string
           description: GreyNoise classification of the source IP.
           example: malicious
-    SessionCountsResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          description: Aggregated count items.
-          items:
-            $ref: '#/components/schemas/SessionCountItem'
-          example: []
-        total:
-          type: integer
-          description: Total number of sessions matching the query.
-          example: 5000
-        request_metadata:
-          type: object
-          properties:
-            start_time:
-              type: string
-              example: string
-            end_time:
-              type: string
-              example: string
-            query:
-              type: string
-              example: tags:Mirai
-            fields:
-              type: array
-              items:
-                type: string
-              example:
-              - string
-    SessionRequestMetadata:
-      type: object
-      properties:
-        start_time:
-          type: string
-          description: Start time of the query range.
-          example: '2025-01-01T00:00:00Z'
-        end_time:
-          type: string
-          description: End time of the query range.
-          example: '2025-01-07T23:59:59Z'
-        query:
-          type: string
-          description: The Lucene query string used.
-          example: tags:Mirai
     SessionConnectionNode:
       type: object
       properties:
@@ -948,226 +1146,6 @@ components:
           type: string
           description: Whether this is a source or destination node.
           example: source
-    SessionField:
-      type: object
-      properties:
-        value:
-          type: string
-          description: The field identifier used in queries.
-          example: source.ip
-        label:
-          type: string
-          description: Human-readable label for the field.
-          example: Source IP
-        description:
-          type: string
-          description: Description of the field.
-          example: The source IP address of the session.
-        type:
-          type: string
-          description: Data type of the field.
-          example: ip
-        group:
-          type: string
-          description: Logical grouping of the field.
-          example: source
-        sortable:
-          type: boolean
-          description: Whether the field can be used for sorting.
-          example: true
-    SessionTimeseriesResponse:
-      type: object
-      properties:
-        timeseries:
-          type: array
-          description: Timeseries data points (when no field grouping is used).
-          items:
-            $ref: '#/components/schemas/SessionTimeseriesPoint'
-          example: []
-        items:
-          type: array
-          description: Grouped timeseries data (when field grouping is used).
-          items:
-            $ref: '#/components/schemas/SessionTimeseriesItem'
-          example: []
-        total:
-          type: integer
-          description: Total number of sessions in the time range.
-          example: 1000
-        request_metadata:
-          type: object
-          properties:
-            start_time:
-              type: string
-              example: string
-            end_time:
-              type: string
-              example: string
-            query:
-              type: string
-              example: tags:Mirai
-            field:
-              type: string
-              example: string
-            interval:
-              type: string
-              example: string
-    SessionFieldsResponse:
-      type: object
-      properties:
-        fields:
-          type: array
-          description: List of available session fields.
-          items:
-            $ref: '#/components/schemas/SessionField'
-          example: []
-    SessionTimeseriesPoint:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          description: Timestamp for this data point.
-          example: '2025-01-01T00:00:00Z'
-        count:
-          type: integer
-          description: Number of sessions in this time bucket.
-          example: 42
-    SessionPagination:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: Current page number.
-          example: 1
-        page_size:
-          type: integer
-          description: Number of results per page.
-          example: 25
-        sort_by:
-          type: string
-          description: Field used for sorting.
-          example: lastPacket
-        sort_desc:
-          type: boolean
-          description: Whether results are sorted in descending order.
-          example: true
-    SessionsResponse:
-      type: object
-      properties:
-        sessions:
-          type: array
-          description: Array of session objects matching the query.
-          items:
-            $ref: '#/components/schemas/Session'
-          example: []
-        total:
-          type: integer
-          description: Total number of sessions matching the query.
-          example: 150
-        pagination:
-          $ref: '#/components/schemas/SessionPagination'
-        request_metadata:
-          $ref: '#/components/schemas/SessionRequestMetadata'
-    SessionConnectionsResponse:
-      type: object
-      properties:
-        nodes:
-          type: array
-          description: Network nodes in the connection graph.
-          items:
-            $ref: '#/components/schemas/SessionConnectionNode'
-          example: []
-        links:
-          type: array
-          description: Connections between nodes.
-          items:
-            $ref: '#/components/schemas/SessionConnectionLink'
-          example: []
-        total:
-          type: integer
-          description: Total number of connections.
-          example: 250
-        request_metadata:
-          type: object
-          properties:
-            start_time:
-              type: string
-              example: string
-            end_time:
-              type: string
-              example: string
-            query:
-              type: string
-              example: tags:Mirai
-            src_field:
-              type: string
-              example: string
-            dest_field:
-              type: string
-              example: string
-            max_nodes:
-              type: integer
-              example: 1
-            min_connections:
-              type: integer
-              example: 1
-    SessionTimeseriesItem:
-      type: object
-      properties:
-        label:
-          type: string
-          description: The field value for this group.
-          example: 192.168.1.1
-        count:
-          type: integer
-          description: Total sessions for this group.
-          example: 150
-        timeseries:
-          type: array
-          description: Timeseries data for this group.
-          items:
-            $ref: '#/components/schemas/SessionTimeseriesPoint'
-          example: []
-    SessionConnectionLink:
-      type: object
-      properties:
-        source:
-          type: string
-          description: Source node identifier.
-          example: 192.168.1.1
-        target:
-          type: string
-          description: Target node identifier.
-          example: 10.0.0.1
-        value:
-          type: integer
-          description: Number of connections between source and target.
-          example: 15
-    SessionCountItem:
-      type: object
-      properties:
-        label:
-          type: string
-          description: The value of the aggregated field.
-          example: 192.168.1.1
-        count:
-          type: integer
-          description: Number of sessions for this value.
-          example: 42
-        children:
-          type: array
-          description: Nested aggregation results for multi-field queries.
-          items:
-            $ref: '#/components/schemas/SessionCountItem'
-          example: []
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
   parameters:
     scope:
       name: scope

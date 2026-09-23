@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: GreyNoise Callback IP Lookup API
+  title: GreyNoise IP Lookup API
   version: 3.0.0
   description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
   contact:
@@ -39,9 +39,7 @@ paths:
         Use the `quick` parameter to return a subset of the response fields, for a faster response time.
 
 
-        Can process up to 10,000 IPs per request.
-
-        '
+        Can process up to 10,000 IPs per request.'
       requestBody:
         $ref: '#/components/requestBodies/MultiIpRequest'
       parameters:
@@ -88,7 +86,7 @@ paths:
                         found: true
                         actor: Shodan.io
                         spoofable: true
-                        cves: &id001
+                        cves:
                         - CVE-2020-1234
                         - CVE-2021-2345
                         tor: false
@@ -105,13 +103,13 @@ paths:
                           asn: AS521
                           category: education
                           os: Windows 7/8
-                          destination_countries: &id002
+                          destination_countries:
                           - string
-                          destination_country_codes: &id003
+                          destination_country_codes:
                           - US
-                          destination_cities: &id004
+                          destination_cities:
                           - string
-                          destination_asns: &id005
+                          destination_asns:
                           - string
                           single_destination: true
                           carrier: AIS
@@ -130,10 +128,10 @@ paths:
                           category: worm
                           intention: malicious
                           description: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-                          references: &id006
+                          references:
                           - string
                           recommend_block: false
-                          cves: &id007
+                          cves:
                           - CVE-2021-44228
                           created_at: '2020-04-07'
                           updated_at: '2020-04-07'
@@ -149,55 +147,55 @@ paths:
                             port: 2222
                           http:
                             md5: 9764955b67107eeb9edfae76f429e783
-                            cookie_keys: &id008
+                            cookie_keys:
                             - expremotekey
-                            request_authorization: &id009
+                            request_authorization:
                             - Bearer exampletoken
                             - Basic username:password
-                            request_cookies: &id010
+                            request_cookies:
                             - session_id=1234567890
-                            request_header: &id011
+                            request_header:
                             - 'Content-Type: application/json'
                             - 'Accept: application/json'
-                            method: &id012
+                            method:
                             - GET
                             - POST
                             - PUT
                             - DELETE
-                            request_origin: &id013
+                            request_origin:
                             - 111.111.1.1
-                            host: &id014
+                            host:
                             - example.com
                             - example.com:8080
-                            uri: &id015
+                            uri:
                             - string
-                            path: &id016
+                            path:
                             - /HNAP1/
-                            useragent: &id017
+                            useragent:
                             - Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)
-                            ja4h: &id018
+                            ja4h:
                             - ge11cn060000_4e59edc1297a_4da5efaf0cbd
                           tls:
                             cipher: TLS_AES_128_GCM_SHA256
-                            ja4: &id019
+                            ja4:
                             - t13d1516h2_8daaf6152771_02713d6af862
                           ssh:
-                            key: &id020
+                            key:
                             - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
-                            ja4ssh: &id021
+                            ja4ssh:
                             - c76s76_c71s59_c0s0
                           tcp:
-                            ja4t: &id022
+                            ja4t:
                             - 64240_2-1-3-1-1-4_1460_8
                             ja4l: '1460_64'
                           source: string
                     request_metadata:
-                      restricted_fields: &id023
+                      restricted_fields:
                       - ip
                       - cve
                       - destination_cities
                       message: ok
-                      ips_not_found: &id024
+                      ips_not_found:
                       - string
         '206':
           description: 'Partial content - request partially successful.
@@ -241,7 +239,9 @@ paths:
                         found: true
                         actor: Shodan.io
                         spoofable: true
-                        cves: *id001
+                        cves:
+                        - CVE-2020-1234
+                        - CVE-2021-2345
                         tor: false
                         vpn: true
                         vpn_service: IPVANISH_VPN
@@ -256,10 +256,14 @@ paths:
                           asn: AS521
                           category: education
                           os: Windows 7/8
-                          destination_countries: *id002
-                          destination_country_codes: *id003
-                          destination_cities: *id004
-                          destination_asns: *id005
+                          destination_countries:
+                          - string
+                          destination_country_codes:
+                          - US
+                          destination_cities:
+                          - string
+                          destination_asns:
+                          - string
                           single_destination: true
                           carrier: AIS
                           datacenter: us-west-1
@@ -277,9 +281,11 @@ paths:
                           category: worm
                           intention: malicious
                           description: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-                          references: *id006
+                          references:
+                          - string
                           recommend_block: false
-                          cves: *id007
+                          cves:
+                          - CVE-2021-44228
                           created_at: '2020-04-07'
                           updated_at: '2020-04-07'
                         raw_data:
@@ -294,31 +300,56 @@ paths:
                             port: 2222
                           http:
                             md5: 9764955b67107eeb9edfae76f429e783
-                            cookie_keys: *id008
-                            request_authorization: *id009
-                            request_cookies: *id010
-                            request_header: *id011
-                            method: *id012
-                            request_origin: *id013
-                            host: *id014
-                            uri: *id015
-                            path: *id016
-                            useragent: *id017
-                            ja4h: *id018
+                            cookie_keys:
+                            - expremotekey
+                            request_authorization:
+                            - Bearer exampletoken
+                            - Basic username:password
+                            request_cookies:
+                            - session_id=1234567890
+                            request_header:
+                            - 'Content-Type: application/json'
+                            - 'Accept: application/json'
+                            method:
+                            - GET
+                            - POST
+                            - PUT
+                            - DELETE
+                            request_origin:
+                            - 111.111.1.1
+                            host:
+                            - example.com
+                            - example.com:8080
+                            uri:
+                            - string
+                            path:
+                            - /HNAP1/
+                            useragent:
+                            - Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)
+                            ja4h:
+                            - ge11cn060000_4e59edc1297a_4da5efaf0cbd
                           tls:
                             cipher: TLS_AES_128_GCM_SHA256
-                            ja4: *id019
+                            ja4:
+                            - t13d1516h2_8daaf6152771_02713d6af862
                           ssh:
-                            key: *id020
-                            ja4ssh: *id021
+                            key:
+                            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
+                            ja4ssh:
+                            - c76s76_c71s59_c0s0
                           tcp:
-                            ja4t: *id022
+                            ja4t:
+                            - 64240_2-1-3-1-1-4_1460_8
                             ja4l: '1460_64'
                           source: string
                     request_metadata:
-                      restricted_fields: *id023
+                      restricted_fields:
+                      - ip
+                      - cve
+                      - destination_cities
                       message: ok
-                      ips_not_found: *id024
+                      ips_not_found:
+                      - string
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -345,9 +376,7 @@ paths:
         request information.
 
 
-        Use the `quick` parameter to return a subset of the response fields, for a faster response time.
-
-        '
+        Use the `quick` parameter to return a subset of the response fields, for a faster response time.'
       parameters:
       - $ref: '#/components/parameters/ip'
       - in: query
@@ -392,7 +421,7 @@ paths:
                       found: true
                       actor: Shodan.io
                       spoofable: true
-                      cves: &id025
+                      cves:
                       - CVE-2020-1234
                       - CVE-2021-2345
                       tor: false
@@ -409,13 +438,13 @@ paths:
                         asn: AS521
                         category: education
                         os: Windows 7/8
-                        destination_countries: &id026
+                        destination_countries:
                         - string
-                        destination_country_codes: &id027
+                        destination_country_codes:
                         - US
-                        destination_cities: &id028
+                        destination_cities:
                         - string
-                        destination_asns: &id029
+                        destination_asns:
                         - string
                         single_destination: true
                         carrier: AIS
@@ -434,10 +463,10 @@ paths:
                         category: worm
                         intention: malicious
                         description: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-                        references: &id030
+                        references:
                         - string
                         recommend_block: false
-                        cves: &id031
+                        cves:
                         - CVE-2021-44228
                         created_at: '2020-04-07'
                         updated_at: '2020-04-07'
@@ -453,50 +482,50 @@ paths:
                           port: 2222
                         http:
                           md5: 9764955b67107eeb9edfae76f429e783
-                          cookie_keys: &id032
+                          cookie_keys:
                           - expremotekey
-                          request_authorization: &id033
+                          request_authorization:
                           - Bearer exampletoken
                           - Basic username:password
-                          request_cookies: &id034
+                          request_cookies:
                           - session_id=1234567890
-                          request_header: &id035
+                          request_header:
                           - 'Content-Type: application/json'
                           - 'Accept: application/json'
-                          method: &id036
+                          method:
                           - GET
                           - POST
                           - PUT
                           - DELETE
-                          request_origin: &id037
+                          request_origin:
                           - 111.111.1.1
-                          host: &id038
+                          host:
                           - example.com
                           - example.com:8080
-                          uri: &id039
+                          uri:
                           - string
-                          path: &id040
+                          path:
                           - /HNAP1/
-                          useragent: &id041
+                          useragent:
                           - Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)
-                          ja4h: &id042
+                          ja4h:
                           - ge11cn060000_4e59edc1297a_4da5efaf0cbd
                         tls:
                           cipher: TLS_AES_128_GCM_SHA256
-                          ja4: &id043
+                          ja4:
                           - t13d1516h2_8daaf6152771_02713d6af862
                         ssh:
-                          key: &id044
+                          key:
                           - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
-                          ja4ssh: &id045
+                          ja4ssh:
                           - c76s76_c71s59_c0s0
                         tcp:
-                          ja4t: &id046
+                          ja4t:
                           - 64240_2-1-3-1-1-4_1460_8
                           ja4l: '1460_64'
                         source: string
                     request_metadata:
-                      restricted_fields: &id047
+                      restricted_fields:
                       - ip
                       - cve
                       - destination_cities
@@ -541,7 +570,9 @@ paths:
                       found: true
                       actor: Shodan.io
                       spoofable: true
-                      cves: *id025
+                      cves:
+                      - CVE-2020-1234
+                      - CVE-2021-2345
                       tor: false
                       vpn: true
                       vpn_service: IPVANISH_VPN
@@ -556,10 +587,14 @@ paths:
                         asn: AS521
                         category: education
                         os: Windows 7/8
-                        destination_countries: *id026
-                        destination_country_codes: *id027
-                        destination_cities: *id028
-                        destination_asns: *id029
+                        destination_countries:
+                        - string
+                        destination_country_codes:
+                        - US
+                        destination_cities:
+                        - string
+                        destination_asns:
+                        - string
                         single_destination: true
                         carrier: AIS
                         datacenter: us-west-1
@@ -577,9 +612,11 @@ paths:
                         category: worm
                         intention: malicious
                         description: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-                        references: *id030
+                        references:
+                        - string
                         recommend_block: false
-                        cves: *id031
+                        cves:
+                        - CVE-2021-44228
                         created_at: '2020-04-07'
                         updated_at: '2020-04-07'
                       raw_data:
@@ -594,29 +631,53 @@ paths:
                           port: 2222
                         http:
                           md5: 9764955b67107eeb9edfae76f429e783
-                          cookie_keys: *id032
-                          request_authorization: *id033
-                          request_cookies: *id034
-                          request_header: *id035
-                          method: *id036
-                          request_origin: *id037
-                          host: *id038
-                          uri: *id039
-                          path: *id040
-                          useragent: *id041
-                          ja4h: *id042
+                          cookie_keys:
+                          - expremotekey
+                          request_authorization:
+                          - Bearer exampletoken
+                          - Basic username:password
+                          request_cookies:
+                          - session_id=1234567890
+                          request_header:
+                          - 'Content-Type: application/json'
+                          - 'Accept: application/json'
+                          method:
+                          - GET
+                          - POST
+                          - PUT
+                          - DELETE
+                          request_origin:
+                          - 111.111.1.1
+                          host:
+                          - example.com
+                          - example.com:8080
+                          uri:
+                          - string
+                          path:
+                          - /HNAP1/
+                          useragent:
+                          - Mozilla/5.0 (compatible; GoogleBot/2.1; +http://www.google.com/bot.html)
+                          ja4h:
+                          - ge11cn060000_4e59edc1297a_4da5efaf0cbd
                         tls:
                           cipher: TLS_AES_128_GCM_SHA256
-                          ja4: *id043
+                          ja4:
+                          - t13d1516h2_8daaf6152771_02713d6af862
                         ssh:
-                          key: *id044
-                          ja4ssh: *id045
+                          key:
+                          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
+                          ja4ssh:
+                          - c76s76_c71s59_c0s0
                         tcp:
-                          ja4t: *id046
+                          ja4t:
+                          - 64240_2-1-3-1-1-4_1460_8
                           ja4l: '1460_64'
                         source: string
                     request_metadata:
-                      restricted_fields: *id047
+                      restricted_fields:
+                      - ip
+                      - cve
+                      - destination_cities
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -630,185 +691,19 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    IpResponseMetadataV3:
+    QuickBusinessServiceIntelligence:
       type: object
-      properties:
-        restricted_fields:
-          type: array
-          description: 'The fields that were restricted due to plan limitations.
-
-            '
-          example:
-          - ip
-          - cve
-          - destination_cities
-          items:
-            type: string
-        message:
-          type: string
-          example: ok
-          description: A status message indicating if there were issues with the request
-        ips_not_found:
-          type: array
-          description: 'The list of IPs not found
-
-            '
-          items:
-            type: string
-          example:
-          - string
-    IPResponseV3Tags:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ef0cc90d-d80c-436f-92c5-3d8f8665c9ac
-          description: 'The unique identifier for the tag.
-
-            '
-        slug:
-          type: string
-          example: mirai
-          description: 'The slugified version of the tag name.
-
-            '
-        name:
-          type: string
-          example: Mirai
-          description: 'The human-readable name for the tag.
-
-            '
-        category:
-          type: string
-          example: worm
-          description: 'Category of the IP address such as hosting or ISP.
-
-            '
-        intention:
-          type: string
-          example: malicious
-          description: 'The intent of the tag, either suspicious, malicious, benign, or unknown.
-
-            '
-        description:
-          type: string
-          example: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-          description: 'A detailed description of the tag, including the observed activity
-
-            and any relevant context or details.
-
-            '
-        references:
-          type: array
-          items:
-            type: string
-            example: https://en.wikipedia.org/wiki/Mirai_(malware)
-            description: 'A list of URLs or references that provide additional information
-
-              about the tag and its associated activity.
-
-              '
-          example:
-          - string
-        recommend_block:
-          type: boolean
-          example: false
-          description: 'A boolean value indicating whether the tag should be recommended
-
-            for blocking or filtering purposes.
-
-            '
-        cves:
-          type: array
-          items:
-            type: string
-            example: CVE-2020-1234
-            description: 'A list of CVEs associated with the tag.
-
-              '
-          example:
-          - CVE-2021-44228
-        created_at:
-          type: string
-          example: '2020-04-07'
-          description: 'The date and time when the tag was created.
-
-            '
-        updated_at:
-          type: string
-          example: '2020-04-07'
-          description: 'The date and time when the tag was last updated.
-
-            '
-    BusinessServiceIntelligence:
       properties:
         found:
           type: boolean
           description: 'Indicates if an IP is part of the RIOT dataset or not.
 
             '
-          example: true
-        category:
-          type: string
-          description: 'RIOT category the provider belongs to, identifying the type of service provided.
-
-            '
-          example: hosting
-        name:
-          type: string
-          description: 'The name of the provider and/or service.
-
-            '
-          example: example.com
-        description:
-          type: string
-          description: 'A description of the provider and what they do.
-
-            '
-          example: example.com
-        explanation:
-          type: string
-          description: 'An explanation of the category type and what may be expected from this provider and category.
-
-            '
-          example: string
-        last_updated:
-          type: string
-          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
-
-            '
-          example: '2025-01-15T12:30:45Z'
-        reference:
-          type: string
-          description: 'Reference URL for information about this provider and/or service.
-
-            '
-          example: https://example.com
+          example: false
         trust_level:
           type: string
           description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
           example: '1'
-    QuickInternetScannerIntelligence:
-      type: object
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
-
-            '
-          example: false
-        classification:
-          type: string
-          description: 'The classification of the IP address, either "benign", "malicious",
-
-            or "unknown", based on the activity observed by GreyNoise.
-
-            '
-          enum:
-          - benign
-          - malicious
-          - unknown
-          example: benign
     MultiIPResponseV3:
       type: object
       properties:
@@ -827,62 +722,6 @@ components:
                 $ref: '#/components/schemas/InternetScannerIntelligence'
         request_metadata:
           $ref: '#/components/schemas/IpResponseMetadataV3'
-    IPResponseV3:
-      type: object
-      properties:
-        ip:
-          type: string
-          example: 8.8.8.8
-          description: 'IP address that the information is about.
-
-            '
-        business_service_intelligence:
-          $ref: '#/components/schemas/BusinessServiceIntelligence'
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/InternetScannerIntelligence'
-        request_metadata:
-          type: object
-          properties:
-            restricted_fields:
-              type: array
-              description: 'The fields that were restricted due to plan limitations.
-
-                '
-              example:
-              - ip
-              - cve
-              - destination_cities
-              items:
-                type: string
-    QuickMultiIPResponseV3:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              ip:
-                type: string
-                example: 8.8.8.8
-                description: IP address that the information is about.
-              business_service_intelligence:
-                $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
-              internet_scanner_intelligence:
-                $ref: '#/components/schemas/QuickInternetScannerIntelligence'
-        request_metadata:
-          $ref: '#/components/schemas/IpResponseMetadataV3'
-    QuickIpProfile:
-      type: object
-      properties:
-        ip:
-          type: string
-          example: 8.8.8.8
-          description: IP address that the information is about.
-        business_service_intelligence:
-          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
     InternetScannerIntelligence:
       properties:
         ip:
@@ -1253,6 +1092,222 @@ components:
                     '
                   example: 1024
               example: string
+    IPResponseV3Tags:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ef0cc90d-d80c-436f-92c5-3d8f8665c9ac
+          description: 'The unique identifier for the tag.
+
+            '
+        slug:
+          type: string
+          example: mirai
+          description: 'The slugified version of the tag name.
+
+            '
+        name:
+          type: string
+          example: Mirai
+          description: 'The human-readable name for the tag.
+
+            '
+        category:
+          type: string
+          example: worm
+          description: 'Category of the IP address such as hosting or ISP.
+
+            '
+        intention:
+          type: string
+          example: malicious
+          description: 'The intent of the tag, either suspicious, malicious, benign, or unknown.
+
+            '
+        description:
+          type: string
+          example: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
+          description: 'A detailed description of the tag, including the observed activity
+
+            and any relevant context or details.
+
+            '
+        references:
+          type: array
+          items:
+            type: string
+            example: https://en.wikipedia.org/wiki/Mirai_(malware)
+            description: 'A list of URLs or references that provide additional information
+
+              about the tag and its associated activity.
+
+              '
+          example:
+          - string
+        recommend_block:
+          type: boolean
+          example: false
+          description: 'A boolean value indicating whether the tag should be recommended
+
+            for blocking or filtering purposes.
+
+            '
+        cves:
+          type: array
+          items:
+            type: string
+            example: CVE-2020-1234
+            description: 'A list of CVEs associated with the tag.
+
+              '
+          example:
+          - CVE-2021-44228
+        created_at:
+          type: string
+          example: '2020-04-07'
+          description: 'The date and time when the tag was created.
+
+            '
+        updated_at:
+          type: string
+          example: '2020-04-07'
+          description: 'The date and time when the tag was last updated.
+
+            '
+    IpResponseMetadataV3:
+      type: object
+      properties:
+        restricted_fields:
+          type: array
+          description: 'The fields that were restricted due to plan limitations.
+
+            '
+          example:
+          - ip
+          - cve
+          - destination_cities
+          items:
+            type: string
+        message:
+          type: string
+          example: ok
+          description: A status message indicating if there were issues with the request
+        ips_not_found:
+          type: array
+          description: 'The list of IPs not found
+
+            '
+          items:
+            type: string
+          example:
+          - string
+    BusinessServiceIntelligence:
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if an IP is part of the RIOT dataset or not.
+
+            '
+          example: true
+        category:
+          type: string
+          description: 'RIOT category the provider belongs to, identifying the type of service provided.
+
+            '
+          example: hosting
+        name:
+          type: string
+          description: 'The name of the provider and/or service.
+
+            '
+          example: example.com
+        description:
+          type: string
+          description: 'A description of the provider and what they do.
+
+            '
+          example: example.com
+        explanation:
+          type: string
+          description: 'An explanation of the category type and what may be expected from this provider and category.
+
+            '
+          example: string
+        last_updated:
+          type: string
+          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
+
+            '
+          example: '2025-01-15T12:30:45Z'
+        reference:
+          type: string
+          description: 'Reference URL for information about this provider and/or service.
+
+            '
+          example: https://example.com
+        trust_level:
+          type: string
+          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
+          example: '1'
+    QuickIpProfile:
+      type: object
+      properties:
+        ip:
+          type: string
+          example: 8.8.8.8
+          description: IP address that the information is about.
+        business_service_intelligence:
+          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
+    QuickInternetScannerIntelligence:
+      type: object
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
+
+            '
+          example: false
+        classification:
+          type: string
+          description: 'The classification of the IP address, either "benign", "malicious",
+
+            or "unknown", based on the activity observed by GreyNoise.
+
+            '
+          enum:
+          - benign
+          - malicious
+          - unknown
+          example: benign
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    QuickMultiIPResponseV3:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ip:
+                type: string
+                example: 8.8.8.8
+                description: IP address that the information is about.
+              business_service_intelligence:
+                $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
+              internet_scanner_intelligence:
+                $ref: '#/components/schemas/QuickInternetScannerIntelligence'
+        request_metadata:
+          $ref: '#/components/schemas/IpResponseMetadataV3'
     MetadataV3:
       properties:
         mobile:
@@ -1417,27 +1472,74 @@ components:
 
             '
           example: 10
-    QuickBusinessServiceIntelligence:
+    IPResponseV3:
       type: object
       properties:
-        found:
-          type: boolean
-          description: 'Indicates if an IP is part of the RIOT dataset or not.
+        ip:
+          type: string
+          example: 8.8.8.8
+          description: 'IP address that the information is about.
 
             '
-          example: false
-        trust_level:
-          type: string
-          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
-          example: '1'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
+        business_service_intelligence:
+          $ref: '#/components/schemas/BusinessServiceIntelligence'
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/InternetScannerIntelligence'
+        request_metadata:
+          type: object
+          properties:
+            restricted_fields:
+              type: array
+              description: 'The fields that were restricted due to plan limitations.
+
+                '
+              example:
+              - ip
+              - cve
+              - destination_cities
+              items:
+                type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
   parameters:
     ip:
       name: ip
@@ -1456,47 +1558,6 @@ components:
         type: string
         example: greynoise,community
       example: string
-  responses:
-    Forbidden:
-      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
-
-        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Forbidden
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
-
-        Verify request syntax and try again.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Invalid parameter
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

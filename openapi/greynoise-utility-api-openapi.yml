@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: GreyNoise Callback Utility API
+  title: GreyNoise Utility API
   version: 3.0.0
   description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
   contact:
@@ -15,9 +15,7 @@ security:
 - APIKeyHeaderAuth: []
 tags:
 - name: Utility
-  description: 'Endpoints that are used for checking status or retrieving basic metadata
-
-    '
+  description: Endpoints that are used for checking status or retrieving basic metadata
 paths:
   /ping:
     get:
@@ -27,9 +25,7 @@ paths:
       summary: Ping
       description: 'Provides a simple endpoint to check GreyNoise status and GreyNoise
 
-        API access
-
-        '
+        API access'
       responses:
         '200':
           description: Ping successful

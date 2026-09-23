@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: GreyNoise Callback Recall API
+  title: GreyNoise Recall API
   version: 3.0.0
   description: GreyNoise is a cybersecurity company that collects and analyzes Internet-wide scan and attack traffic. Use GreyNoise to contextualize existing alerts, filter false-positives, identify compromised devices, and track emerging threats.
   contact:
@@ -19,9 +19,7 @@ tags:
 
     to view hourly snapshots of IP activity for IPs that return for any
 
-    GNQL query.
-
-    '
+    GNQL query.'
 paths:
   /v3/gnql/timeseries:
     get:
@@ -29,9 +27,7 @@ paths:
       - Recall
       summary: GNQL V3 Recall
       operationId: gnqlTimeSeries
-      description: 'Get hourly GNQL records for a given time range.
-
-        '
+      description: Get hourly GNQL records for a given time range.
       parameters:
       - $ref: '#/components/parameters/query'
       - in: query
@@ -83,7 +79,7 @@ paths:
                 GnqlTimeSeries200Example:
                   summary: Default gnqlTimeSeries 200 response
                   x-microcks-default: true
-                  value: &id001
+                  value:
                     2025-11-10-14:
                     - ip: 203.0.113.45
                       internet_scanner_intelligence:
@@ -130,7 +126,35 @@ paths:
                 GnqlTimeSeries206Example:
                   summary: Default gnqlTimeSeries 206 response
                   x-microcks-default: true
-                  value: *id001
+                  value:
+                    2025-11-10-14:
+                    - ip: 203.0.113.45
+                      internet_scanner_intelligence:
+                        first_seen: '2018-01-28'
+                        last_seen: '2018-02-28'
+                        found: true
+                        tags:
+                        - Mirai
+                        - Telnet Worm
+                        actor: Shodan.io
+                        spoofable: true
+                        classification: benign
+                        cves:
+                        - CVE-2020-1234
+                        - CVE-2021-2345
+                        vpn: true
+                        vpn_service: IPVANISH_VPN
+                        tor: false
+                        last_seen_timestamp: '2025-01-15T12:30:45Z'
+                        metadata:
+                          asn: AS13335
+                          source_country: United States
+                          source_country_code: US
+                          organization: Example Hosting
+                        raw_data:
+                          scan:
+                          - port: 22
+                            protocol: tcp
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -148,9 +172,7 @@ paths:
       operationId: gnqlTimeSeriesStats
       description: 'Get the number of unique IPs that match a GNQL query
 
-        per hour/day over a given time range.
-
-        '
+        per hour/day over a given time range.'
       parameters:
       - $ref: '#/components/parameters/query'
       - in: query
@@ -199,7 +221,7 @@ paths:
                 GnqlTimeSeriesStats200Example:
                   summary: Default gnqlTimeSeriesStats 200 response
                   x-microcks-default: true
-                  value: &id002
+                  value:
                     count: 1500
                     min: 10
                     max: 250
@@ -228,7 +250,17 @@ paths:
                 GnqlTimeSeriesStats206Example:
                   summary: Default gnqlTimeSeriesStats 206 response
                   x-microcks-default: true
-                  value: *id002
+                  value:
+                    count: 1500
+                    min: 10
+                    max: 250
+                    data:
+                    - date: '2025-11-10 14:00:00.000'
+                      count: 125
+                    - date: '2025-11-10 15:00:00.000'
+                      count: 250
+                    - date: '2025-11-10 16:00:00.000'
+                      count: 180
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -239,100 +271,36 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
   schemas:
-    TimeSeriesRecord:
-      type: object
-      description: A single IP record in a timeseries response
-      properties:
-        ip:
-          type: string
-          description: The IP address
-          example: 203.0.113.45
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/TimeSeriesIntelligence'
-    TimeSeriesSourceData:
-      type: object
-      description: Source traffic metadata
-      properties:
-        bytes:
-          type: integer
-          format: int64
-          description: 'The total amount of data transferred (in bytes) during the
-
-            observed session or connection.
-
-            '
-          example: 1024
-    TimeSeriesTCPData:
-      type: object
-      description: TCP-related data
-      properties:
-        ja4t:
-          type: array
-          items:
-            type: string
-          description: 'List of JA4T TCP fingerprints observed in network traffic from the IP.
-
-            JA4T captures TCP connection characteristics such as window size,
-
-            options, and MSS, useful for OS fingerprinting and identifying
-
-            network stacks.
-
-            '
-          example:
-          - 64240_2-1-3-1-1-4_1460_8
-        ja4l:
-          type: string
-          description: 'JA4L light distance/latency fingerprint observed in network traffic
-
-            from the IP. Captures TCP TTL and window size characteristics, useful
-
-            for estimating client-server distance and identifying proxied
-
-            connections.
-
-            '
-          example: '1460_64'
-    TimeSeriesJA3Entry:
-      type: object
-      properties:
-        fingerprint:
-          type: string
-          example: c3a6cf0bf2e690ac8e1ecf6081f17a50
-          description: JA3 hash fingerprint string
-        port:
-          type: integer
-          example: 443
-          description: TCP port connection that the SSL/TLS communication occurred over
-    TimeSeriesSSHData:
-      type: object
-      description: SSH-related data
-      properties:
-        key:
-          type: array
-          items:
-            type: string
-          description: 'This is the SSH key used.
-
-            '
-          example:
-          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
-        ja4ssh:
-          type: array
-          items:
-            type: string
-          description: 'List of JA4SSH fingerprints observed in network traffic from the IP.
-
-            JA4SSH captures SSH traffic patterns including packet lengths and
-
-            directions, useful for identifying SSH client behavior and detecting
-
-            anomalous sessions.
-
-            '
-          example:
-          - c76s76_c71s59_c0s0
     TimeSeriesResponse:
       type: object
       description: 'Response object for the timeseries endpoint. The response is a map
@@ -381,45 +349,325 @@ components:
               scan:
               - port: 22
                 protocol: tcp
-    TimeSeriesStatsResponse:
+    TimeSeriesTLSData:
       type: object
-      description: 'Response object for the timeseries stats/aggregation endpoint.
-
-        This provides aggregated IP counts over time intervals matching
-
-        a GNQL query.
-
-        '
+      description: TLS-related data
       properties:
-        count:
-          type: integer
-          description: The sum of all IP counts across all time intervals
-          example: 1500
-        min:
-          type: integer
-          description: The minimum IP count observed in any single time interval
-          example: 10
-        max:
-          type: integer
-          description: The maximum IP count observed in any single time interval
-          example: 250
-        data:
+        cipher:
           type: array
           items:
-            $ref: '#/components/schemas/TimeSeriesStatsRecord'
-          description: Array of aggregated data points, one per time interval
+            type: string
+          description: 'The encryption algorithms or cipher suites used during secure
+
+            communication. Identifying the ciphers helps assess the security
+
+            of the connection, particularly in TLS/SSL traffic.
+
+            '
+          example:
+          - TLS_AES_128_GCM_SHA256
+          - TLS_AES_256_GCM_SHA384
+        ja4:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4 TLS fingerprints observed in network traffic from the IP.
+
+            JA4 is a modern fingerprinting method that captures distinctive
+
+            characteristics of TLS client behavior,
+
+            useful for identifying and clustering malicious or anomalous clients.
+
+            '
+          example:
+          - t13d1516h2_8daaf6152771_02713d6af862
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    TimeSeriesHTTPData:
+      type: object
+      description: HTTP-related data observed
+      properties:
+        md5:
+          type: array
+          items:
+            type: string
+          description: 'MD5 hashes of the body content. These compact,
+
+            unique representations of the data allow for quick
+
+            comparisons and deduplication of payloads without
+
+            storing the raw content.
+
+            '
+          example:
+          - 9764955b67107eeb9edfae76f429e783
+        cookie_keys:
+          type: array
+          items:
+            type: string
+          description: 'The keys or names of cookies exchanged in the communication.
+
+            These can reveal session identifiers, tracking mechanisms,
+
+            or other metadata used in web interactions,
+
+            providing clues about application behavior or vulnerabilities.
+
+            '
+          example:
+          - expremotekey
+        request_authorization:
+          type: array
+          items:
+            type: string
+          description: 'The contents of the Authorization header in a request,
+
+            which can include credentials, tokens, or other authentication
+
+            information.
+
+            '
+          example:
+          - Bearer exampletoken
+          - Basic username:password
+        request_cookies:
+          type: array
+          items:
+            type: string
+          description: 'Key-value pairs stored in cookies sent with an HTTP request.
+
+            These cookies often contain session identifiers, user preferences,
+
+            or tracking data, which can be analyzed to detect unauthorized
+
+            access or manipulation.
+
+            '
+          example:
+          - session_id=1234567890
+        request_header:
+          type: array
+          items:
+            type: string
+          description: 'Request Headers are the keys (names) of HTTP headers
+
+            that a client sends to a server.
+
+            '
+          example:
+          - 'Content-Type: application/json'
+          - 'Accept: application/json'
+        method:
+          type: array
+          items:
+            type: string
+          description: 'The HTTP method used in the request, such as GET, POST, PUT, or DELETE.
+
+            Analyzing methods can reveal the intent of the request,
+
+            such as retrieving or modifying resources,
+
+            and identify unexpected or suspicious activity.
+
+            '
+          example:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        path:
+          type: array
+          items:
+            type: string
+          description: Observed scanning activity traversed this web path.
+          example:
+          - /robots.txt
+        request_origin:
+          type: array
+          items:
+            type: string
+          description: 'Indicates the origin of the request,
+
+            typically used in cross-origin resource sharing (CORS)
+
+            to specify where the request originated.
+
+            This helps identify unauthorized or potentially
+
+            malicious cross-origin requests.
+
+            '
+          example:
+          - 111.111.1.1
+        useragent:
+          type: array
+          items:
+            type: string
+          description: Observed scanning activity used these user agents.
+          example:
+          - 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+
+            '
+        ja4h:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4H HTTP client fingerprints observed in network traffic from the IP.
+
+            JA4H captures characteristics of HTTP client behavior including method,
+
+            headers, and cookie fields, useful for identifying and tracking HTTP clients.
+
+            '
+          example:
+          - ge11cn060000_4e59edc1297a_4da5efaf0cbd
+    TimeSeriesScanEntry:
+      type: object
+      properties:
+        port:
+          type: integer
+          description: Port number
+          example: 80
+        protocol:
+          type: string
+          description: Protocol
+          example: TCP
+    TimeSeriesSourceData:
+      type: object
+      description: Source traffic metadata
+      properties:
+        bytes:
+          type: integer
+          format: int64
+          description: 'The total amount of data transferred (in bytes) during the
+
+            observed session or connection.
+
+            '
+          example: 1024
+    TimeSeriesSSHData:
+      type: object
+      description: SSH-related data
+      properties:
+        key:
+          type: array
+          items:
+            type: string
+          description: 'This is the SSH key used.
+
+            '
+          example:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1234567890
+        ja4ssh:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4SSH fingerprints observed in network traffic from the IP.
+
+            JA4SSH captures SSH traffic patterns including packet lengths and
+
+            directions, useful for identifying SSH client behavior and detecting
+
+            anomalous sessions.
+
+            '
+          example:
+          - c76s76_c71s59_c0s0
+    TimeSeriesRawData:
+      type: object
+      description: Raw data collected about the IP's scanning activity
+      properties:
+        scan:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesScanEntry'
+          description: Observed scan activity
           example: []
-      example:
-        count: 1500
-        min: 10
-        max: 250
-        data:
-        - date: '2025-11-10 14:00:00.000'
-          count: 125
-        - date: '2025-11-10 15:00:00.000'
-          count: 250
-        - date: '2025-11-10 16:00:00.000'
-          count: 180
+        ja3:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesJA3Entry'
+          description: JA3 TLS fingerprints observed
+          example: []
+        hassh:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesHASSHEntry'
+          description: HASSH SSH fingerprints observed
+          example: []
+        http:
+          $ref: '#/components/schemas/TimeSeriesHTTPData'
+        source:
+          $ref: '#/components/schemas/TimeSeriesSourceData'
+        tls:
+          $ref: '#/components/schemas/TimeSeriesTLSData'
+        ssh:
+          $ref: '#/components/schemas/TimeSeriesSSHData'
+        tcp:
+          $ref: '#/components/schemas/TimeSeriesTCPData'
+    TimeSeriesJA3Entry:
+      type: object
+      properties:
+        fingerprint:
+          type: string
+          example: c3a6cf0bf2e690ac8e1ecf6081f17a50
+          description: JA3 hash fingerprint string
+        port:
+          type: integer
+          example: 443
+          description: TCP port connection that the SSL/TLS communication occurred over
+    TimeSeriesHASSHEntry:
+      type: object
+      properties:
+        fingerprint:
+          type: string
+          example: 51cba57125523ce4b9db67714a90bf6e
+          description: HASSH hash fingerprint string
+        port:
+          type: integer
+          example: 2222
+          description: 'TCP port connection where the HASSH hash was identified
+
+            '
+    TimeSeriesTCPData:
+      type: object
+      description: TCP-related data
+      properties:
+        ja4t:
+          type: array
+          items:
+            type: string
+          description: 'List of JA4T TCP fingerprints observed in network traffic from the IP.
+
+            JA4T captures TCP connection characteristics such as window size,
+
+            options, and MSS, useful for OS fingerprinting and identifying
+
+            network stacks.
+
+            '
+          example:
+          - 64240_2-1-3-1-1-4_1460_8
+        ja4l:
+          type: string
+          description: 'JA4L light distance/latency fingerprint observed in network traffic
+
+            from the IP. Captures TCP TTL and window size characteristics, useful
+
+            for estimating client-server distance and identifying proxied
+
+            connections.
+
+            '
+          example: '1460_64'
     MetadataV3:
       properties:
         mobile:
@@ -584,52 +832,6 @@ components:
 
             '
           example: 10
-    TimeSeriesTLSData:
-      type: object
-      description: TLS-related data
-      properties:
-        cipher:
-          type: array
-          items:
-            type: string
-          description: 'The encryption algorithms or cipher suites used during secure
-
-            communication. Identifying the ciphers helps assess the security
-
-            of the connection, particularly in TLS/SSL traffic.
-
-            '
-          example:
-          - TLS_AES_128_GCM_SHA256
-          - TLS_AES_256_GCM_SHA384
-        ja4:
-          type: array
-          items:
-            type: string
-          description: 'List of JA4 TLS fingerprints observed in network traffic from the IP.
-
-            JA4 is a modern fingerprinting method that captures distinctive
-
-            characteristics of TLS client behavior,
-
-            useful for identifying and clustering malicious or anomalous clients.
-
-            '
-          example:
-          - t13d1516h2_8daaf6152771_02713d6af862
-    TimeSeriesHASSHEntry:
-      type: object
-      properties:
-        fingerprint:
-          type: string
-          example: 51cba57125523ce4b9db67714a90bf6e
-          description: HASSH hash fingerprint string
-        port:
-          type: integer
-          example: 2222
-          description: 'TCP port connection where the HASSH hash was identified
-
-            '
     TimeSeriesIntelligence:
       type: object
       description: Intelligence data for an IP in the timeseries dataset
@@ -705,17 +907,6 @@ components:
           $ref: '#/components/schemas/MetadataV3'
         raw_data:
           $ref: '#/components/schemas/TimeSeriesRawData'
-    TimeSeriesScanEntry:
-      type: object
-      properties:
-        port:
-          type: integer
-          description: Port number
-          example: 80
-        protocol:
-          type: string
-          description: Protocol
-          example: TCP
     TimeSeriesStatsRecord:
       type: object
       description: A single aggregated data point in a timeseries stats response
@@ -740,214 +931,55 @@ components:
 
             '
           example: 125
-    TimeSeriesRawData:
+    TimeSeriesStatsResponse:
       type: object
-      description: Raw data collected about the IP's scanning activity
-      properties:
-        scan:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesScanEntry'
-          description: Observed scan activity
-          example: []
-        ja3:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesJA3Entry'
-          description: JA3 TLS fingerprints observed
-          example: []
-        hassh:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesHASSHEntry'
-          description: HASSH SSH fingerprints observed
-          example: []
-        http:
-          $ref: '#/components/schemas/TimeSeriesHTTPData'
-        source:
-          $ref: '#/components/schemas/TimeSeriesSourceData'
-        tls:
-          $ref: '#/components/schemas/TimeSeriesTLSData'
-        ssh:
-          $ref: '#/components/schemas/TimeSeriesSSHData'
-        tcp:
-          $ref: '#/components/schemas/TimeSeriesTCPData'
-    TimeSeriesHTTPData:
-      type: object
-      description: HTTP-related data observed
-      properties:
-        md5:
-          type: array
-          items:
-            type: string
-          description: 'MD5 hashes of the body content. These compact,
+      description: 'Response object for the timeseries stats/aggregation endpoint.
 
-            unique representations of the data allow for quick
+        This provides aggregated IP counts over time intervals matching
 
-            comparisons and deduplication of payloads without
-
-            storing the raw content.
-
-            '
-          example:
-          - 9764955b67107eeb9edfae76f429e783
-        cookie_keys:
-          type: array
-          items:
-            type: string
-          description: 'The keys or names of cookies exchanged in the communication.
-
-            These can reveal session identifiers, tracking mechanisms,
-
-            or other metadata used in web interactions,
-
-            providing clues about application behavior or vulnerabilities.
-
-            '
-          example:
-          - expremotekey
-        request_authorization:
-          type: array
-          items:
-            type: string
-          description: 'The contents of the Authorization header in a request,
-
-            which can include credentials, tokens, or other authentication
-
-            information.
-
-            '
-          example:
-          - Bearer exampletoken
-          - Basic username:password
-        request_cookies:
-          type: array
-          items:
-            type: string
-          description: 'Key-value pairs stored in cookies sent with an HTTP request.
-
-            These cookies often contain session identifiers, user preferences,
-
-            or tracking data, which can be analyzed to detect unauthorized
-
-            access or manipulation.
-
-            '
-          example:
-          - session_id=1234567890
-        request_header:
-          type: array
-          items:
-            type: string
-          description: 'Request Headers are the keys (names) of HTTP headers
-
-            that a client sends to a server.
-
-            '
-          example:
-          - 'Content-Type: application/json'
-          - 'Accept: application/json'
-        method:
-          type: array
-          items:
-            type: string
-          description: 'The HTTP method used in the request, such as GET, POST, PUT, or DELETE.
-
-            Analyzing methods can reveal the intent of the request,
-
-            such as retrieving or modifying resources,
-
-            and identify unexpected or suspicious activity.
-
-            '
-          example:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-        path:
-          type: array
-          items:
-            type: string
-          description: Observed scanning activity traversed this web path.
-          example:
-          - /robots.txt
-        request_origin:
-          type: array
-          items:
-            type: string
-          description: 'Indicates the origin of the request,
-
-            typically used in cross-origin resource sharing (CORS)
-
-            to specify where the request originated.
-
-            This helps identify unauthorized or potentially
-
-            malicious cross-origin requests.
-
-            '
-          example:
-          - 111.111.1.1
-        useragent:
-          type: array
-          items:
-            type: string
-          description: Observed scanning activity used these user agents.
-          example:
-          - 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
-
-            '
-        ja4h:
-          type: array
-          items:
-            type: string
-          description: 'List of JA4H HTTP client fingerprints observed in network traffic from the IP.
-
-            JA4H captures characteristics of HTTP client behavior including method,
-
-            headers, and cookie fields, useful for identifying and tracking HTTP clients.
-
-            '
-          example:
-          - ge11cn060000_4e59edc1297a_4da5efaf0cbd
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
-  responses:
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
-
-        Verify request syntax and try again.
+        a GNQL query.
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Invalid parameter
+      properties:
+        count:
+          type: integer
+          description: The sum of all IP counts across all time intervals
+          example: 1500
+        min:
+          type: integer
+          description: The minimum IP count observed in any single time interval
+          example: 10
+        max:
+          type: integer
+          description: The maximum IP count observed in any single time interval
+          example: 250
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesStatsRecord'
+          description: Array of aggregated data points, one per time interval
+          example: []
+      example:
+        count: 1500
+        min: 10
+        max: 250
+        data:
+        - date: '2025-11-10 14:00:00.000'
+          count: 125
+        - date: '2025-11-10 15:00:00.000'
+          count: 250
+        - date: '2025-11-10 16:00:00.000'
+          count: 180
+    TimeSeriesRecord:
+      type: object
+      description: A single IP record in a timeseries response
+      properties:
+        ip:
+          type: string
+          description: The IP address
+          example: 203.0.113.45
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/TimeSeriesIntelligence'
   parameters:
     query:
       name: query

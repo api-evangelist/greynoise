@@ -1,21 +1,12 @@
 {
   "provider": "greynoise",
   "sources": [
-    "greynoise-callback-api-openapi.yml",
-    "greynoise-community-api-openapi.yml",
-    "greynoise-cve-api-openapi.yml",
-    "greynoise-gnql-api-openapi.yml",
-    "greynoise-ip-lookup-api-openapi.yml",
-    "greynoise-ip-timeline-api-openapi.yml",
-    "greynoise-recall-api-openapi.yml",
-    "greynoise-sessions-api-openapi.yml",
-    "greynoise-tags-api-openapi.yml",
-    "greynoise-utility-api-openapi.yml"
+    "_original/greynoise-openapi.yml"
   ],
   "outputs": [
+    "greynoise-cve-api-openapi.yml",
     "greynoise-callback-api-openapi.yml",
     "greynoise-community-api-openapi.yml",
-    "greynoise-cve-api-openapi.yml",
     "greynoise-gnql-api-openapi.yml",
     "greynoise-ip-lookup-api-openapi.yml",
     "greynoise-ip-timeline-api-openapi.yml",
@@ -26,9 +17,25 @@
   ],
   "archived": [],
   "errors": [
-    "greynoise-ip-lookup-api-openapi.yml: dangling $ref: #/components/requestBodies/MultiIpRequest"
+    "greynoise-openapi.yml: dangling $ref: #/components/requestBodies/MultiIpRequest"
   ],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "greynoise-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "greynoise-openapi.yml: declared missing tag: Callback",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "greynoise-callback-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-community-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-cve-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-gnql-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-ip-lookup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-ip-timeline-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-recall-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "greynoise-utility-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
