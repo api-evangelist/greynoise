@@ -74,8 +74,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-community-api
   name: GreyNoise Intelligence Community API
   description: Endpoints for the community level users
@@ -96,8 +94,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-cve-api
   name: GreyNoise Intelligence CVE API
   description: >-
@@ -119,8 +115,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-gnql-api
   name: GreyNoise Intelligence GNQL API
   description: Calls to interface with GNQL (GreyNoise Query Language).
@@ -141,8 +135,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-ip-lookup-api
   name: GreyNoise Intelligence IP Lookup API
   description: >-
@@ -165,8 +157,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-ip-timeline-api
   name: GreyNoise Intelligence IP Timeline API
   description: >-
@@ -194,8 +184,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-recall-api
   name: GreyNoise Intelligence Recall API
   description: >-
@@ -221,8 +209,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-sessions-api
   name: GreyNoise Intelligence Sessions API
   description: >-
@@ -248,8 +234,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-tags-api
   name: GreyNoise Intelligence Tags API
   description: Endpoints for retrieving tag information, metadata, and associated activity data.
@@ -270,8 +254,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 - aid: greynoise:greynoise-utility-api
   name: GreyNoise Intelligence Utility API
   description: Endpoints that are used for checking status or retrieving basic metadata
@@ -292,8 +274,6 @@ apis:
     url: https://docs.greynoise.io/docs/getting-started
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
-  - type: GraphQL
-    url: graphql/greynoise-graphql.md
 common:
 - type: IssueTracker
   url: https://github.com/GreyNoise-Intelligence/api.greynoise.io/issues

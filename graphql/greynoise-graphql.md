@@ -1,1 +1,0 @@
-# GreyNoise Intelligence GraphQL API
