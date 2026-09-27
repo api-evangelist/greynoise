@@ -134,16 +134,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
     CommunityResponse:
       type: object
       properties:
@@ -171,14 +170,15 @@ components:
         message:
           type: string
           example: Success
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
+  responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
   parameters:
     ip:
       name: ip

@@ -271,84 +271,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
-
-        Verify request syntax and try again.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Invalid parameter
   schemas:
-    TimeSeriesResponse:
-      type: object
-      description: 'Response object for the timeseries endpoint. The response is a map
-
-        where keys are time intervals and values are arrays of IP records
-
-        observed in that interval.
-
-
-        Time interval keys are formatted as YYYY-MM-DD-HH (e.g., "2025-01-15-14")
-
-        '
-      additionalProperties:
-        description: 'Time interval key (format: YYYY-MM-DD-HH)
-
-          '
-        type: array
-        items:
-          $ref: '#/components/schemas/TimeSeriesRecord'
-      example:
-        2025-11-10-14:
-        - ip: 203.0.113.45
-          internet_scanner_intelligence:
-            first_seen: '2018-01-28'
-            last_seen: '2018-02-28'
-            found: true
-            tags:
-            - Mirai
-            - Telnet Worm
-            actor: Shodan.io
-            spoofable: true
-            classification: benign
-            cves:
-            - CVE-2020-1234
-            - CVE-2021-2345
-            vpn: true
-            vpn_service: IPVANISH_VPN
-            tor: false
-            last_seen_timestamp: '2025-01-15T12:30:45Z'
-            metadata:
-              asn: AS13335
-              source_country: United States
-              source_country_code: US
-              organization: Example Hosting
-            raw_data:
-              scan:
-              - port: 22
-                protocol: tcp
     TimeSeriesTLSData:
       type: object
       description: TLS-related data
@@ -382,14 +305,17 @@ components:
             '
           example:
           - t13d1516h2_8daaf6152771_02713d6af862
-    Error:
+    TimeSeriesJA3Entry:
       type: object
       properties:
-        message:
+        fingerprint:
           type: string
-          example: Success
-      required:
-      - message
+          example: c3a6cf0bf2e690ac8e1ecf6081f17a50
+          description: JA3 hash fingerprint string
+        port:
+          type: integer
+          example: 443
+          description: TCP port connection that the SSL/TLS communication occurred over
     TimeSeriesHTTPData:
       type: object
       description: HTTP-related data observed
@@ -529,17 +455,93 @@ components:
             '
           example:
           - ge11cn060000_4e59edc1297a_4da5efaf0cbd
-    TimeSeriesScanEntry:
+    TimeSeriesRawData:
+      type: object
+      description: Raw data collected about the IP's scanning activity
+      properties:
+        scan:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesScanEntry'
+          description: Observed scan activity
+          example: []
+        ja3:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesJA3Entry'
+          description: JA3 TLS fingerprints observed
+          example: []
+        hassh:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesHASSHEntry'
+          description: HASSH SSH fingerprints observed
+          example: []
+        http:
+          $ref: '#/components/schemas/TimeSeriesHTTPData'
+        source:
+          $ref: '#/components/schemas/TimeSeriesSourceData'
+        tls:
+          $ref: '#/components/schemas/TimeSeriesTLSData'
+        ssh:
+          $ref: '#/components/schemas/TimeSeriesSSHData'
+        tcp:
+          $ref: '#/components/schemas/TimeSeriesTCPData'
+    Error:
       type: object
       properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    TimeSeriesRecord:
+      type: object
+      description: A single IP record in a timeseries response
+      properties:
+        ip:
+          type: string
+          description: The IP address
+          example: 203.0.113.45
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/TimeSeriesIntelligence'
+    TimeSeriesHASSHEntry:
+      type: object
+      properties:
+        fingerprint:
+          type: string
+          example: 51cba57125523ce4b9db67714a90bf6e
+          description: HASSH hash fingerprint string
         port:
           type: integer
-          description: Port number
-          example: 80
-        protocol:
+          example: 2222
+          description: 'TCP port connection where the HASSH hash was identified
+
+            '
+    TimeSeriesStatsRecord:
+      type: object
+      description: A single aggregated data point in a timeseries stats response
+      properties:
+        date:
           type: string
-          description: Protocol
-          example: TCP
+          description: 'The starting timestamp for this time interval in format
+
+            ''YYYY-MM-DD HH:mm:ss.SSS''.
+
+            For hourly intervals, the time component represents the hour.
+
+            For daily intervals, the time will be 00:00:00.000.
+
+            '
+          example: '2025-11-10 14:00:00.000'
+        count:
+          type: integer
+          description: 'The number of unique IPs matching the query in this time
+
+            interval
+
+            '
+          example: 125
     TimeSeriesSourceData:
       type: object
       description: Source traffic metadata
@@ -581,62 +583,93 @@ components:
             '
           example:
           - c76s76_c71s59_c0s0
-    TimeSeriesRawData:
+    TimeSeriesStatsResponse:
       type: object
-      description: Raw data collected about the IP's scanning activity
-      properties:
-        scan:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesScanEntry'
-          description: Observed scan activity
-          example: []
-        ja3:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesJA3Entry'
-          description: JA3 TLS fingerprints observed
-          example: []
-        hassh:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesHASSHEntry'
-          description: HASSH SSH fingerprints observed
-          example: []
-        http:
-          $ref: '#/components/schemas/TimeSeriesHTTPData'
-        source:
-          $ref: '#/components/schemas/TimeSeriesSourceData'
-        tls:
-          $ref: '#/components/schemas/TimeSeriesTLSData'
-        ssh:
-          $ref: '#/components/schemas/TimeSeriesSSHData'
-        tcp:
-          $ref: '#/components/schemas/TimeSeriesTCPData'
-    TimeSeriesJA3Entry:
-      type: object
-      properties:
-        fingerprint:
-          type: string
-          example: c3a6cf0bf2e690ac8e1ecf6081f17a50
-          description: JA3 hash fingerprint string
-        port:
-          type: integer
-          example: 443
-          description: TCP port connection that the SSL/TLS communication occurred over
-    TimeSeriesHASSHEntry:
-      type: object
-      properties:
-        fingerprint:
-          type: string
-          example: 51cba57125523ce4b9db67714a90bf6e
-          description: HASSH hash fingerprint string
-        port:
-          type: integer
-          example: 2222
-          description: 'TCP port connection where the HASSH hash was identified
+      description: 'Response object for the timeseries stats/aggregation endpoint.
 
-            '
+        This provides aggregated IP counts over time intervals matching
+
+        a GNQL query.
+
+        '
+      properties:
+        count:
+          type: integer
+          description: The sum of all IP counts across all time intervals
+          example: 1500
+        min:
+          type: integer
+          description: The minimum IP count observed in any single time interval
+          example: 10
+        max:
+          type: integer
+          description: The maximum IP count observed in any single time interval
+          example: 250
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesStatsRecord'
+          description: Array of aggregated data points, one per time interval
+          example: []
+      example:
+        count: 1500
+        min: 10
+        max: 250
+        data:
+        - date: '2025-11-10 14:00:00.000'
+          count: 125
+        - date: '2025-11-10 15:00:00.000'
+          count: 250
+        - date: '2025-11-10 16:00:00.000'
+          count: 180
+    TimeSeriesResponse:
+      type: object
+      description: 'Response object for the timeseries endpoint. The response is a map
+
+        where keys are time intervals and values are arrays of IP records
+
+        observed in that interval.
+
+
+        Time interval keys are formatted as YYYY-MM-DD-HH (e.g., "2025-01-15-14")
+
+        '
+      additionalProperties:
+        description: 'Time interval key (format: YYYY-MM-DD-HH)
+
+          '
+        type: array
+        items:
+          $ref: '#/components/schemas/TimeSeriesRecord'
+      example:
+        2025-11-10-14:
+        - ip: 203.0.113.45
+          internet_scanner_intelligence:
+            first_seen: '2018-01-28'
+            last_seen: '2018-02-28'
+            found: true
+            tags:
+            - Mirai
+            - Telnet Worm
+            actor: Shodan.io
+            spoofable: true
+            classification: benign
+            cves:
+            - CVE-2020-1234
+            - CVE-2021-2345
+            vpn: true
+            vpn_service: IPVANISH_VPN
+            tor: false
+            last_seen_timestamp: '2025-01-15T12:30:45Z'
+            metadata:
+              asn: AS13335
+              source_country: United States
+              source_country_code: US
+              organization: Example Hosting
+            raw_data:
+              scan:
+              - port: 22
+                protocol: tcp
     TimeSeriesTCPData:
       type: object
       description: TCP-related data
@@ -668,6 +701,92 @@ components:
 
             '
           example: '1460_64'
+    TimeSeriesIntelligence:
+      type: object
+      description: Intelligence data for an IP in the timeseries dataset
+      properties:
+        first_seen:
+          type: string
+          description: The earliest date GreyNoise observed any activity from this IP.
+          format: date
+          example: '2018-01-28'
+        last_seen:
+          type: string
+          description: The most recent date GreyNoise observed any activity from this IP.
+          format: date
+          example: '2018-02-28'
+        found:
+          type: boolean
+          description: Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as 'noise'.
+          example: true
+        tags:
+          type: array
+          items:
+            type: string
+          description: 'A list of activity/malware tags GreyNoise has applied to this
+
+            IP.
+
+            '
+          example:
+          - Mirai
+          - Telnet Worm
+        actor:
+          type: string
+          description: The overt actor this IP is associated with.
+          example: Shodan.io
+        spoofable:
+          type: boolean
+          description: This IP address has been opportunistically scanning the Internet, however has failed to complete a full TCP connection. Any reported activity could be spoofed.
+          example: true
+        classification:
+          type: string
+          description: The classification of the IP address, either "benign", "malicious", or "unknown", based on the activity observed by GreyNoise.
+          enum:
+          - benign
+          - malicious
+          - unknown
+          example: benign
+        cves:
+          type: array
+          items:
+            type: string
+          description: A list of CVEs associate with this IP.
+          example:
+          - CVE-2020-1234
+          - CVE-2021-2345
+        vpn:
+          type: boolean
+          description: This IP is associated with a VPN service. Activity, malicious or otherwise, should not be attributed to the VPN service provider.
+          example: true
+        vpn_service:
+          type: string
+          description: Name of associated VPN Service.
+          example: IPVANISH_VPN
+        tor:
+          type: boolean
+          description: Whether or not the device is a known Tor exit node.
+          example: false
+        last_seen_timestamp:
+          type: string
+          description: The timestamp of the last observed activity from this IP.
+          format: date-time
+          example: '2025-01-15T12:30:45Z'
+        metadata:
+          $ref: '#/components/schemas/MetadataV3'
+        raw_data:
+          $ref: '#/components/schemas/TimeSeriesRawData'
+    TimeSeriesScanEntry:
+      type: object
+      properties:
+        port:
+          type: integer
+          description: Port number
+          example: 80
+        protocol:
+          type: string
+          description: Protocol
+          example: TCP
     MetadataV3:
       properties:
         mobile:
@@ -832,154 +951,35 @@ components:
 
             '
           example: 10
-    TimeSeriesIntelligence:
-      type: object
-      description: Intelligence data for an IP in the timeseries dataset
-      properties:
-        first_seen:
-          type: string
-          description: The earliest date GreyNoise observed any activity from this IP.
-          format: date
-          example: '2018-01-28'
-        last_seen:
-          type: string
-          description: The most recent date GreyNoise observed any activity from this IP.
-          format: date
-          example: '2018-02-28'
-        found:
-          type: boolean
-          description: Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as 'noise'.
-          example: true
-        tags:
-          type: array
-          items:
-            type: string
-          description: 'A list of activity/malware tags GreyNoise has applied to this
-
-            IP.
-
-            '
+  responses:
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
           example:
-          - Mirai
-          - Telnet Worm
-        actor:
-          type: string
-          description: The overt actor this IP is associated with.
-          example: Shodan.io
-        spoofable:
-          type: boolean
-          description: This IP address has been opportunistically scanning the Internet, however has failed to complete a full TCP connection. Any reported activity could be spoofed.
-          example: true
-        classification:
-          type: string
-          description: The classification of the IP address, either "benign", "malicious", or "unknown", based on the activity observed by GreyNoise.
-          enum:
-          - benign
-          - malicious
-          - unknown
-          example: benign
-        cves:
-          type: array
-          items:
-            type: string
-          description: A list of CVEs associate with this IP.
+            message: You've hit the rate limit for this endpoint.
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
           example:
-          - CVE-2020-1234
-          - CVE-2021-2345
-        vpn:
-          type: boolean
-          description: This IP is associated with a VPN service. Activity, malicious or otherwise, should not be attributed to the VPN service provider.
-          example: true
-        vpn_service:
-          type: string
-          description: Name of associated VPN Service.
-          example: IPVANISH_VPN
-        tor:
-          type: boolean
-          description: Whether or not the device is a known Tor exit node.
-          example: false
-        last_seen_timestamp:
-          type: string
-          description: The timestamp of the last observed activity from this IP.
-          format: date-time
-          example: '2025-01-15T12:30:45Z'
-        metadata:
-          $ref: '#/components/schemas/MetadataV3'
-        raw_data:
-          $ref: '#/components/schemas/TimeSeriesRawData'
-    TimeSeriesStatsRecord:
-      type: object
-      description: A single aggregated data point in a timeseries stats response
-      properties:
-        date:
-          type: string
-          description: 'The starting timestamp for this time interval in format
+            message: Unauthorized
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
 
-            ''YYYY-MM-DD HH:mm:ss.SSS''.
-
-            For hourly intervals, the time component represents the hour.
-
-            For daily intervals, the time will be 00:00:00.000.
-
-            '
-          example: '2025-11-10 14:00:00.000'
-        count:
-          type: integer
-          description: 'The number of unique IPs matching the query in this time
-
-            interval
-
-            '
-          example: 125
-    TimeSeriesStatsResponse:
-      type: object
-      description: 'Response object for the timeseries stats/aggregation endpoint.
-
-        This provides aggregated IP counts over time intervals matching
-
-        a GNQL query.
+        Verify request syntax and try again.
 
         '
-      properties:
-        count:
-          type: integer
-          description: The sum of all IP counts across all time intervals
-          example: 1500
-        min:
-          type: integer
-          description: The minimum IP count observed in any single time interval
-          example: 10
-        max:
-          type: integer
-          description: The maximum IP count observed in any single time interval
-          example: 250
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesStatsRecord'
-          description: Array of aggregated data points, one per time interval
-          example: []
-      example:
-        count: 1500
-        min: 10
-        max: 250
-        data:
-        - date: '2025-11-10 14:00:00.000'
-          count: 125
-        - date: '2025-11-10 15:00:00.000'
-          count: 250
-        - date: '2025-11-10 16:00:00.000'
-          count: 180
-    TimeSeriesRecord:
-      type: object
-      description: A single IP record in a timeseries response
-      properties:
-        ip:
-          type: string
-          description: The IP address
-          example: 203.0.113.45
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/TimeSeriesIntelligence'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
   parameters:
     query:
       name: query
