@@ -92,14 +92,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
     TagsMetadata:
       type: object
       properties:
@@ -169,15 +161,15 @@ components:
                     slug:
                       type: string
                       example: oracle-weblogic-rce-cve-2020-14882
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
   responses:
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
     Unauthorized:
       description: Unauthorized. Please check your API key.
       content:
@@ -186,6 +178,14 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Unauthorized
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

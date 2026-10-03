@@ -768,6 +768,17 @@ components:
           $ref: '#/components/schemas/SessionPagination'
         request_metadata:
           $ref: '#/components/schemas/SessionRequestMetadata'
+    SessionTimeseriesPoint:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: Timestamp for this data point.
+          example: '2025-01-01T00:00:00Z'
+        count:
+          type: integer
+          description: Number of sessions in this time bucket.
+          example: 42
     SessionFieldsResponse:
       type: object
       properties:
@@ -777,14 +788,21 @@ components:
           items:
             $ref: '#/components/schemas/SessionField'
           example: []
-    Error:
+    SessionConnectionLink:
       type: object
       properties:
-        message:
+        source:
           type: string
-          example: Success
-      required:
-      - message
+          description: Source node identifier.
+          example: 192.168.1.1
+        target:
+          type: string
+          description: Target node identifier.
+          example: 10.0.0.1
+        value:
+          type: integer
+          description: Number of connections between source and target.
+          example: 15
     SessionConnectionNode:
       type: object
       properties:
@@ -857,21 +875,37 @@ components:
           type: string
           description: GreyNoise classification of the source IP.
           example: malicious
-    SessionRequestMetadata:
+    SessionCountsResponse:
       type: object
       properties:
-        start_time:
-          type: string
-          description: Start time of the query range.
-          example: '2025-01-01T00:00:00Z'
-        end_time:
-          type: string
-          description: End time of the query range.
-          example: '2025-01-07T23:59:59Z'
-        query:
-          type: string
-          description: The Lucene query string used.
-          example: tags:Mirai
+        items:
+          type: array
+          description: Aggregated count items.
+          items:
+            $ref: '#/components/schemas/SessionCountItem'
+          example: []
+        total:
+          type: integer
+          description: Total number of sessions matching the query.
+          example: 5000
+        request_metadata:
+          type: object
+          properties:
+            start_time:
+              type: string
+              example: string
+            end_time:
+              type: string
+              example: string
+            query:
+              type: string
+              example: tags:Mirai
+            fields:
+              type: array
+              items:
+                type: string
+              example:
+              - string
     SessionCountItem:
       type: object
       properties:
@@ -889,21 +923,6 @@ components:
           items:
             $ref: '#/components/schemas/SessionCountItem'
           example: []
-    SessionConnectionLink:
-      type: object
-      properties:
-        source:
-          type: string
-          description: Source node identifier.
-          example: 192.168.1.1
-        target:
-          type: string
-          description: Target node identifier.
-          example: 10.0.0.1
-        value:
-          type: integer
-          description: Number of connections between source and target.
-          example: 15
     SessionTimeseriesItem:
       type: object
       properties:
@@ -921,36 +940,48 @@ components:
           items:
             $ref: '#/components/schemas/SessionTimeseriesPoint'
           example: []
-    SessionTimeseriesPoint:
+    SessionField:
       type: object
       properties:
-        timestamp:
+        value:
           type: string
-          description: Timestamp for this data point.
-          example: '2025-01-01T00:00:00Z'
-        count:
-          type: integer
-          description: Number of sessions in this time bucket.
-          example: 42
-    SessionPagination:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: Current page number.
-          example: 1
-        page_size:
-          type: integer
-          description: Number of results per page.
-          example: 25
-        sort_by:
+          description: The field identifier used in queries.
+          example: source.ip
+        label:
           type: string
-          description: Field used for sorting.
-          example: lastPacket
-        sort_desc:
+          description: Human-readable label for the field.
+          example: Source IP
+        description:
+          type: string
+          description: Description of the field.
+          example: The source IP address of the session.
+        type:
+          type: string
+          description: Data type of the field.
+          example: ip
+        group:
+          type: string
+          description: Logical grouping of the field.
+          example: source
+        sortable:
           type: boolean
-          description: Whether results are sorted in descending order.
+          description: Whether the field can be used for sorting.
           example: true
+    SessionRequestMetadata:
+      type: object
+      properties:
+        start_time:
+          type: string
+          description: Start time of the query range.
+          example: '2025-01-01T00:00:00Z'
+        end_time:
+          type: string
+          description: End time of the query range.
+          example: '2025-01-07T23:59:59Z'
+        query:
+          type: string
+          description: The Lucene query string used.
+          example: tags:Mirai
     SessionTimeseriesResponse:
       type: object
       properties:
@@ -988,33 +1019,6 @@ components:
             interval:
               type: string
               example: string
-    SessionField:
-      type: object
-      properties:
-        value:
-          type: string
-          description: The field identifier used in queries.
-          example: source.ip
-        label:
-          type: string
-          description: Human-readable label for the field.
-          example: Source IP
-        description:
-          type: string
-          description: Description of the field.
-          example: The source IP address of the session.
-        type:
-          type: string
-          description: Data type of the field.
-          example: ip
-        group:
-          type: string
-          description: Logical grouping of the field.
-          example: source
-        sortable:
-          type: boolean
-          description: Whether the field can be used for sorting.
-          example: true
     SessionConnectionsResponse:
       type: object
       properties:
@@ -1058,37 +1062,90 @@ components:
             min_connections:
               type: integer
               example: 1
-    SessionCountsResponse:
+    Error:
       type: object
       properties:
-        items:
-          type: array
-          description: Aggregated count items.
-          items:
-            $ref: '#/components/schemas/SessionCountItem'
-          example: []
-        total:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    SessionPagination:
+      type: object
+      properties:
+        page:
           type: integer
-          description: Total number of sessions matching the query.
-          example: 5000
-        request_metadata:
-          type: object
-          properties:
-            start_time:
-              type: string
-              example: string
-            end_time:
-              type: string
-              example: string
-            query:
-              type: string
-              example: tags:Mirai
-            fields:
-              type: array
-              items:
-                type: string
-              example:
-              - string
+          description: Current page number.
+          example: 1
+        page_size:
+          type: integer
+          description: Number of results per page.
+          example: 25
+        sort_by:
+          type: string
+          description: Field used for sorting.
+          example: lastPacket
+        sort_desc:
+          type: boolean
+          description: Whether results are sorted in descending order.
+          example: true
+  responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
   parameters:
     scope:
       name: scope
@@ -1108,63 +1165,6 @@ components:
         - workspace
         - demo
       example: workspace
-  responses:
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    Forbidden:
-      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
-
-        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Forbidden
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: IP not found
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
-
-        Verify request syntax and try again.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Invalid parameter
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

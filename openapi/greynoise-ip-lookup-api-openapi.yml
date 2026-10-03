@@ -690,7 +690,75 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
   schemas:
+    IPResponseV3:
+      type: object
+      properties:
+        ip:
+          type: string
+          example: 8.8.8.8
+          description: 'IP address that the information is about.
+
+            '
+        business_service_intelligence:
+          $ref: '#/components/schemas/BusinessServiceIntelligence'
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/InternetScannerIntelligence'
+        request_metadata:
+          type: object
+          properties:
+            restricted_fields:
+              type: array
+              description: 'The fields that were restricted due to plan limitations.
+
+                '
+              example:
+              - ip
+              - cve
+              - destination_cities
+              items:
+                type: string
     IpResponseMetadataV3:
       type: object
       properties:
@@ -718,24 +786,6 @@ components:
             type: string
           example:
           - string
-    QuickMultiIPResponseV3:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              ip:
-                type: string
-                example: 8.8.8.8
-                description: IP address that the information is about.
-              business_service_intelligence:
-                $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
-              internet_scanner_intelligence:
-                $ref: '#/components/schemas/QuickInternetScannerIntelligence'
-        request_metadata:
-          $ref: '#/components/schemas/IpResponseMetadataV3'
     InternetScannerIntelligence:
       properties:
         ip:
@@ -1106,54 +1156,6 @@ components:
                     '
                   example: 1024
               example: string
-    IPResponseV3:
-      type: object
-      properties:
-        ip:
-          type: string
-          example: 8.8.8.8
-          description: 'IP address that the information is about.
-
-            '
-        business_service_intelligence:
-          $ref: '#/components/schemas/BusinessServiceIntelligence'
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/InternetScannerIntelligence'
-        request_metadata:
-          type: object
-          properties:
-            restricted_fields:
-              type: array
-              description: 'The fields that were restricted due to plan limitations.
-
-                '
-              example:
-              - ip
-              - cve
-              - destination_cities
-              items:
-                type: string
-    QuickBusinessServiceIntelligence:
-      type: object
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if an IP is part of the RIOT dataset or not.
-
-            '
-          example: false
-        trust_level:
-          type: string
-          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
-          example: '1'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
     MultiIPResponseV3:
       type: object
       properties:
@@ -1172,6 +1174,195 @@ components:
                 $ref: '#/components/schemas/InternetScannerIntelligence'
         request_metadata:
           $ref: '#/components/schemas/IpResponseMetadataV3'
+    IPResponseV3Tags:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ef0cc90d-d80c-436f-92c5-3d8f8665c9ac
+          description: 'The unique identifier for the tag.
+
+            '
+        slug:
+          type: string
+          example: mirai
+          description: 'The slugified version of the tag name.
+
+            '
+        name:
+          type: string
+          example: Mirai
+          description: 'The human-readable name for the tag.
+
+            '
+        category:
+          type: string
+          example: worm
+          description: 'Category of the IP address such as hosting or ISP.
+
+            '
+        intention:
+          type: string
+          example: malicious
+          description: 'The intent of the tag, either suspicious, malicious, benign, or unknown.
+
+            '
+        description:
+          type: string
+          example: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
+          description: 'A detailed description of the tag, including the observed activity
+
+            and any relevant context or details.
+
+            '
+        references:
+          type: array
+          items:
+            type: string
+            example: https://en.wikipedia.org/wiki/Mirai_(malware)
+            description: 'A list of URLs or references that provide additional information
+
+              about the tag and its associated activity.
+
+              '
+          example:
+          - string
+        recommend_block:
+          type: boolean
+          example: false
+          description: 'A boolean value indicating whether the tag should be recommended
+
+            for blocking or filtering purposes.
+
+            '
+        cves:
+          type: array
+          items:
+            type: string
+            example: CVE-2020-1234
+            description: 'A list of CVEs associated with the tag.
+
+              '
+          example:
+          - CVE-2021-44228
+        created_at:
+          type: string
+          example: '2020-04-07'
+          description: 'The date and time when the tag was created.
+
+            '
+        updated_at:
+          type: string
+          example: '2020-04-07'
+          description: 'The date and time when the tag was last updated.
+
+            '
+    BusinessServiceIntelligence:
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if an IP is part of the RIOT dataset or not.
+
+            '
+          example: true
+        category:
+          type: string
+          description: 'RIOT category the provider belongs to, identifying the type of service provided.
+
+            '
+          example: hosting
+        name:
+          type: string
+          description: 'The name of the provider and/or service.
+
+            '
+          example: example.com
+        description:
+          type: string
+          description: 'A description of the provider and what they do.
+
+            '
+          example: example.com
+        explanation:
+          type: string
+          description: 'An explanation of the category type and what may be expected from this provider and category.
+
+            '
+          example: string
+        last_updated:
+          type: string
+          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
+
+            '
+          example: '2025-01-15T12:30:45Z'
+        reference:
+          type: string
+          description: 'Reference URL for information about this provider and/or service.
+
+            '
+          example: https://example.com
+        trust_level:
+          type: string
+          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
+          example: '1'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    QuickInternetScannerIntelligence:
+      type: object
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
+
+            '
+          example: false
+        classification:
+          type: string
+          description: 'The classification of the IP address, either "benign", "malicious",
+
+            or "unknown", based on the activity observed by GreyNoise.
+
+            '
+          enum:
+          - benign
+          - malicious
+          - unknown
+          example: benign
+    QuickMultiIPResponseV3:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ip:
+                type: string
+                example: 8.8.8.8
+                description: IP address that the information is about.
+              business_service_intelligence:
+                $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
+              internet_scanner_intelligence:
+                $ref: '#/components/schemas/QuickInternetScannerIntelligence'
+        request_metadata:
+          $ref: '#/components/schemas/IpResponseMetadataV3'
+    QuickIpProfile:
+      type: object
+      properties:
+        ip:
+          type: string
+          example: 8.8.8.8
+          description: IP address that the information is about.
+        business_service_intelligence:
+          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
     MetadataV3:
       properties:
         mobile:
@@ -1336,211 +1527,28 @@ components:
 
             '
           example: 10
-    QuickIpProfile:
+    QuickBusinessServiceIntelligence:
       type: object
-      properties:
-        ip:
-          type: string
-          example: 8.8.8.8
-          description: IP address that the information is about.
-        business_service_intelligence:
-          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
-    QuickInternetScannerIntelligence:
-      type: object
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
-
-            '
-          example: false
-        classification:
-          type: string
-          description: 'The classification of the IP address, either "benign", "malicious",
-
-            or "unknown", based on the activity observed by GreyNoise.
-
-            '
-          enum:
-          - benign
-          - malicious
-          - unknown
-          example: benign
-    IPResponseV3Tags:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ef0cc90d-d80c-436f-92c5-3d8f8665c9ac
-          description: 'The unique identifier for the tag.
-
-            '
-        slug:
-          type: string
-          example: mirai
-          description: 'The slugified version of the tag name.
-
-            '
-        name:
-          type: string
-          example: Mirai
-          description: 'The human-readable name for the tag.
-
-            '
-        category:
-          type: string
-          example: worm
-          description: 'Category of the IP address such as hosting or ISP.
-
-            '
-        intention:
-          type: string
-          example: malicious
-          description: 'The intent of the tag, either suspicious, malicious, benign, or unknown.
-
-            '
-        description:
-          type: string
-          example: This IP address exhibits behavior that indicates it is infected with Mirai or a Mirai-like variant of malware.
-          description: 'A detailed description of the tag, including the observed activity
-
-            and any relevant context or details.
-
-            '
-        references:
-          type: array
-          items:
-            type: string
-            example: https://en.wikipedia.org/wiki/Mirai_(malware)
-            description: 'A list of URLs or references that provide additional information
-
-              about the tag and its associated activity.
-
-              '
-          example:
-          - string
-        recommend_block:
-          type: boolean
-          example: false
-          description: 'A boolean value indicating whether the tag should be recommended
-
-            for blocking or filtering purposes.
-
-            '
-        cves:
-          type: array
-          items:
-            type: string
-            example: CVE-2020-1234
-            description: 'A list of CVEs associated with the tag.
-
-              '
-          example:
-          - CVE-2021-44228
-        created_at:
-          type: string
-          example: '2020-04-07'
-          description: 'The date and time when the tag was created.
-
-            '
-        updated_at:
-          type: string
-          example: '2020-04-07'
-          description: 'The date and time when the tag was last updated.
-
-            '
-    BusinessServiceIntelligence:
       properties:
         found:
           type: boolean
           description: 'Indicates if an IP is part of the RIOT dataset or not.
 
             '
-          example: true
-        category:
-          type: string
-          description: 'RIOT category the provider belongs to, identifying the type of service provided.
-
-            '
-          example: hosting
-        name:
-          type: string
-          description: 'The name of the provider and/or service.
-
-            '
-          example: example.com
-        description:
-          type: string
-          description: 'A description of the provider and what they do.
-
-            '
-          example: example.com
-        explanation:
-          type: string
-          description: 'An explanation of the category type and what may be expected from this provider and category.
-
-            '
-          example: string
-        last_updated:
-          type: string
-          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
-
-            '
-          example: '2025-01-15T12:30:45Z'
-        reference:
-          type: string
-          description: 'Reference URL for information about this provider and/or service.
-
-            '
-          example: https://example.com
+          example: false
         trust_level:
           type: string
           description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
           example: '1'
-  responses:
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    Forbidden:
-      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
-
-        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Forbidden
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
-
-        Verify request syntax and try again.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Invalid parameter
   parameters:
+    ip:
+      name: ip
+      in: path
+      description: IP address to query
+      required: true
+      schema:
+        type: string
+      example: 8.8.8.8
     workspaceLabels:
       name: workspace_labels
       in: query
@@ -1550,14 +1558,6 @@ components:
         type: string
         example: greynoise,community
       example: string
-    ip:
-      name: ip
-      in: path
-      description: IP address to query
-      required: true
-      schema:
-        type: string
-      example: 8.8.8.8
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

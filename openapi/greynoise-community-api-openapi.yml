@@ -134,6 +134,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ip:
+      name: ip
+      in: path
+      description: IP address to query
+      required: true
+      schema:
+        type: string
+      example: 8.8.8.8
   schemas:
     Error:
       type: object
@@ -179,15 +188,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Encountered error while performing request
-  parameters:
-    ip:
-      name: ip
-      in: path
-      description: IP address to query
-      required: true
-      schema:
-        type: string
-      example: 8.8.8.8
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

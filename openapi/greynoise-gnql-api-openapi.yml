@@ -454,6 +454,47 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    ExceededLimit:
+      description: Too many requests. You've hit the rate-limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: You've hit the rate limit for this endpoint.
   schemas:
     GNQLV3Response:
       type: object
@@ -836,66 +877,6 @@ components:
                     '
                   example: 1024
               example: string
-    GNQLV3ResponseMetadata:
-      type: object
-      properties:
-        complete:
-          type: boolean
-          example: false
-          description: Whether all records have been delivered or not. `false` means there's another page
-        scroll:
-          type: string
-          example: 'DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn
-
-            '
-          description: Scroll token to use for pagination
-        query:
-          type: string
-          example: last_seen:2019-07-28 classification:malicious
-          description: The GNQL query string the requester queried
-        adjusted_query:
-          type: string
-          example: last_seen:2019-07-28 classification:malicious
-          description: 'When certain query parameters are not specified or incompatible
-
-            with your current plan, GreyNoise automatically adjusts params on your
-
-            query prior to execution.
-
-            '
-        count:
-          type: integer
-          example: 1
-          description: The number of total results for the given GNQL query
-        message:
-          type: string
-          example: ok
-          description: A status message indicating if there were issues with the request
-        restricted_fields:
-          type: array
-          description: The fields that were restricted due to plan limitations
-          example:
-          - ip
-          - asn
-          - organization
-          - country
-          - city
-          - region
-          items:
-            type: string
-    QuickBusinessServiceIntelligence:
-      type: object
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if an IP is part of the RIOT dataset or not.
-
-            '
-          example: false
-        trust_level:
-          type: string
-          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
-          example: '1'
     QuickGNQLV3Response:
       type: object
       properties:
@@ -907,178 +888,6 @@ components:
           items:
             $ref: '#/components/schemas/QuickIpProfile'
           example: []
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
-    MetadataV3:
-      properties:
-        mobile:
-          type: boolean
-          description: Defines if the IP is part of a known cellular network.
-          example: false
-        source_country:
-          type: string
-          description: Country where the IP address is registered or operates.
-          example: United States
-        source_country_code:
-          type: string
-          description: Country code of the IP address based on ISO 3166-1 alpha-2.
-          example: US
-        source_city:
-          type: string
-          description: The city where the device is geographically located.
-          example: Seattle
-        region:
-          type: string
-          description: The region where the device is geographically located.
-          example: Seattle
-        organization:
-          type: string
-          description: The name of organization that owns the IP address.
-          example: DigitalOcean, LLC
-        rdns:
-          type: string
-          description: The reverse DNS pointer.
-          example: crawl-66-249-79-17.googlebot.com
-        asn:
-          type: string
-          description: The autonomous system identification number.
-          example: AS521
-        category:
-          type: string
-          description: The subset of network types the IP address belongs to.
-          enum:
-          - isp
-          - business
-          - hosting
-          - mobile
-          - education
-          example: education
-        os:
-          type: string
-          description: An approximate guess of the operating system of the device, based on the TCP stack fingerprint.
-          example: Windows 7/8
-        destination_countries:
-          type: array
-          items:
-            type: string
-            description: 'The full name or country code where GreyNoise sensor
-
-              is physically located.
-
-              '
-            example: Germany
-          example:
-          - string
-        destination_country_codes:
-          type: array
-          items:
-            type: string
-            description: 'The country codes where GreyNoise sensor is
-
-              physically located.
-
-              '
-            example: Germany
-          example:
-          - US
-        destination_cities:
-          type: array
-          items:
-            type: string
-            description: 'The city where the GreyNoise sensor is geographically located.
-
-              '
-            example: Berlin
-          example:
-          - string
-        destination_asns:
-          type: array
-          items:
-            type: string
-            description: 'The ASN associated with the destination IP address.
-
-              '
-            example: AS1234
-          example:
-          - string
-        single_destination:
-          type: boolean
-          description: 'A Boolean parameter indicating whether the source IP address
-
-            has only been observed in a single destination country.
-
-            '
-          example: true
-        carrier:
-          type: string
-          description: 'The Internet Service Provider (ISP) or telecommunications
-
-            carrier associated with the source IP address.
-
-            '
-          example: AIS
-        datacenter:
-          type: string
-          description: 'The datacenter or hosting provider from which the activity originates.
-
-            This could indicate the use of cloud services,
-
-            managed hosting, or enterprise datacenter infrastructure.
-
-            '
-          example: us-west-1
-        domain:
-          type: string
-          description: 'The domain name associated with the source IP address.
-
-            '
-          example: example.com
-        rdns_parent:
-          type: string
-          description: 'The parent domain retrieved through reverse DNS (RDNS)
-
-            lookup of the source IP address.
-
-            '
-          example: example.com
-        rdns_validated:
-          type: boolean
-          description: 'A validation status that confirms whether the reverse DNS (RDNS)
-
-            record correctly maps to the source domain.
-
-            '
-          example: true
-        latitude:
-          type: number
-          description: 'The geographic latitude of the source IP address.
-
-            '
-          example: 37.7749
-        longitude:
-          type: number
-          description: 'The geographic longitude of the source IP address.
-
-            '
-          example: -122.4194
-        sensor_count:
-          type: integer
-          description: 'Number of sensors with events observed.
-
-            '
-          example: 10
-        sensor_hits:
-          type: integer
-          description: 'Number of scanning events observed.
-
-            '
-          example: 10
     GNQLIPContextV3:
       properties:
         ip:
@@ -1089,38 +898,6 @@ components:
           $ref: '#/components/schemas/InternetScannerIntelligence'
         business_service_intelligence:
           $ref: '#/components/schemas/BusinessServiceIntelligence'
-    QuickIpProfile:
-      type: object
-      properties:
-        ip:
-          type: string
-          example: 8.8.8.8
-          description: IP address that the information is about.
-        business_service_intelligence:
-          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
-        internet_scanner_intelligence:
-          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
-    QuickInternetScannerIntelligence:
-      type: object
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
-
-            '
-          example: false
-        classification:
-          type: string
-          description: 'The classification of the IP address, either "benign", "malicious",
-
-            or "unknown", based on the activity observed by GreyNoise.
-
-            '
-          enum:
-          - benign
-          - malicious
-          - unknown
-          example: benign
     IPResponseV3Tags:
       type: object
       properties:
@@ -1204,54 +981,6 @@ components:
           description: 'The date and time when the tag was last updated.
 
             '
-    BusinessServiceIntelligence:
-      properties:
-        found:
-          type: boolean
-          description: 'Indicates if an IP is part of the RIOT dataset or not.
-
-            '
-          example: true
-        category:
-          type: string
-          description: 'RIOT category the provider belongs to, identifying the type of service provided.
-
-            '
-          example: hosting
-        name:
-          type: string
-          description: 'The name of the provider and/or service.
-
-            '
-          example: example.com
-        description:
-          type: string
-          description: 'A description of the provider and what they do.
-
-            '
-          example: example.com
-        explanation:
-          type: string
-          description: 'An explanation of the category type and what may be expected from this provider and category.
-
-            '
-          example: string
-        last_updated:
-          type: string
-          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
-
-            '
-          example: '2025-01-15T12:30:45Z'
-        reference:
-          type: string
-          description: 'Reference URL for information about this provider and/or service.
-
-            '
-          example: https://example.com
-        trust_level:
-          type: string
-          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
-          example: '1'
     GNQLStats:
       type: object
       properties:
@@ -1419,47 +1148,318 @@ components:
                   count:
                     type: integer
                     example: 5000
-  responses:
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    ExceededLimit:
-      description: Too many requests. You've hit the rate-limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: You've hit the rate limit for this endpoint.
-    Forbidden:
-      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+    QuickBusinessServiceIntelligence:
+      type: object
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if an IP is part of the RIOT dataset or not.
 
-        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+            '
+          example: false
+        trust_level:
+          type: string
+          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
+          example: '1'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
+    QuickInternetScannerIntelligence:
+      type: object
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if the IP was observed scanning the GreyNoise sensor network. Also referred to as ''noise''.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+            '
+          example: false
+        classification:
+          type: string
+          description: 'The classification of the IP address, either "benign", "malicious",
+
+            or "unknown", based on the activity observed by GreyNoise.
+
+            '
+          enum:
+          - benign
+          - malicious
+          - unknown
+          example: benign
+    GNQLV3ResponseMetadata:
+      type: object
+      properties:
+        complete:
+          type: boolean
+          example: false
+          description: Whether all records have been delivered or not. `false` means there's another page
+        scroll:
+          type: string
+          example: 'DnF1ZXJ5VGhlbkZldGNoBQAAAAAAeygtFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAH soLhZBSkhMRHVHOFRLbWtrMmhoNkd5MzRnAAAAAAB7KC8WQUpITER1RzhUS21razJoaDZH eTM0ZwAAAAAAeygxFkFKSExEdUc4VEtta2syaGg2R3kzNGcAAAAAAHsoMBZBSkhMRHVHOF RLbWtrMmhoNkd5MzRn
+
+            '
+          description: Scroll token to use for pagination
+        query:
+          type: string
+          example: last_seen:2019-07-28 classification:malicious
+          description: The GNQL query string the requester queried
+        adjusted_query:
+          type: string
+          example: last_seen:2019-07-28 classification:malicious
+          description: 'When certain query parameters are not specified or incompatible
+
+            with your current plan, GreyNoise automatically adjusts params on your
+
+            query prior to execution.
+
+            '
+        count:
+          type: integer
+          example: 1
+          description: The number of total results for the given GNQL query
+        message:
+          type: string
+          example: ok
+          description: A status message indicating if there were issues with the request
+        restricted_fields:
+          type: array
+          description: The fields that were restricted due to plan limitations
           example:
-            message: Forbidden
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
+          - ip
+          - asn
+          - organization
+          - country
+          - city
+          - region
+          items:
+            type: string
+    BusinessServiceIntelligence:
+      properties:
+        found:
+          type: boolean
+          description: 'Indicates if an IP is part of the RIOT dataset or not.
 
-        Verify request syntax and try again.
+            '
+          example: true
+        category:
+          type: string
+          description: 'RIOT category the provider belongs to, identifying the type of service provided.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+            '
+          example: hosting
+        name:
+          type: string
+          description: 'The name of the provider and/or service.
+
+            '
+          example: example.com
+        description:
+          type: string
+          description: 'A description of the provider and what they do.
+
+            '
+          example: example.com
+        explanation:
+          type: string
+          description: 'An explanation of the category type and what may be expected from this provider and category.
+
+            '
+          example: string
+        last_updated:
+          type: string
+          description: 'Date and time when this record was last updated from its source (format: YYYY-MM-DDTHH:MM:SSZ).
+
+            '
+          example: '2025-01-15T12:30:45Z'
+        reference:
+          type: string
+          description: 'Reference URL for information about this provider and/or service.
+
+            '
+          example: https://example.com
+        trust_level:
+          type: string
+          description: "Trust level assigned to this IP/provider. One of:\n  - \"1\" — high trust; broadly used legitimate provider where end-user attribution is high.\n  - \"2\" — moderate trust; common business service infrastructure where end-user attribution is limited.\n  - \"3\" — label only; cloud compute or bulk hosting provider with no inherent trust signal.\n"
+          example: '1'
+    QuickIpProfile:
+      type: object
+      properties:
+        ip:
+          type: string
+          example: 8.8.8.8
+          description: IP address that the information is about.
+        business_service_intelligence:
+          $ref: '#/components/schemas/QuickBusinessServiceIntelligence'
+        internet_scanner_intelligence:
+          $ref: '#/components/schemas/QuickInternetScannerIntelligence'
+    MetadataV3:
+      properties:
+        mobile:
+          type: boolean
+          description: Defines if the IP is part of a known cellular network.
+          example: false
+        source_country:
+          type: string
+          description: Country where the IP address is registered or operates.
+          example: United States
+        source_country_code:
+          type: string
+          description: Country code of the IP address based on ISO 3166-1 alpha-2.
+          example: US
+        source_city:
+          type: string
+          description: The city where the device is geographically located.
+          example: Seattle
+        region:
+          type: string
+          description: The region where the device is geographically located.
+          example: Seattle
+        organization:
+          type: string
+          description: The name of organization that owns the IP address.
+          example: DigitalOcean, LLC
+        rdns:
+          type: string
+          description: The reverse DNS pointer.
+          example: crawl-66-249-79-17.googlebot.com
+        asn:
+          type: string
+          description: The autonomous system identification number.
+          example: AS521
+        category:
+          type: string
+          description: The subset of network types the IP address belongs to.
+          enum:
+          - isp
+          - business
+          - hosting
+          - mobile
+          - education
+          example: education
+        os:
+          type: string
+          description: An approximate guess of the operating system of the device, based on the TCP stack fingerprint.
+          example: Windows 7/8
+        destination_countries:
+          type: array
+          items:
+            type: string
+            description: 'The full name or country code where GreyNoise sensor
+
+              is physically located.
+
+              '
+            example: Germany
           example:
-            message: Invalid parameter
+          - string
+        destination_country_codes:
+          type: array
+          items:
+            type: string
+            description: 'The country codes where GreyNoise sensor is
+
+              physically located.
+
+              '
+            example: Germany
+          example:
+          - US
+        destination_cities:
+          type: array
+          items:
+            type: string
+            description: 'The city where the GreyNoise sensor is geographically located.
+
+              '
+            example: Berlin
+          example:
+          - string
+        destination_asns:
+          type: array
+          items:
+            type: string
+            description: 'The ASN associated with the destination IP address.
+
+              '
+            example: AS1234
+          example:
+          - string
+        single_destination:
+          type: boolean
+          description: 'A Boolean parameter indicating whether the source IP address
+
+            has only been observed in a single destination country.
+
+            '
+          example: true
+        carrier:
+          type: string
+          description: 'The Internet Service Provider (ISP) or telecommunications
+
+            carrier associated with the source IP address.
+
+            '
+          example: AIS
+        datacenter:
+          type: string
+          description: 'The datacenter or hosting provider from which the activity originates.
+
+            This could indicate the use of cloud services,
+
+            managed hosting, or enterprise datacenter infrastructure.
+
+            '
+          example: us-west-1
+        domain:
+          type: string
+          description: 'The domain name associated with the source IP address.
+
+            '
+          example: example.com
+        rdns_parent:
+          type: string
+          description: 'The parent domain retrieved through reverse DNS (RDNS)
+
+            lookup of the source IP address.
+
+            '
+          example: example.com
+        rdns_validated:
+          type: boolean
+          description: 'A validation status that confirms whether the reverse DNS (RDNS)
+
+            record correctly maps to the source domain.
+
+            '
+          example: true
+        latitude:
+          type: number
+          description: 'The geographic latitude of the source IP address.
+
+            '
+          example: 37.7749
+        longitude:
+          type: number
+          description: 'The geographic longitude of the source IP address.
+
+            '
+          example: -122.4194
+        sensor_count:
+          type: integer
+          description: 'Number of sensors with events observed.
+
+            '
+          example: 10
+        sensor_hits:
+          type: integer
+          description: 'Number of scanning events observed.
+
+            '
+          example: 10
   parameters:
     query:
       name: query
