@@ -271,6 +271,30 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
     BadRequest:
       description: 'Bad request - request syntax is invalid for the specified endpoint.
 
@@ -283,14 +307,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Invalid parameter
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
     Forbidden:
       description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
 
@@ -303,23 +319,56 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Forbidden
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: IP not found
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
   schemas:
+    CallbackFileResponse:
+      type: object
+      description: Malware file associated with a callback IP.
+      properties:
+        sha256:
+          type: string
+          description: SHA-256 hash of the file.
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 hash of the file.
+          example: 795bc7ce13f60d61e9ac03611dd36d90
+        sha1:
+          type: string
+          description: SHA-1 hash of the file.
+          example: string
+        threat_name:
+          type: string
+          description: VirusTotal threat name, if available.
+          example: Trojan.GenericKD.46542
+        vt_detection_count:
+          type: integer
+          description: Number of VirusTotal engines that flagged the file as malicious.
+          example: 42
+        vt_engine_count:
+          type: integer
+          description: Total number of VirusTotal engines that scanned the file.
+          example: 71
+        file_name:
+          type: string
+          description: Original file name, if known.
+          example: payload.bin
+        size:
+          type: integer
+          format: int64
+          description: File size in bytes.
+          example: 24576
+        type:
+          type: string
+          description: File MIME type.
+          example: application/x-executable
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
     CallbackOverviewResponse:
       type: object
       description: Aggregate statistics for callback IPs matching the given filters.
@@ -382,94 +431,53 @@ components:
             $ref: '#/components/schemas/CallbackThreatNameStat'
           description: Top VirusTotal threat names by file count.
           example: []
-    CallbackThreatNameStat:
+    CallbackIPSummary:
       type: object
+      description: Summary representation of a callback IP in list results.
       properties:
-        threat_name:
+        ip:
           type: string
-          description: VirusTotal threat name.
-          example: Trojan.GenericKD.46542
+          example: 198.51.100.42
+        source_workspaces:
+          type: array
+          items:
+            type: string
+          example:
+          - GreyNoise
+        is_stage_1:
+          type: boolean
+          example: false
+        is_stage_2:
+          type: boolean
+          example: false
+        first_seen:
+          type:
+          - string
+          - 'null'
+          example: '2025-12-01'
+        last_seen:
+          type:
+          - string
+          - 'null'
+          example: '2026-05-01'
+        scanner_ips:
+          type: array
+          items:
+            type: string
+          example:
+          - string
+        scanner_count:
+          type: integer
+          example: 42
         file_count:
           type: integer
-          description: Number of files with this threat name.
-          example: 12
-        ip_count:
-          type: integer
-          description: Number of IPs associated with files of this threat name.
-          example: 8
-    CallbackFileSummary:
-      type: object
-      description: Lightweight file reference returned with IP list results.
-      properties:
-        sha256:
-          type: string
-          description: SHA-256 hash of the file.
-          example: string
-        file_name:
-          type: string
-          description: Original file name.
-          example: Google Public DNS
-        type:
-          type: string
-          description: File MIME type.
-          example: string
-        vt_threat_name:
-          type: string
-          description: VirusTotal threat name.
-          example: Google Public DNS
-        vt_detection_count:
-          type: integer
-          description: Number of VirusTotal engines that flagged the file.
           example: 42
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
-    CallbackFileResponse:
-      type: object
-      description: Malware file associated with a callback IP.
-      properties:
-        sha256:
-          type: string
-          description: SHA-256 hash of the file.
-          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        md5:
-          type: string
-          description: MD5 hash of the file.
-          example: 795bc7ce13f60d61e9ac03611dd36d90
-        sha1:
-          type: string
-          description: SHA-1 hash of the file.
-          example: string
-        threat_name:
-          type: string
-          description: VirusTotal threat name, if available.
-          example: Trojan.GenericKD.46542
-        vt_detection_count:
-          type: integer
-          description: Number of VirusTotal engines that flagged the file as malicious.
-          example: 42
-        vt_engine_count:
-          type: integer
-          description: Total number of VirusTotal engines that scanned the file.
-          example: 71
-        file_name:
-          type: string
-          description: Original file name, if known.
-          example: payload.bin
-        size:
-          type: integer
-          format: int64
-          description: File size in bytes.
-          example: 24576
-        type:
-          type: string
-          description: File MIME type.
-          example: application/x-executable
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackFileSummary'
+          description: Lightweight file references for this IP.
+          example: []
     CallbackFilterFields:
       type: object
       description: Common filter fields for callback IP queries.
@@ -536,6 +544,51 @@ components:
           description: Filter to this specific set of callback IPs.
           example:
           - string
+    CallbackListIPsResponse:
+      type: object
+      description: Paginated list of callback IPs.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackIPSummary'
+          example: []
+        total:
+          type: integer
+          description: Total number of matching callback IPs.
+          example: 142
+        page:
+          type: integer
+          description: Current page number (zero-indexed).
+          example: 0
+        page_size:
+          type: integer
+          description: Number of results per page.
+          example: 20
+    CallbackFileSummary:
+      type: object
+      description: Lightweight file reference returned with IP list results.
+      properties:
+        sha256:
+          type: string
+          description: SHA-256 hash of the file.
+          example: string
+        file_name:
+          type: string
+          description: Original file name.
+          example: Google Public DNS
+        type:
+          type: string
+          description: File MIME type.
+          example: string
+        vt_threat_name:
+          type: string
+          description: VirusTotal threat name.
+          example: Google Public DNS
+        vt_detection_count:
+          type: integer
+          description: Number of VirusTotal engines that flagged the file.
+          example: 42
     CallbackIPDetailResponse:
       type: object
       description: Detailed information about a single callback IP.
@@ -598,74 +651,6 @@ components:
             $ref: '#/components/schemas/CallbackFileResponse'
           description: Malware files associated with this callback IP.
           example: []
-    CallbackListIPsResponse:
-      type: object
-      description: Paginated list of callback IPs.
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CallbackIPSummary'
-          example: []
-        total:
-          type: integer
-          description: Total number of matching callback IPs.
-          example: 142
-        page:
-          type: integer
-          description: Current page number (zero-indexed).
-          example: 0
-        page_size:
-          type: integer
-          description: Number of results per page.
-          example: 20
-    CallbackIPSummary:
-      type: object
-      description: Summary representation of a callback IP in list results.
-      properties:
-        ip:
-          type: string
-          example: 198.51.100.42
-        source_workspaces:
-          type: array
-          items:
-            type: string
-          example:
-          - GreyNoise
-        is_stage_1:
-          type: boolean
-          example: false
-        is_stage_2:
-          type: boolean
-          example: false
-        first_seen:
-          type:
-          - string
-          - 'null'
-          example: '2025-12-01'
-        last_seen:
-          type:
-          - string
-          - 'null'
-          example: '2026-05-01'
-        scanner_ips:
-          type: array
-          items:
-            type: string
-          example:
-          - string
-        scanner_count:
-          type: integer
-          example: 42
-        file_count:
-          type: integer
-          example: 42
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/CallbackFileSummary'
-          description: Lightweight file references for this IP.
-          example: []
     CallbackListIPsRequest:
       allOf:
       - $ref: '#/components/schemas/CallbackFilterFields'
@@ -684,6 +669,21 @@ components:
             default: 20
             description: Number of results per page (1-100).
             example: 100
+    CallbackThreatNameStat:
+      type: object
+      properties:
+        threat_name:
+          type: string
+          description: VirusTotal threat name.
+          example: Trojan.GenericKD.46542
+        file_count:
+          type: integer
+          description: Number of files with this threat name.
+          example: 12
+        ip_count:
+          type: integer
+          description: Number of IPs associated with files of this threat name.
+          example: 8
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

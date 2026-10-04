@@ -74,15 +74,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
   responses:
     Unauthorized:
       description: Unauthorized. Please check your API key.
@@ -92,6 +83,15 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Unauthorized
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey
