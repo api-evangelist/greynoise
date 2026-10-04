@@ -47,6 +47,9 @@ x-category: Security
 x-source: public-apis/public-apis
 x-tier: 3
 x-tier-reason: bulk-registered-from-public-apis
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-10-03
 tags:
 - Security
 - Threat Intelligence
@@ -278,6 +281,9 @@ apis:
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
 common:
+- type: CapabilityMap
+  url: capabilities/greynoise-capability-edges.yml
+  name: GreyNoise Intelligence Business Capability Map
 - type: IssueTracker
   url: https://github.com/GreyNoise-Intelligence/api.greynoise.io/issues
 - type: AgenticAccess
