@@ -1,0 +1,93 @@
+slug: greynoise
+provider: GreyNoise Intelligence
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 8
+edges:
+- tag: GNQL
+  spec_file: greynoise-gnql-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.85
+  evidence: GET /v3/gnql  GNQL V3 Query; schemas InternetScannerIntelligence, BusinessServiceIntelligence,
+    GNQLIPContextV3
+  reason: GreyNoise Query Language endpoints return scanner/attack intelligence used to contextualise
+    alerts and filter false positives — SOC threat detection and response.
+- tag: IP Lookup
+  spec_file: greynoise-ip-lookup-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.85
+  evidence: GET /v3/ip/{ip}  V3IP  IP Lookup; schema InternetScannerIntelligence
+  reason: Core IP reputation/threat-intelligence lookup used to enrich and triage security alerts — threat
+    detection and response capability.
+- tag: CVE
+  spec_file: greynoise-cve-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.8
+  evidence: GET /v1/cve/{cve_id}  getCVE  Retrieve CVE Information; schemas CVEExploitationStats, CVEExploitationActivity
+  reason: Returns CVE detail and in-the-wild exploitation data used to 'prioritize vulnerabilities by
+    in-the-wild exploitation', which is vulnerability management; some overlap with threat detection intelligence.
+- tag: Callback
+  spec_file: greynoise-callback-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.8
+  evidence: POST /v1/callback/export-ips  Export Callback IPs; schema CallbackThreatNameStat; 'collects
+    and analyzes Internet-wide scan and attack traffic ... identify compromised devices'
+  reason: Callback IP intelligence (IPs observed calling back to malicious infrastructure) is threat-intelligence
+    data used to detect compromised devices — security threat detection, not a telephony/webhook callback
+    despite the tag string.
+- tag: Community
+  spec_file: greynoise-community-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.8
+  evidence: GET /v3/community/{ip}  getCommunityIP  Community API; 'Use GreyNoise to contextualize existing
+    alerts, filter false-positives'
+  reason: Despite the 'Community' tag, the single operation is an IP reputation lookup used to triage
+    security alerts — threat detection and response tooling, not community/engagement management.
+- tag: IP Timeline
+  spec_file: greynoise-ip-timeline-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.8
+  evidence: GET /v3/noise/ips/{ip}/timeline  IP Timeline Field Summary; schema IPTimelineResponse
+  reason: Historical behaviour timeline of a scanning/attacking IP, used for security investigation and
+    alert triage.
+- tag: Recall
+  spec_file: greynoise-recall-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.8
+  evidence: GET /v3/gnql/timeseries  gnqlTimeSeries  GNQL V3 Recall; schemas TimeSeriesIntelligence, TimeSeriesScanEntry,
+    TimeSeriesJA3Entry
+  reason: Historical retrieval of scan/attack telemetry time series for investigation — security threat
+    intelligence, not product telemetry or memory recall.
+- tag: Sessions
+  spec_file: greynoise-sessions-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.8
+  evidence: GET /v3/sessions/{session_id}/frames  getSessionPcap  Get Session PCAP; GET /v3/sessions/export  Export
+    PCAP for Multiple Sessions
+  reason: '''Sessions'' here are captured attacker network sessions with PCAP export and connection graphs
+    — forensic/threat investigation data, not user login sessions.'
