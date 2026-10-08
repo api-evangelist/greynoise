@@ -281,6 +281,8 @@ apis:
   - type: GettingStarted
     url: https://docs.greynoise.io/docs/using-the-greynoise-api
 common:
+- type: FinOps
+  url: finops/greynoise-finops.yml
 - type: CapabilityMap
   url: capabilities/greynoise-capability-edges.yml
   name: GreyNoise Intelligence Business Capability Map
