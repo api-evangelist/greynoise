@@ -167,3 +167,35 @@ notes:
   - All paid tiers include access to every published integration (SIEM, SOAR, TIP, AI/ML).
   - Specific dollar amounts are not published on the pricing page; contact GreyNoise sales for a quote.
   - The Community API is rate-limited; the Enterprise API enforces per-key request and concurrency limits — see rate-limits/greynoise-rate-limits.yml.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units: []
+  plans:
+  - name: Community (Free)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Standard
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Advanced
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Elite
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
