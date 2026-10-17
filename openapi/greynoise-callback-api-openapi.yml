@@ -270,214 +270,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
-    Unauthorized:
-      description: Unauthorized. Please check your API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Unauthorized
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: IP not found
-    BadRequest:
-      description: 'Bad request - request syntax is invalid for the specified endpoint.
-
-        Verify request syntax and try again.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Invalid parameter
-    Forbidden:
-      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
-
-        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Forbidden
   schemas:
-    CallbackFileResponse:
-      type: object
-      description: Malware file associated with a callback IP.
-      properties:
-        sha256:
-          type: string
-          description: SHA-256 hash of the file.
-          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        md5:
-          type: string
-          description: MD5 hash of the file.
-          example: 795bc7ce13f60d61e9ac03611dd36d90
-        sha1:
-          type: string
-          description: SHA-1 hash of the file.
-          example: string
-        threat_name:
-          type: string
-          description: VirusTotal threat name, if available.
-          example: Trojan.GenericKD.46542
-        vt_detection_count:
-          type: integer
-          description: Number of VirusTotal engines that flagged the file as malicious.
-          example: 42
-        vt_engine_count:
-          type: integer
-          description: Total number of VirusTotal engines that scanned the file.
-          example: 71
-        file_name:
-          type: string
-          description: Original file name, if known.
-          example: payload.bin
-        size:
-          type: integer
-          format: int64
-          description: File size in bytes.
-          example: 24576
-        type:
-          type: string
-          description: File MIME type.
-          example: application/x-executable
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
-    CallbackOverviewResponse:
-      type: object
-      description: Aggregate statistics for callback IPs matching the given filters.
-      properties:
-        total_ips:
-          type: integer
-          description: Total number of callback IPs.
-          example: 142
-        stage_1_ips:
-          type: integer
-          description: Number of stage 1 (initial payload delivery) IPs.
-          example: 98
-        stage_2_ips:
-          type: integer
-          description: Number of stage 2 (post-exploitation callback) IPs.
-          example: 44
-        total_files:
-          type: integer
-          description: Total number of associated malware files.
-          example: 230
-        files_with_vt:
-          type: integer
-          description: Files that have been analyzed by VirusTotal.
-          example: 180
-        files_without_vt:
-          type: integer
-          description: Files pending VirusTotal analysis.
-          example: 50
-        total_cross_refs:
-          type: integer
-          description: Total IP-to-file associations.
-          example: 312
-        total_scanner_links:
-          type: integer
-          description: Total scanner-to-callback-IP associations.
-          example: 456
-        ips_with_files:
-          type: integer
-          description: Number of IPs that have associated files.
-          example: 110
-        ips_without_files:
-          type: integer
-          description: Number of IPs with no associated files.
-          example: 32
-        ips_with_scanners:
-          type: integer
-          description: Number of IPs with known scanner associations.
-          example: 130
-        ips_without_scanners:
-          type: integer
-          description: Number of IPs with no known scanner associations.
-          example: 12
-        distinct_scanners:
-          type: integer
-          description: Total number of unique scanner IPs.
-          example: 89
-        top_threat_names:
-          type: array
-          items:
-            $ref: '#/components/schemas/CallbackThreatNameStat'
-          description: Top VirusTotal threat names by file count.
-          example: []
-    CallbackIPSummary:
-      type: object
-      description: Summary representation of a callback IP in list results.
-      properties:
-        ip:
-          type: string
-          example: 198.51.100.42
-        source_workspaces:
-          type: array
-          items:
-            type: string
-          example:
-          - GreyNoise
-        is_stage_1:
-          type: boolean
-          example: false
-        is_stage_2:
-          type: boolean
-          example: false
-        first_seen:
-          type:
-          - string
-          - 'null'
-          example: '2025-12-01'
-        last_seen:
-          type:
-          - string
-          - 'null'
-          example: '2026-05-01'
-        scanner_ips:
-          type: array
-          items:
-            type: string
-          example:
-          - string
-        scanner_count:
-          type: integer
-          example: 42
-        file_count:
-          type: integer
-          example: 42
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/CallbackFileSummary'
-          description: Lightweight file references for this IP.
-          example: []
     CallbackFilterFields:
       type: object
       description: Common filter fields for callback IP queries.
@@ -544,6 +337,53 @@ components:
           description: Filter to this specific set of callback IPs.
           example:
           - string
+    CallbackIPSummary:
+      type: object
+      description: Summary representation of a callback IP in list results.
+      properties:
+        ip:
+          type: string
+          example: 198.51.100.42
+        source_workspaces:
+          type: array
+          items:
+            type: string
+          example:
+          - GreyNoise
+        is_stage_1:
+          type: boolean
+          example: false
+        is_stage_2:
+          type: boolean
+          example: false
+        first_seen:
+          type:
+          - string
+          - 'null'
+          example: '2025-12-01'
+        last_seen:
+          type:
+          - string
+          - 'null'
+          example: '2026-05-01'
+        scanner_ips:
+          type: array
+          items:
+            type: string
+          example:
+          - string
+        scanner_count:
+          type: integer
+          example: 42
+        file_count:
+          type: integer
+          example: 42
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackFileSummary'
+          description: Lightweight file references for this IP.
+          example: []
     CallbackListIPsResponse:
       type: object
       description: Paginated list of callback IPs.
@@ -565,30 +405,14 @@ components:
           type: integer
           description: Number of results per page.
           example: 20
-    CallbackFileSummary:
+    Error:
       type: object
-      description: Lightweight file reference returned with IP list results.
       properties:
-        sha256:
+        message:
           type: string
-          description: SHA-256 hash of the file.
-          example: string
-        file_name:
-          type: string
-          description: Original file name.
-          example: Google Public DNS
-        type:
-          type: string
-          description: File MIME type.
-          example: string
-        vt_threat_name:
-          type: string
-          description: VirusTotal threat name.
-          example: Google Public DNS
-        vt_detection_count:
-          type: integer
-          description: Number of VirusTotal engines that flagged the file.
-          example: 42
+          example: Success
+      required:
+      - message
     CallbackIPDetailResponse:
       type: object
       description: Detailed information about a single callback IP.
@@ -669,6 +493,133 @@ components:
             default: 20
             description: Number of results per page (1-100).
             example: 100
+    CallbackFileResponse:
+      type: object
+      description: Malware file associated with a callback IP.
+      properties:
+        sha256:
+          type: string
+          description: SHA-256 hash of the file.
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 hash of the file.
+          example: 795bc7ce13f60d61e9ac03611dd36d90
+        sha1:
+          type: string
+          description: SHA-1 hash of the file.
+          example: string
+        threat_name:
+          type: string
+          description: VirusTotal threat name, if available.
+          example: Trojan.GenericKD.46542
+        vt_detection_count:
+          type: integer
+          description: Number of VirusTotal engines that flagged the file as malicious.
+          example: 42
+        vt_engine_count:
+          type: integer
+          description: Total number of VirusTotal engines that scanned the file.
+          example: 71
+        file_name:
+          type: string
+          description: Original file name, if known.
+          example: payload.bin
+        size:
+          type: integer
+          format: int64
+          description: File size in bytes.
+          example: 24576
+        type:
+          type: string
+          description: File MIME type.
+          example: application/x-executable
+    CallbackFileSummary:
+      type: object
+      description: Lightweight file reference returned with IP list results.
+      properties:
+        sha256:
+          type: string
+          description: SHA-256 hash of the file.
+          example: string
+        file_name:
+          type: string
+          description: Original file name.
+          example: Google Public DNS
+        type:
+          type: string
+          description: File MIME type.
+          example: string
+        vt_threat_name:
+          type: string
+          description: VirusTotal threat name.
+          example: Google Public DNS
+        vt_detection_count:
+          type: integer
+          description: Number of VirusTotal engines that flagged the file.
+          example: 42
+    CallbackOverviewResponse:
+      type: object
+      description: Aggregate statistics for callback IPs matching the given filters.
+      properties:
+        total_ips:
+          type: integer
+          description: Total number of callback IPs.
+          example: 142
+        stage_1_ips:
+          type: integer
+          description: Number of stage 1 (initial payload delivery) IPs.
+          example: 98
+        stage_2_ips:
+          type: integer
+          description: Number of stage 2 (post-exploitation callback) IPs.
+          example: 44
+        total_files:
+          type: integer
+          description: Total number of associated malware files.
+          example: 230
+        files_with_vt:
+          type: integer
+          description: Files that have been analyzed by VirusTotal.
+          example: 180
+        files_without_vt:
+          type: integer
+          description: Files pending VirusTotal analysis.
+          example: 50
+        total_cross_refs:
+          type: integer
+          description: Total IP-to-file associations.
+          example: 312
+        total_scanner_links:
+          type: integer
+          description: Total scanner-to-callback-IP associations.
+          example: 456
+        ips_with_files:
+          type: integer
+          description: Number of IPs that have associated files.
+          example: 110
+        ips_without_files:
+          type: integer
+          description: Number of IPs with no associated files.
+          example: 32
+        ips_with_scanners:
+          type: integer
+          description: Number of IPs with known scanner associations.
+          example: 130
+        ips_without_scanners:
+          type: integer
+          description: Number of IPs with no known scanner associations.
+          example: 12
+        distinct_scanners:
+          type: integer
+          description: Total number of unique scanner IPs.
+          example: 89
+        top_threat_names:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackThreatNameStat'
+          description: Top VirusTotal threat names by file count.
+          example: []
     CallbackThreatNameStat:
       type: object
       properties:
@@ -684,6 +635,55 @@ components:
           type: integer
           description: Number of IPs associated with files of this threat name.
           example: 8
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
+    BadRequest:
+      description: 'Bad request - request syntax is invalid for the specified endpoint.
+
+        Verify request syntax and try again.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Invalid parameter
+    Forbidden:
+      description: 'Forbidden - request is not authorized due to an invalid API key or plan limitations.
+
+        If due to plan limitations, contact sales@greynoise.io to upgrade your plan and unlock full results.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden
+    Unauthorized:
+      description: Unauthorized. Please check your API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Unauthorized
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
   securitySchemes:
     APIKeyHeaderAuth:
       type: apiKey

@@ -122,22 +122,6 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    UnexpectedError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: Encountered error while performing request
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            message: IP not found
     BadRequest:
       description: 'Bad request - request syntax is invalid for the specified endpoint.
 
@@ -162,7 +146,31 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             message: Forbidden
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: IP not found
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Encountered error while performing request
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+      required:
+      - message
     IPTimelineResponse:
       type: object
       properties:
@@ -227,14 +235,6 @@ components:
               type: string
               description: The metric used within the data field
               example: count
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-      required:
-      - message
   parameters:
     workspaceLabels:
       name: workspace_labels
